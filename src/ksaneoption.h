@@ -1,10 +1,8 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #ifndef KSANE_OPTION_H
 #define KSANE_OPTION_H
@@ -16,9 +14,9 @@
 #include <QObject>
 #include <QString>
 #include <QVariant>
-#include "ksane_export.h"
+#include "ksanecore_export.h"
 
-namespace KSaneIface
+namespace KSane
 {
 
 class KSaneOptionPrivate;
@@ -27,7 +25,7 @@ class KSaneOptionPrivate;
  * A wrapper class providing access to the internal KSaneBaseOption
  * to access all options provided by lib(k)sane
  */
-class KSANE_EXPORT KSaneOption : public QObject
+class KSANECORE_EXPORT KSaneOption : public QObject
 {
     Q_OBJECT
 
@@ -130,8 +128,7 @@ public:
     /** This function returns the list of possible values if the option
      * is of type KSaneOptionType::TypeValueList. The list contains the raw
      * internal values without any formatting or translation.
-     * @return a list with all possible internal values
-     * @since 21.12 */
+     * @return a list with all possible internal values */
     QVariantList internalValueList() const;
 
     /** This function returns an enum specifying whether the values
@@ -174,10 +171,10 @@ public Q_SLOTS:
     bool setValue(const QVariant &value); 
     
 protected:
-    std::unique_ptr<KSaneIface::KSaneOptionPrivate> d;
+    std::unique_ptr<KSane::KSaneOptionPrivate> d;
 };
 
-}  // NameSpace KSaneIface
+}  // namespace KSane
 
 #endif // KSANE_OPTION_H
 

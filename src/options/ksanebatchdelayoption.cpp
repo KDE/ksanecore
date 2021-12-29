@@ -1,15 +1,13 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #include "ksanebatchdelayoption.h"
-#include <ksane_debug.h>
+#include <ksanecore_debug.h>
 
-namespace KSaneIface
+namespace KSane
 {
 
 KSaneBatchDelayOption::KSaneBatchDelayOption()
@@ -78,4 +76,4 @@ bool KSaneBatchDelayOption::setValue(const QVariant &val)
     return ok;
 }
 
-}  // NameSpace KSaneIface
+}  // NameSpace KSane

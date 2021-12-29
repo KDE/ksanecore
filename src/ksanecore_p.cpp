@@ -1,20 +1,18 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2007-2008 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2007-2008 Gilles Caulier <caulier dot gilles at gmail dot com>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #include "ksanecore_p.h"
 
 #include <QImage>
 #include <QRegularExpression>
 
-#include <ksane_debug.h>
+#include <ksanecore_debug.h>
 
 #include "ksaneinternaloption.h"
 #include "ksaneactionoption.h"
@@ -29,7 +27,7 @@
 #include "ksanebatchmodeoption.h"
 #include "ksanebatchdelayoption.h"
 
-namespace KSaneIface
+namespace KSane
 {
     
 static const QHash<QString, KSaneCore::KSaneOptionName> stringEnumTranslation = {
@@ -273,8 +271,8 @@ void KSaneCorePrivate::devicesListUpdated()
         const QList<KSaneCore::DeviceInfo> deviceList = m_findDevThread->devicesList();
         for (const auto &device : deviceList) {
             if (device.name == m_devName) {
-                m_vendor    = device.vendor;
-                m_model     = device.model;
+                m_vendor = device.vendor;
+                m_model = device.model;
                 break;
             }
         }
@@ -356,7 +354,7 @@ void KSaneCorePrivate::imageScanFinished()
         }
         // Check if we have a "wait for button" batch scanning
         if (m_waitForExternalButton) {
-            qCDebug(KSANE_LOG) << "waiting for external button press to start next scan";
+            qCDebug(KSANECORE_LOG) << "waiting for external button press to start next scan";
             Q_EMIT q->scanProgress(-1);
             m_scanThread->start();
             return;
@@ -427,4 +425,4 @@ void KSaneCorePrivate::batchModeTimerUpdate()
     m_batchModeCounter++;
 }
 
-}  // NameSpace KSaneIface
+}  // NameSpace KSane

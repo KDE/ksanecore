@@ -1,19 +1,17 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
-// Local includes
+ */
+
 #include "ksanestringoption.h"
 
 #include <QVarLengthArray>
 
-#include <ksane_debug.h>
+#include <ksanecore_debug.h>
 
-namespace KSaneIface
+namespace KSane
 {
 
 KSaneStringOption::KSaneStringOption(const SANE_Handle handle, const int index)
@@ -79,4 +77,4 @@ QString KSaneStringOption::valueAsString() const
     return m_string;
 }
 
-}  // NameSpace KSaneIface
+} // namespace KSane

@@ -1,19 +1,17 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #include "ksanelistoption.h"
 
 #include <QVarLengthArray>
 
-#include <ksane_debug.h>
+#include <ksanecore_debug.h>
 
-namespace KSaneIface
+namespace KSane
 {
 
 KSaneListOption::KSaneListOption(const SANE_Handle handle, const int index)
@@ -82,7 +80,7 @@ QVariantList KSaneListOption::valueList() const
         }
         break;
     default :
-        qCDebug(KSANE_LOG) << "can not handle type:" << m_optDesc->type;
+        qCDebug(KSANECORE_LOG) << "can not handle type:" << m_optDesc->type;
         break;
     }
     return list;
@@ -112,7 +110,7 @@ QVariantList KSaneListOption::internalValueList() const
         }
         break;
     default :
-        qCDebug(KSANE_LOG) << "can not handle type:" << m_optDesc->type;
+        qCDebug(KSANECORE_LOG) << "can not handle type:" << m_optDesc->type;
         break;
     }
     return list;
@@ -154,7 +152,7 @@ QVariant KSaneListOption::minimumValue() const
         value = dValueMin;
         break;
     default:
-        qCDebug(KSANE_LOG) << "can not handle type:" << m_optDesc->type;
+        qCDebug(KSANECORE_LOG) << "can not handle type:" << m_optDesc->type;
         return value;
     }
     return value;
@@ -206,7 +204,7 @@ bool KSaneListOption::setValue(double value)
         readValue();
         return (minDiff < 1.0);
     default:
-        qCDebug(KSANE_LOG) << "can not handle type:" << m_optDesc->type;
+        qCDebug(KSANECORE_LOG) << "can not handle type:" << m_optDesc->type;
         break;
     }
     return false;
@@ -271,7 +269,7 @@ bool KSaneListOption::setValue(const QString &value)
         }
         break;
     default:
-        qCDebug(KSANE_LOG) << "can only handle SANE_TYPE: INT, FIXED and STRING";
+        qCDebug(KSANECORE_LOG) << "can only handle SANE_TYPE: INT, FIXED and STRING";
         return false;
     }
     writeData(data_ptr);
@@ -280,4 +278,4 @@ bool KSaneListOption::setValue(const QString &value)
     return true;
 }
 
-}  // NameSpace KSaneIface
+} // namespace KSane

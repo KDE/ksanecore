@@ -1,24 +1,23 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
-// Local includes
+ */
+
 #include "ksanedoubleoption.h"
 
 #include <QVarLengthArray>
 
-#include <ksane_debug.h>
+#include <ksanecore_debug.h>
 
 static const double FIXED_MAX = 32767.9999;
 static const double FIXED_MIN = -32768.0;
 static const double MIN_FIXED_STEP = 0.0001;
 static const double FIXED_PRECISION = 1.0 / 65536;
-namespace KSaneIface
+
+namespace KSane
 {
 
 KSaneDoubleOption::KSaneDoubleOption(const SANE_Handle handle, const int index)
@@ -137,4 +136,4 @@ QString KSaneDoubleOption::valueAsString() const
     return QString::number(m_value, 'F', 6);
 }
     
-}  // NameSpace KSaneIface
+} // namespace KSane

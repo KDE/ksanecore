@@ -1,18 +1,16 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2007-2010 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2007 Gilles Caulier <caulier dot gilles at gmail dot com>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
  * 
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #ifndef KSANE_CORE_H
 #define KSANE_CORE_H
 
-#include "ksane_export.h"
+#include "ksanecore_export.h"
 
 #include <memory>
 
@@ -20,10 +18,7 @@
 #include <QList>
 #include <QImage>
 
-/**
- * This namespace collects all methods and classes in LibKSane.
- */
-namespace KSaneIface
+namespace KSane
 {
 
 class KSaneCorePrivate;
@@ -32,7 +27,7 @@ class KSaneOption;
 /**
  * This class provides the core interface for accessing the scan controls and options.
  */
-class KSANE_EXPORT KSaneCore : public QObject
+class KSANECORE_EXPORT KSaneCore : public QObject
 {
     Q_OBJECT
     friend class KSaneCorePrivate;
@@ -181,7 +176,7 @@ public:
      * @return pointer to the KSaneOption. Returns a nullptr in case the options
      * is not available for the currently opened device.
      */  
-    KSaneOption *getOption(KSaneOptionName optionEnum);
+    KSaneOption *getOption(const KSaneOptionName optionEnum);
     
     /**
      * This function returns a specific option. 
@@ -189,7 +184,7 @@ public:
      * @return pointer to the KSaneOption. Returns a nullptr in case the options
      * is not available for the currently opened device.
      */  
-    KSaneOption *getOption(QString optionName); 
+    KSaneOption *getOption(const QString &optionName);
     
     /**
      * This method reads the available parameters and their values and
@@ -204,7 +199,7 @@ public:
      * @return This function returns the number of successful writes
      * or -1 if scanning is in progress.
      */
-    int setOptionsMap(const QMap <QString, QString> &opts);
+    int setOptionsMap(const QMap <QString, QString> &options);
     
     /**
      * Gives direct access to the QImage that is used to store the image
@@ -257,7 +252,7 @@ Q_SIGNALS:
      * @param strStatus If an error has occurred this string will contain an error message.
      * otherwise the string is empty.
      */
-    void scanFinished(KSaneScanStatus status, const QString &strStatus);
+    void scanFinished(KSane::KSaneCore::KSaneScanStatus status, const QString &strStatus);
 
     /**
      * This signal is emitted when the user is to be notified about something.
@@ -265,7 +260,7 @@ Q_SIGNALS:
      * @param strStatus If an error has occurred this string will contain an error message.
      * otherwise the string is empty.
      */
-    void userMessage(KSaneScanStatus status, const QString &strStatus);
+    void userMessage(KSane::KSaneCore::KSaneScanStatus status, const QString &strStatus);
 
     /**
      * This signal is emitted for progress information during a scan.
@@ -295,22 +290,17 @@ Q_SIGNALS:
      * buttons also differ from backend to backend.
      */
     void buttonPressed(const QString &optionName, const QString &optionLabel, bool pressed);
-    
-    /**
-     * This signal is not emitted anymore.
-     */
-    void openedDeviceInfoUpdated(const QString &deviceName, const QString &deviceVendor, const QString &deviceModel);
 
     /**
      * This signal is emitted for the count down when in batch mode.
      * @param remainingSeconds are the remaining seconds until the next scan starts.
      */
     void batchModeCountDown(int remainingSeconds);
-    
+
 private:
     std::unique_ptr<KSaneCorePrivate> d;
 };
 
-}  // NameSpace KSaneIface
+} // namespace KSane
 
 #endif // KSANE_CORE_H

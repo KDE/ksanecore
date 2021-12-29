@@ -1,12 +1,10 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
  * 
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #ifndef KSANE_SCAN_THREAD_H
 #define KSANE_SCAN_THREAD_H
@@ -28,8 +26,9 @@ extern "C"
 
 #define SCAN_READ_CHUNK_SIZE 100000
 
-namespace KSaneIface
+namespace KSane
 {
+
 class KSaneScanThread: public QThread
 {
     Q_OBJECT
@@ -81,6 +80,7 @@ private:
     
     QTimer          m_emitProgressUpdateTimer;
 };
-}
+
+} // namespace KSane
 
 #endif // KSANE_SCAN_THREAD_H

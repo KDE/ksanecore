@@ -1,11 +1,9 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #ifndef KSANE_BASE_OPTION_H
 #define KSANE_BASE_OPTION_H
@@ -15,7 +13,7 @@
 
 //KDE includes
 
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 
 // Sane includes
 extern "C"
@@ -28,7 +26,7 @@ extern "C"
 
 #define SANE_TRANSLATION_DOMAIN "sane-backends"
 
-namespace KSaneIface
+namespace KSane
 {
 
 inline QString sane_i18n(const char *text) {
@@ -93,7 +91,7 @@ protected:
     KSaneOption::KSaneOptionType  m_optionType = KSaneOption::TypeDetectFail;
 };
 
-}  // NameSpace KSaneIface
+} // namespace KSane
 
 #endif // KSANE_BASE_OPTION_H
 

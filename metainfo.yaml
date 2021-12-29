@@ -1,5 +1,8 @@
-maintainer: sars
-description: SANE Library Qt-based interface
+# SPDX-FileCopyrightText: none
+#
+# SPDX-License-Identifier: CC0-1.0
+
+description: Qt interface for the SANE library for scanner hardware
 type: functional
 public_lib: true
 platforms:
@@ -8,7 +11,7 @@ platforms:
     #- name: Windows
     #- name: MacOSX
     #- name: Android
-release: true
+release: false
 libraries:
-    - cmake: "KF5::Sane"
-cmakename: KF5Sane
+    - cmake: "KF5::SaneCore"
+cmakename: KF5SaneCore

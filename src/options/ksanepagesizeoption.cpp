@@ -1,23 +1,21 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #include "ksanepagesizeoption.h"
 
 #include <QPageSize>
 #include <QSizeF>
 
-#include <ksane_debug.h>
+#include <ksanecore_debug.h>
 
 static constexpr int PageSizeWiggleRoom = 2; // in mm
 
-namespace KSaneIface
+namespace KSane
 {
 
 KSanePageSizeOption::KSanePageSizeOption(KSaneBaseOption *optionTopLeftX, KSaneBaseOption *optionTopLeftY,
@@ -227,4 +225,4 @@ double KSanePageSizeOption::ensureMilliMeter(KSaneBaseOption *option, double val
     return value;
 }
 
-}  // NameSpace KSaneIface
+} // namespace KSane

@@ -1,5 +1,4 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2007-2010 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2009 Matthias Nagl <matthias at nagl dot info>
  * SPDX-FileCopyrightText: 2009 Grzegorz Kurtyka <grzegorz dot kurtyka at gmail dot com>
@@ -8,8 +7,7 @@
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
  * 
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 //Qt includes
 
@@ -25,9 +23,9 @@ extern "C"
 #include "ksanecore.h"
 #include "ksanecore_p.h"
 
-#include <ksane_debug.h>
+#include <ksanecore_debug.h>
 
-namespace KSaneIface
+namespace KSane
 {
 static int s_objectCount = 0;
 
@@ -46,7 +44,7 @@ KSaneCore::KSaneCore(QObject *parent)
         // only call sane init for the first instance
         status = sane_init(&version, &KSaneAuth::authorization);
         if (status != SANE_STATUS_GOOD) {
-            qCDebug(KSANE_LOG) << "libksane: sane_init() failed("
+            qCDebug(KSANECORE_LOG) << "libksane: sane_init() failed("
                      << sane_strstatus(status) << ")";
         }
     }
@@ -123,7 +121,7 @@ KSaneCore::KSaneOpenStatus KSaneCore::openDevice(const QString &deviceName)
     }
  
     if (status != SANE_STATUS_GOOD) {
-        qCDebug(KSANE_LOG) << "sane_open(\"" << deviceName << "\", &handle) failed! status = " << sane_strstatus(status);
+        qCDebug(KSANECORE_LOG) << "sane_open(\"" << deviceName << "\", &handle) failed! status = " << sane_strstatus(status);
         d->m_devName.clear();
         return KSaneOpenStatus::OpeningFailed;
     }
@@ -158,7 +156,7 @@ KSaneCore::KSaneOpenStatus KSaneCore::openRestrictedDevice(const QString &device
     }
 
     if (status != SANE_STATUS_GOOD) {
-        qCDebug(KSANE_LOG) << "sane_open(\"" << deviceName << "\", &handle) failed! status = " << sane_strstatus(status);
+        qCDebug(KSANECORE_LOG) << "sane_open(\"" << deviceName << "\", &handle) failed! status = " << sane_strstatus(status);
         d->m_auth->clearDeviceAuth(d->m_devName);
         d->m_devName.clear();
         return KSaneOpenStatus::OpeningFailed;
@@ -251,7 +249,7 @@ QList<KSaneOption *> KSaneCore::getOptionsList()
     return d->m_externalOptionsList;
 }
 
-KSaneOption *KSaneCore::getOption(KSaneCore::KSaneOptionName optionEnum) 
+KSaneOption *KSaneCore::getOption(KSaneCore::KSaneOptionName optionEnum)
 {
     auto it = d->m_optionsLocation.find(optionEnum);
     if (it != d->m_optionsLocation.end()) {
@@ -260,7 +258,7 @@ KSaneOption *KSaneCore::getOption(KSaneCore::KSaneOptionName optionEnum)
     return nullptr;
 }
 
-KSaneOption *KSaneCore::getOption(QString optionName) 
+KSaneOption *KSaneCore::getOption(const QString &optionName)
 {
     for (const auto &option : qAsConst(d->m_externalOptionsList)) {
         if (option->name() == optionName) {
@@ -326,4 +324,4 @@ int KSaneCore::setOptionsMap(const QMap <QString, QString> &opts)
     return ret;
 }
 
-}  // NameSpace KSaneIface
+}  // NameSpace KSane

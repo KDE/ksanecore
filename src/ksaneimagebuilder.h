@@ -1,12 +1,10 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2018 Alexander Volkov <a.volkov@rusbitech.ru>
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #ifndef KSANE_IMAGE_BUILDER_H
 #define KSANE_IMAGE_BUILDER_H
@@ -18,7 +16,7 @@ extern "C"
 
 class QImage;
 
-namespace KSaneIface
+namespace KSane
 {
 
 /* Constructs a QImage out of the raw scanned data retrieved via libsane */
@@ -47,6 +45,6 @@ private:
     int *m_dpi;
 };
 
-}
+} // namespace KSane
 
 #endif // KSANE_IMAGE_BUILDER_H

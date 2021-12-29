@@ -1,21 +1,19 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #include "ksanegammaoption.h"
 
 #include <QVarLengthArray>
 
-#include <ksane_debug.h>
+#include <ksanecore_debug.h>
 
 #include <cmath>
 
-namespace KSaneIface
+namespace KSane
 {
 
 KSaneGammaOption::KSaneGammaOption(const SANE_Handle handle, const int index)
@@ -162,4 +160,4 @@ void KSaneGammaOption::calculateGTwriteData()
     Q_EMIT valueChanged(values);
 }
 
-}  // NameSpace KSaneIface
+}  // namespace KSane

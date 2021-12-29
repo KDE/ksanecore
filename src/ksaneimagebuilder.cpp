@@ -1,20 +1,18 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2018 Alexander Volkov <a.volkov@rusbitech.ru>
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #include "ksaneimagebuilder.h"
 
 #include <QImage>
 
-#include <ksane_debug.h>
+#include <ksanecore_debug.h>
 
-namespace KSaneIface
+namespace KSane
 {
 KSaneImageBuilder::KSaneImageBuilder(QImage *image, int *dpi)
     : m_image(image), m_dpi(dpi)
@@ -245,7 +243,7 @@ bool KSaneImageBuilder::copyToImage(const SANE_Byte readData[], int read_bytes)
         }
     }
 
-    qCWarning(KSANE_LOG) << "Format" << m_params.format
+    qCWarning(KSANECORE_LOG) << "Format" << m_params.format
                << "and depth" << m_params.depth
                << "is not yet supported by libksane!";
     return false;
@@ -266,4 +264,4 @@ void KSaneImageBuilder::incrementPixelData()
     }
 }
 
-} // NameSpace KSaneIface
+} // namespace KSane

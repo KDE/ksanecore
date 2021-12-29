@@ -1,16 +1,12 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Grzegorz Kurtyka <grzegorz dot kurtyka at gmail dot com>
  * SPDX-FileCopyrightText: 2010 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #include "ksanefinddevicesthread.h"
-
-// #include "ksanewidget_p.h"
 
 // Sane includes
 extern "C"
@@ -22,7 +18,7 @@ extern "C"
 #include <QMutex>
 #include <QMutexLocker>
 
-namespace KSaneIface
+namespace KSane
 {
 static FindSaneDevicesThread *s_instancesane = nullptr;
 Q_GLOBAL_STATIC(QMutex, s_mutexsane)
@@ -87,4 +83,4 @@ const QList<KSaneCore::DeviceInfo> FindSaneDevicesThread::devicesList() const
     return m_deviceList;
 }
 
-}
+} // namespace KSane

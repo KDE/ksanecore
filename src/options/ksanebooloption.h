@@ -1,17 +1,15 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #ifndef KSANE_BOOL_OPTION_H
 #define KSANE_BOOL_OPTION_H
 
 #include "ksanebaseoption.h"
 
-namespace KSaneIface
+namespace KSane
 {
 
 class KSaneBoolOption : public KSaneBaseOption
@@ -33,6 +31,6 @@ private:
     bool m_checked = false;
 };
 
-}  // NameSpace KSaneIface
+} // namespace KSane
 
 #endif // KSANE_BOOL_OPTION_H

@@ -1,17 +1,14 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 
 #include "ksaneinternaloption.h"
 #include "ksaneoption_p.h"
 
-
-namespace KSaneIface
+namespace KSane
 {
 
 KSaneInternalOption::KSaneInternalOption(KSaneBaseOption *option, QObject *parent) : KSaneOption(parent)
@@ -22,4 +19,4 @@ KSaneInternalOption::KSaneInternalOption(KSaneBaseOption *option, QObject *paren
     connect(d->option, &KSaneBaseOption::destroyed, this, [=]() { d->option = nullptr; } );
 }
 
-}  // NameSpace KSaneIface
+}  // namespace KSane

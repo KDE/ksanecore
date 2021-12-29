@@ -1,12 +1,10 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #ifndef KSANE_CORE_PRIVATE_H
 #define KSANE_CORE_PRIVATE_H
@@ -26,7 +24,7 @@
 #include "ksaneauth.h"
 
 /** This namespace collects all methods and classes in LibKSane. */
-namespace KSaneIface
+namespace KSane
 {
     
 class KSaneCorePrivate : public QObject
@@ -94,6 +92,6 @@ public:
     int m_batchModeCounter = 0;
 };
 
-}  // NameSpace KSaneIface
+}  // NameSpace KSane
 
 #endif // KSANE_CORE_PRIVATE_H

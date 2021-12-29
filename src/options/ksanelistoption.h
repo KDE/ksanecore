@@ -1,17 +1,15 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #ifndef KSANE_VALUELIST_OPTION_H
 #define KSANE_VALUELIST_OPTION_H
 
 #include "ksanebaseoption.h"
 
-namespace KSaneIface
+namespace KSane
 {
 
 class KSaneListOption : public KSaneBaseOption
@@ -39,6 +37,6 @@ private:
     QVariant       m_currentValue;
 };
 
-}  // NameSpace KSaneIface
+} // namespace KSane
 
 #endif // KSANE_VALUELIST_OPTION_H

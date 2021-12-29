@@ -1,11 +1,9 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #include "ksaneintegeroption.h"
 
@@ -14,7 +12,7 @@
 static const int KSW_INT_MAX = 2147483647;
 static const int KSW_INT_MIN = -2147483647 - 1; // prevent warning
 
-namespace KSaneIface
+namespace KSane
 {
 
 KSaneIntegerOption::KSaneIntegerOption(const SANE_Handle handle, const int index)
@@ -114,4 +112,4 @@ bool KSaneIntegerOption::setValue(const QVariant &val)
     return ok;
 }
 
-}  // NameSpace KSaneIface
+}  // namespace KSane

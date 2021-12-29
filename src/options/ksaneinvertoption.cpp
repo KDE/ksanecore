@@ -1,16 +1,14 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #include "ksaneinvertoption.h"
 
-#include <ksane_debug.h>
+#include <ksanecore_debug.h>
 
-namespace KSaneIface
+namespace KSane
 {
 
 KSaneInvertOption::KSaneInvertOption()
@@ -65,4 +63,4 @@ QString KSaneInvertOption::description() const
     return i18n("Invert the colors of the scanned image.");
 }
 
-}  // NameSpace KSaneIface
+}  // namespace KSane

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: None
+# SPDX-License-Identifier: CC0-1.0
+
 #! /bin/sh
-$XGETTEXT `find . -name \*.cpp` ../ksanetwain/*.cpp -o $podir/libksane.pot
+
+$XGETTEXT `find . -name \*.cpp` -o $podir/libksane.pot
 

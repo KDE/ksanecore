@@ -1,22 +1,21 @@
-/* ============================================================
-*
-* SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
-* SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
-* SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
-*
-* SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
-*
-* ============================================================ */
+/*
+ * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
+ * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
+ * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
+ *
+ * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+ */
 
 #include "ksanescanthread.h"
 
 #include <QMutexLocker>
-
 #include <QVariant>
-#include <ksane_debug.h>
 
-namespace KSaneIface
+#include <ksanecore_debug.h>
+
+namespace KSane
 {
+
 KSaneScanThread::KSaneScanThread(SANE_Handle handle):
     QThread(), m_saneHandle(handle), m_imageBuilder(&m_image, &m_dpi)
 {
@@ -24,7 +23,7 @@ KSaneScanThread::KSaneScanThread(SANE_Handle handle):
     m_emitProgressUpdateTimer.setInterval(500);
     connect(&m_emitProgressUpdateTimer, &QTimer::timeout, this, &KSaneScanThread::updateScanProgress);
     connect(this, &QThread::started, &m_emitProgressUpdateTimer, QOverload<>::of(&QTimer::start));
-    connect(this, &QThread::finished,  &m_emitProgressUpdateTimer, &QTimer::stop);
+    connect(this, &QThread::finished,&m_emitProgressUpdateTimer, &QTimer::stop);
 }
 
 void KSaneScanThread::setImageInverted(const QVariant &newValue)
@@ -89,7 +88,7 @@ void KSaneScanThread::run()
     }
 
     if (m_saneStatus != SANE_STATUS_GOOD) {
-        qCDebug(KSANE_LOG) << "sane_start=" << sane_strstatus(m_saneStatus);
+        qCDebug(KSANECORE_LOG) << "sane_start=" << sane_strstatus(m_saneStatus);
         sane_cancel(m_saneHandle);
         m_readStatus = ReadError;
         return;
@@ -98,7 +97,7 @@ void KSaneScanThread::run()
     // Read image parameters
     m_saneStatus = sane_get_parameters(m_saneHandle, &m_params);
     if (m_saneStatus != SANE_STATUS_GOOD) {
-        qCDebug(KSANE_LOG) << "sane_get_parameters=" << sane_strstatus(m_saneStatus);
+        qCDebug(KSANECORE_LOG) << "sane_get_parameters=" << sane_strstatus(m_saneStatus);
         sane_cancel(m_saneHandle);
         m_readStatus = ReadError;
         return;
@@ -162,15 +161,15 @@ void KSaneScanThread::readData()
     case SANE_STATUS_EOF:
         // (handscanners have negative frame size)
         if (m_frameRead < m_frameSize) {
-            qCDebug(KSANE_LOG) << "frameRead =" << m_frameRead  << ", frameSize =" << m_frameSize << "readBytes =" << readBytes;
+            qCDebug(KSANECORE_LOG) << "frameRead =" << m_frameRead  << ", frameSize =" << m_frameSize << "readBytes =" << readBytes;
             if ((readBytes > 0) && ((m_frameRead + readBytes) <= m_frameSize)) {
-                qCDebug(KSANE_LOG) << "This is not a standard compliant backend";
+                qCDebug(KSANECORE_LOG) << "This is not a standard compliant backend";
                 copyToScanData(readBytes);
             }
             // There are broken backends that return wrong number for bytes_per_line
             if (m_params.depth == 1 && m_params.lines > 0 && m_params.lines * m_params.pixels_per_line <= m_frameRead * 8) {
-                qCDebug(KSANE_LOG) << "Warning!! This backend seems to return wrong bytes_per_line for line-art images!";
-                qCDebug(KSANE_LOG) << "Warning!! Trying to correct the value!";
+                qCDebug(KSANECORE_LOG) << "Warning!! This backend seems to return wrong bytes_per_line for line-art images!";
+                qCDebug(KSANECORE_LOG) << "Warning!! Trying to correct the value!";
                 m_params.bytes_per_line = m_frameRead / m_params.lines;
             }
             m_readStatus = ReadReady; // It is better to return a broken image than nothing
@@ -184,25 +183,25 @@ void KSaneScanThread::readData()
             // start reading next frame
             m_saneStatus = sane_start(m_saneHandle);
             if (m_saneStatus != SANE_STATUS_GOOD) {
-                qCDebug(KSANE_LOG) << "sane_start =" << sane_strstatus(m_saneStatus);
+                qCDebug(KSANECORE_LOG) << "sane_start =" << sane_strstatus(m_saneStatus);
                 m_readStatus = ReadError;
                 return;
             }
             m_saneStatus = sane_get_parameters(m_saneHandle, &m_params);
             if (m_saneStatus != SANE_STATUS_GOOD) {
-                qCDebug(KSANE_LOG) << "sane_get_parameters =" << sane_strstatus(m_saneStatus);
+                qCDebug(KSANECORE_LOG) << "sane_get_parameters =" << sane_strstatus(m_saneStatus);
                 m_readStatus = ReadError;
                 sane_cancel(m_saneHandle);
                 return;
             }
-            //qCDebug(KSANE_LOG) << "New Frame";
+            //qCDebug(KSANECORE_LOG) << "New Frame";
             m_imageBuilder.beginFrame(m_params);
             m_frameRead = 0;
             m_frame_t_count++;
             break;
         }
     default:
-        qCDebug(KSANE_LOG) << "sane_read=" << m_saneStatus << "=" << sane_strstatus(m_saneStatus);
+        qCDebug(KSANECORE_LOG) << "sane_read=" << m_saneStatus << "=" << sane_strstatus(m_saneStatus);
         m_readStatus = ReadError;
         sane_cancel(m_saneHandle);
         return;
@@ -215,7 +214,7 @@ void KSaneScanThread::copyToScanData(int readBytes)
 {
     if (m_invertColors) {
         if (m_params.depth == 16) {
-            //if (readBytes%2) qCDebug(KSANE_LOG) << "readBytes=" << readBytes;
+            //if (readBytes%2) qCDebug(KSANECORE_LOG) << "readBytes=" << readBytes;
             quint16 *u16ptr = reinterpret_cast<quint16 *>(m_readData);
             for (int i = 0; i < readBytes / 2; i++) {
                 u16ptr[i] = 0xFFFF - u16ptr[i];
@@ -239,4 +238,4 @@ void KSaneScanThread::copyToScanData(int readBytes)
     }
 }
 
-}  // NameSpace KSaneIface
+}  // namespace KSane

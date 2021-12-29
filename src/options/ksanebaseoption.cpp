@@ -1,17 +1,15 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #include "ksanebaseoption.h"
 
-#include <ksane_debug.h>
+#include <ksanecore_debug.h>
 
-namespace KSaneIface
+namespace KSane
 {
 
 KSaneBaseOption::KSaneBaseOption() : QObject()
@@ -62,7 +60,7 @@ bool KSaneBaseOption::needsPolling() const
     }
 
     if ((m_optDesc->cap & SANE_CAP_SOFT_DETECT) && !(m_optDesc->cap & SANE_CAP_SOFT_SELECT)) {
-        qCDebug(KSANE_LOG) << name() << "optDesc->cap =" << m_optDesc->cap;
+        qCDebug(KSANECORE_LOG) << name() << "optDesc->cap =" << m_optDesc->cap;
         return true;
     }
 
@@ -109,13 +107,13 @@ bool KSaneBaseOption::writeData(void *data)
 
     status = sane_control_option(m_handle, m_index, SANE_ACTION_SET_VALUE, data, &res);
     if (status != SANE_STATUS_GOOD) {
-        qCDebug(KSANE_LOG) << m_optDesc->name << "sane_control_option returned:" << sane_strstatus(status);
+        qCDebug(KSANECORE_LOG) << m_optDesc->name << "sane_control_option returned:" << sane_strstatus(status);
         // write failed. re read the current setting
         readValue();
         return false;
     }
     if (res & SANE_INFO_INEXACT) {
-        //qCDebug(KSANE_LOG) << "write was inexact. Reload value just in case...";
+        //qCDebug(KSANECORE_LOG) << "write was inexact. Reload value just in case...";
         readValue();
     }
 
@@ -248,7 +246,7 @@ bool KSaneBaseOption::storeCurrentData()
     m_data = (unsigned char *)malloc(m_optDesc->size);
     status = sane_control_option(m_handle, m_index, SANE_ACTION_GET_VALUE, m_data, &res);
     if (status != SANE_STATUS_GOOD) {
-        qCDebug(KSANE_LOG) << m_optDesc->name << "sane_control_option returned" << status;
+        qCDebug(KSANECORE_LOG) << m_optDesc->name << "sane_control_option returned" << status;
         return false;
     }
     return true;
@@ -289,17 +287,17 @@ KSaneOption::KSaneOptionType KSaneBaseOption::optionType(const SANE_Option_Descr
             if (optDesc->size == sizeof(SANE_Word)) {
                 return KSaneOption::TypeInteger;
             }
-            qCDebug(KSANE_LOG) << "Can not handle:" << optDesc->title;
-            qCDebug(KSANE_LOG) << "SANE_CONSTRAINT_NONE && SANE_TYPE_INT";
-            qCDebug(KSANE_LOG) << "size" << optDesc->size << "!= sizeof(SANE_Word)";
+            qCDebug(KSANECORE_LOG) << "Can not handle:" << optDesc->title;
+            qCDebug(KSANECORE_LOG) << "SANE_CONSTRAINT_NONE && SANE_TYPE_INT";
+            qCDebug(KSANECORE_LOG) << "size" << optDesc->size << "!= sizeof(SANE_Word)";
             break;
         case SANE_TYPE_FIXED:
             if (optDesc->size == sizeof(SANE_Word)) {
                 return KSaneOption::TypeDouble;
             }
-            qCDebug(KSANE_LOG) << "Can not handle:" << optDesc->title;
-            qCDebug(KSANE_LOG) << "SANE_CONSTRAINT_NONE && SANE_TYPE_FIXED";
-            qCDebug(KSANE_LOG) << "size" << optDesc->size << "!= sizeof(SANE_Word)";
+            qCDebug(KSANECORE_LOG) << "Can not handle:" << optDesc->title;
+            qCDebug(KSANECORE_LOG) << "SANE_CONSTRAINT_NONE && SANE_TYPE_FIXED";
+            qCDebug(KSANECORE_LOG) << "size" << optDesc->size << "!= sizeof(SANE_Word)";
             break;
         case SANE_TYPE_BUTTON:
             return KSaneOption::TypeAction;
@@ -324,22 +322,22 @@ KSaneOption::KSaneOptionType KSaneBaseOption::optionType(const SANE_Option_Descr
                     (strcmp(optDesc->name, SANE_NAME_GAMMA_VECTOR_B) == 0)) {
                 return KSaneOption::TypeGamma;
             }
-            qCDebug(KSANE_LOG) << "Can not handle:" << optDesc->title;
-            qCDebug(KSANE_LOG) << "SANE_CONSTRAINT_RANGE && SANE_TYPE_INT && !SANE_NAME_GAMMA_VECTOR...";
-            qCDebug(KSANE_LOG) << "size" << optDesc->size << "!= sizeof(SANE_Word)";
+            qCDebug(KSANECORE_LOG) << "Can not handle:" << optDesc->title;
+            qCDebug(KSANECORE_LOG) << "SANE_CONSTRAINT_RANGE && SANE_TYPE_INT && !SANE_NAME_GAMMA_VECTOR...";
+            qCDebug(KSANECORE_LOG) << "size" << optDesc->size << "!= sizeof(SANE_Word)";
             break;
         case SANE_TYPE_FIXED:
             if (optDesc->size == sizeof(SANE_Word)) {
                 return KSaneOption::TypeDouble;
             }
-            qCDebug(KSANE_LOG) << "Can not handle:" << optDesc->title;
-            qCDebug(KSANE_LOG) << "SANE_CONSTRAINT_RANGE && SANE_TYPE_FIXED";
-            qCDebug(KSANE_LOG) << "size" << optDesc->size << "!= sizeof(SANE_Word)";
-            qCDebug(KSANE_LOG) << "Analog Gamma vector?";
+            qCDebug(KSANECORE_LOG) << "Can not handle:" << optDesc->title;
+            qCDebug(KSANECORE_LOG) << "SANE_CONSTRAINT_RANGE && SANE_TYPE_FIXED";
+            qCDebug(KSANECORE_LOG) << "size" << optDesc->size << "!= sizeof(SANE_Word)";
+            qCDebug(KSANECORE_LOG) << "Analog Gamma vector?";
             break;
         case SANE_TYPE_STRING:
-            qCDebug(KSANE_LOG) << "Can not handle:" << optDesc->title;
-            qCDebug(KSANE_LOG) << "SANE_CONSTRAINT_RANGE && SANE_TYPE_STRING";
+            qCDebug(KSANECORE_LOG) << "Can not handle:" << optDesc->title;
+            qCDebug(KSANECORE_LOG) << "SANE_CONSTRAINT_RANGE && SANE_TYPE_STRING";
             return KSaneOption::TypeDetectFail;
         case SANE_TYPE_BUTTON:
             return KSaneOption::TypeAction;
@@ -354,4 +352,4 @@ KSaneOption::KSaneOptionType KSaneBaseOption::optionType(const SANE_Option_Descr
     return KSaneOption::TypeDetectFail;
 }
 
-}  // NameSpace KSaneIface
+} // namespace KSane

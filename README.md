@@ -1,51 +1,35 @@
-# KSane
+<!--
+ SPDX-FileCopyrightText: none
+
+ SPDX-License-Identifier: CC0-1.0
+-->
+
+# KSaneCore
 
 ## Introduction
 
-SANE Library Qt-based interface
-
-## Authors
-
-See AUTHORS file for details.
+KSaneCore is a library that provides a Qt interface for the SANE library for scanner hardware.
 
 ## About
 
-Libksane is a Qt-based interface for SANE library to control flat scanners.
+KSaneCore is a Qt-based interface for SANE library to control scanner hardware.
 
-The library documentation is available on header files.
+The library documentation is available on the header files.
 
 ## Dependencies
 
  - CMake          >= 3.11.0                https://cmake.org
- - Qt             >= 5.14.0                https://qt.io
+ - Qt             >= 5.15.0                https://qt.io
  - KDE Frameworks >= 5.80.0                https://www.kde.org
- - libsane        >= 1.0.18                http://www.sane-project.org
+ - libsane        >= 1.0.32                http://www.sane-project.org
 
 ## Install
 
 In order to compile, just use something like this:
 
 ```bash
-export VERBOSE=1
-export QTDIR=/usr/lib/qt5/
-export PATH=$QTDIR/bin:$PATH
-cd path/to/libksane
+cd path/to/ksanecore
 mkdir build && cd build
 cmake ..
 make
-```
-
-Usual CMake options:
-
-| Option                | Description |
-| -------               | ----------- |
-| DCMAKE_INSTALL_PREFIX | decide where the program will be install on your computer. |
-| DCMAKE_BUILD_TYPE     | decide which type of build you want. You can choose between `Debug`, `Release`, `RelWithDebInfo` and `MinSizeRel`. The default is `RelWithDebInfo` (`-O2 -g`). |
-
-More details can be found at this url: https://community.kde.org/Guidelines_and_HOWTOs/CMake
-
-Note: To know the KDE Frameworks install path on your computer, use `kf5-config --prefix` command line like this (with full debug object enabled):
-
-```bash
-cmake . -DCMAKE_BUILD_TYPE=debugfull -DCMAKE_INSTALL_PREFIX=`kf5-config --prefix`
 ```

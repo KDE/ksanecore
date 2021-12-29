@@ -1,11 +1,9 @@
-/* ============================================================
-*
-* SPDX-FileCopyrightText: 2010 Kare Sars <kare dot sars at iki dot fi>
-* SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
-*
-* SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
-*
-* ============================================================ */
+/*
+ * SPDX-FileCopyrightText: 2010 Kare Sars <kare dot sars at iki dot fi>
+ * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
+ *
+ * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+ */
 
 #include "ksaneauth.h"
 
@@ -14,9 +12,9 @@
 #include <QMutexLocker>
 #include <QList>
 
-#include <ksane_debug.h>
+#include <ksanecore_debug.h>
 
-namespace KSaneIface
+namespace KSane
 {
 
 static KSaneAuth *s_instance = nullptr;
@@ -39,6 +37,7 @@ KSaneAuth *KSaneAuth::getInstance()
 #else
     QMutexLocker locker(s_mutex);
 #endif
+
 
     if (s_instance == nullptr) {
         s_instance = new KSaneAuth();
@@ -95,7 +94,7 @@ void KSaneAuth::clearDeviceAuth(const QString &resource)
 /** static function called by sane_open to get authorization from user */
 void KSaneAuth::authorization(SANE_String_Const resource, SANE_Char *username, SANE_Char *password)
 {
-    qCDebug(KSANE_LOG) << resource;
+    qCDebug(KSANECORE_LOG) << resource;
     // This is vague in the standard... what can I find in the resource string?
     // I have found that "resource contains the backend name + "$MD5$....."
     // it does not contain unique identifiers like ":libusb:001:004"
@@ -103,11 +102,11 @@ void KSaneAuth::authorization(SANE_String_Const resource, SANE_Char *username, S
     QString res = QString::fromUtf8(resource);
     int end = res.indexOf(QStringLiteral("$MD5$"));
     res = res.left(end);
-    qCDebug(KSANE_LOG) << res;
+    qCDebug(KSANECORE_LOG) << res;
 
     QList<Private::AuthStruct> list = getInstance()->d->authList;
     for (int i = 0; i < list.size(); i++) {
-        qCDebug(KSANE_LOG) << res << list.at(i).resource;
+        qCDebug(KSANECORE_LOG) << res << list.at(i).resource;
         if (list.at(i).resource.contains(res)) {
             qstrncpy(username, list.at(i).username.toLocal8Bit().constData(), SANE_MAX_USERNAME_LEN);
             qstrncpy(password, list.at(i).password.toLocal8Bit().constData(), SANE_MAX_PASSWORD_LEN);
@@ -116,5 +115,5 @@ void KSaneAuth::authorization(SANE_String_Const resource, SANE_Char *username, S
     }
 }
 
-}
+} // namespace KSane
 

@@ -1,18 +1,16 @@
-/* ============================================================
- *
+/*
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
- *
- * ============================================================ */
+ */
 
 #include "ksaneoption.h"
 #include "ksaneoption_p.h"
 #include "ksanebaseoption.h"
 
-#include <ksane_debug.h>
+#include <ksanecore_debug.h>
 
-namespace KSaneIface
+namespace KSane
 {
 
 KSaneOption::KSaneOption(QObject *parent) : QObject(parent), d(std::unique_ptr<KSaneOptionPrivate>(new KSaneOptionPrivate()))
@@ -166,4 +164,4 @@ bool KSaneOption::restoreSavedData()
     }
 }
 
-}  // NameSpace KSaneIface
+} // namespace KSane
