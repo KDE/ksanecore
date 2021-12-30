@@ -6,6 +6,3 @@ Dependencies:
   'require':
     'frameworks/extra-cmake-modules': '@stable'
     'frameworks/ki18n': '@stable'
-    'frameworks/kwidgetsaddons': '@stable'
-    'frameworks/ktextwidgets': '@stable'
-    'frameworks/kwallet': '@stable'
