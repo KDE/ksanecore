@@ -32,18 +32,17 @@ include(GenerateExportHeader)
 include(ECMQtDeclareLoggingCategory)
 
 ecm_setup_version(
-  ${RELEASE_SERVICE_VERSION}
-  VARIABLE_PREFIX KSANECORE
-  VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/ksanecore_version.h"
-  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5SaneCoreConfigVersion.cmake"
-  SOVERSION 5
+    ${RELEASE_SERVICE_VERSION}
+    VARIABLE_PREFIX KSANECORE
+    VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/ksanecore_version.h"
+    PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KSaneCoreConfigVersion.cmake"
+    SOVERSION 1
 )
 
 # Dependencies
-set(REQUIRED_QT_VERSION "5.15.0")
+set(REQUIRED_QT_VERSION "5.15.2")
 # Required Qt5 components to build this framework
 find_package(Qt${QT_MAJOR_VERSION} ${REQUIRED_QT_VERSION} NO_MODULE REQUIRED Core Gui)
-
 # Required KF5 frameworks
 find_package(KF5I18n ${KF5_VERSION} REQUIRED)
 
@@ -53,40 +52,36 @@ message(STATUS "SANE_FOUND:       ${SANE_FOUND}")
 message(STATUS "SANE_INCLUDE_DIR: ${SANE_INCLUDE_DIR}")
 message(STATUS "SANE_LIBRARY:     ${SANE_LIBRARY}")
 
-# Subdirectories
-if (SANE_FOUND)
-    add_subdirectory(src)
-    if (BUILD_TESTING)
-        add_subdirectory(autotests)
-    endif()
+add_subdirectory(src)
+if (BUILD_TESTING)
+    add_subdirectory(autotests)
 endif()
 
-set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5SaneCore")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KSaneCore")
 
 configure_package_config_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/KF5SaneCoreConfig.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/KF5SaneCoreConfig.cmake"
-  INSTALL_DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/KSaneCoreConfig.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/KSaneCoreConfig.cmake"
+    INSTALL_DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
 )
 
 install(FILES
-  "${CMAKE_CURRENT_BINARY_DIR}/KF5SaneCoreConfig.cmake"
-  "${CMAKE_CURRENT_BINARY_DIR}/KF5SaneCoreConfigVersion.cmake"
-  DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-  COMPONENT Devel
-)
-
-install(EXPORT
-  KF5SaneCoreTargets
-  DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-  FILE KF5SaneCoreTargets.cmake
-  NAMESPACE KF5::
+    "${CMAKE_CURRENT_BINARY_DIR}/KSaneCoreConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/KSaneCoreConfigVersion.cmake"
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+    COMPONENT Devel
 )
 
 install(FILES
-  "${CMAKE_CURRENT_BINARY_DIR}/ksanecore_version.h"
-  DESTINATION "${KDE_INSTALL_INCLUDEDIR_KF}"
-  COMPONENT Devel
+    "${CMAKE_CURRENT_BINARY_DIR}/ksanecore_version.h"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KSaneCore"
+    COMPONENT Devel
+)
+
+install(EXPORT KSaneCoreTargets
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+    FILE KSaneCoreTargets.cmake
+    NAMESPACE KSane::
 )
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

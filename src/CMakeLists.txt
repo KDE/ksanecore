@@ -2,12 +2,12 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 
-add_library(KF5SaneCore)
-add_library(KF5::SaneCore ALIAS KF5SaneCore)
+add_library(KSaneCore)
+add_library(KSane::Core ALIAS KSaneCore)
 
-target_compile_definitions(KF5SaneCore PRIVATE -DTRANSLATION_DOMAIN=\"ksanecore\")
+target_compile_definitions(KSaneCore PRIVATE -DTRANSLATION_DOMAIN=\"ksanecore\")
 
-target_sources(KF5SaneCore PRIVATE
+target_sources(KSaneCore PRIVATE
     ksanefinddevicesthread.cpp
     ksanescanthread.cpp
     ksaneimagebuilder.cpp
@@ -30,22 +30,22 @@ target_sources(KF5SaneCore PRIVATE
     options/ksanebatchdelayoption.cpp
 )
 
-ecm_qt_declare_logging_category(KF5SaneCore
+ecm_qt_declare_logging_category(KSaneCore
   HEADER ksanecore_debug.h
   IDENTIFIER KSANECORE_LOG
   CATEGORY_NAME org.kde.ksane.core
 )
 
-generate_export_header(KF5SaneCore BASE_NAME KSaneCore)
+generate_export_header(KSaneCore BASE_NAME KSaneCore)
 
-target_include_directories(KF5SaneCore
+target_include_directories(KSaneCore
     INTERFACE
-        "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KSaneCore>"
+        "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KSaneCore>"
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/options
 )
 
-target_link_libraries(KF5SaneCore
+target_link_libraries(KSaneCore
     PUBLIC
         Qt${QT_MAJOR_VERSION}::Core
         Qt${QT_MAJOR_VERSION}::Gui
@@ -54,10 +54,10 @@ target_link_libraries(KF5SaneCore
         KF5::I18n
 )
 
-set_target_properties(KF5SaneCore
+set_target_properties(KSaneCore
     PROPERTIES VERSION ${KSANECORE_VERSION}
     SOVERSION ${KSANECORE_SOVERSION}
-    EXPORT_NAME "SaneCore"
+    EXPORT_NAME "Core"
 )
 
 
@@ -71,14 +71,14 @@ ecm_generate_headers(KSaneCore_HEADERS
 
 # Install files
 
-install(TARGETS KF5SaneCore
-    EXPORT KF5SaneCoreTargets
+install(TARGETS KSaneCore
+    EXPORT KSaneCoreTargets
     ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
 )
 
 install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/ksanecore_export.h
+    "${CMAKE_CURRENT_BINARY_DIR}/ksanecore_export.h"
     ${KSaneCore_HEADERS}
-    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KSaneCore
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KSaneCore"
     COMPONENT Devel
 )
