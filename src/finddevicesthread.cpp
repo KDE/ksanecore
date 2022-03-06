@@ -18,6 +18,8 @@ extern "C"
 #include <QMutex>
 #include <QMutexLocker>
 
+#include <ksanecore_debug.h>
+
 namespace KSane
 {
 static FindSaneDevicesThread *s_instancesane = nullptr;
@@ -68,11 +70,21 @@ void FindSaneDevicesThread::run()
         CoreInterface::DeviceInfo deviceInfo;
 
         while (devList[i] != nullptr) {
-            deviceInfo.name = QString::fromUtf8(devList[i]->name);
-            deviceInfo.vendor = QString::fromUtf8(devList[i]->vendor);
-            deviceInfo.model = QString::fromUtf8(devList[i]->model);
-            deviceInfo.type = QString::fromUtf8(devList[i]->type);
-            m_deviceList << deviceInfo;
+            /* Do not list cameras as scanner devices when requested.
+             * Strings taken from SANE API documentation. */
+            const QString type = QString::fromUtf8(devList[i]->type);
+            if (m_deviceType == CoreInterface::AllDevices || (m_deviceType == CoreInterface::NoCameraAndVirtualDevices &&
+                type != QLatin1String("still camera") && type != QLatin1String("video camera") && type != QLatin1String("virtual device"))) {
+                deviceInfo.name = QString::fromUtf8(devList[i]->name);
+                deviceInfo.vendor = QString::fromUtf8(devList[i]->vendor);
+                deviceInfo.model = QString::fromUtf8(devList[i]->model);
+                deviceInfo.type = type;
+                m_deviceList << deviceInfo;
+                qCDebug(KSANECORE_LOG) << "Adding device " << deviceInfo.vendor <<
+                deviceInfo.name << deviceInfo.model << deviceInfo.type << " to device list";
+            } else {
+                qCDebug(KSANECORE_LOG) << "Ignoring device type" << type;
+            }
             i++;
         }
     }
@@ -81,6 +93,11 @@ void FindSaneDevicesThread::run()
 const QList<CoreInterface::DeviceInfo> FindSaneDevicesThread::devicesList() const
 {
     return m_deviceList;
+}
+
+void FindSaneDevicesThread::setDeviceType(const CoreInterface::DeviceType type)
+{
+    m_deviceType = type;
 }
 
 } // namespace KSane

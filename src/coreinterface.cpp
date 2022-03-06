@@ -85,12 +85,13 @@ QString CoreInterface::deviceModel() const
     return d->m_model;
 }
 
-bool CoreInterface::reloadDevicesList()
+bool CoreInterface::reloadDevicesList(const DeviceType type)
 {
     /* On some SANE backends, the handle becomes invalid when
      * querying for new devices. Hence, this is only allowed when
      * no device is currently opened. */
     if (d->m_saneHandle == nullptr) {
+        d->m_findDevThread->setDeviceType(type);
         d->m_findDevThread->start();
         return true;
     }

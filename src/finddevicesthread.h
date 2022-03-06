@@ -26,11 +26,13 @@ public:
     void run() override;
 
     const QList<CoreInterface::DeviceInfo> devicesList() const;
+    void setDeviceType(const CoreInterface::DeviceType type);
 
 private:
     FindSaneDevicesThread();
 
     QList<CoreInterface::DeviceInfo> m_deviceList;
+    CoreInterface::DeviceType m_deviceType = CoreInterface::AllDevices;
 };
 
 } // namespace KSane

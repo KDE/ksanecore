@@ -87,6 +87,16 @@ public:
         BatchDelayOption,
     };
 
+    /**
+     * This enumeration is used to filter the devices found by SANE.
+     * Sometimes, webcam may show up as scanner device and some
+     * more special scanner are also classified as cameras.
+     */
+    enum DeviceType {
+        AllDevices,
+        NoCameraAndVirtualDevices
+    };
+
     /*
      * Struct describing scanner devices.
      */
@@ -113,9 +123,10 @@ public:
      * separate thread and thus not blocking the application, the application must
      * ensure that no other action accessing the scanner device (settings options etc.)
      * is performed during this period.
-     * @return whether the devices list are being reloaded or not.
+     * @return whether the devices list are being reloaded or not
+     * @param type specify whether only specific device types shall be queried
      */
-    bool reloadDevicesList();
+    bool reloadDevicesList(const DeviceType type = AllDevices);
 
     /**
      * This method opens the specified scanner device and adds the scan options to the
