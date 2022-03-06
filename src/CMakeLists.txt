@@ -8,26 +8,26 @@ add_library(KSane::Core ALIAS KSaneCore)
 target_compile_definitions(KSaneCore PRIVATE -DTRANSLATION_DOMAIN=\"ksanecore\")
 
 target_sources(KSaneCore PRIVATE
-    ksanefinddevicesthread.cpp
-    ksanescanthread.cpp
-    ksaneimagebuilder.cpp
-    ksanecore.cpp
-    ksanecore_p.cpp
-    ksaneauth.cpp
-    ksaneoption.cpp
-    ksaneinternaloption.cpp
-    options/ksanebaseoption.cpp
-    options/ksaneactionoption.cpp
-    options/ksanebooloption.cpp
-    options/ksanestringoption.cpp
-    options/ksanegammaoption.cpp
-    options/ksaneintegeroption.cpp
-    options/ksanedoubleoption.cpp
-    options/ksanelistoption.cpp
-    options/ksaneinvertoption.cpp
-    options/ksanepagesizeoption.cpp
-    options/ksanebatchmodeoption.cpp
-    options/ksanebatchdelayoption.cpp
+    finddevicesthread.cpp
+    scanthread.cpp
+    imagebuilder.cpp
+    coreinterface.cpp
+    coreinterface_p.cpp
+    authentication.cpp
+    coreoption.cpp
+    internaloption.cpp
+    options/baseoption.cpp
+    options/actionoption.cpp
+    options/booloption.cpp
+    options/stringoption.cpp
+    options/gammaoption.cpp
+    options/integeroption.cpp
+    options/doubleoption.cpp
+    options/listoption.cpp
+    options/invertoption.cpp
+    options/pagesizeoption.cpp
+    options/batchmodeoption.cpp
+    options/batchdelayoption.cpp
 )
 
 ecm_qt_declare_logging_category(KSaneCore
@@ -63,8 +63,8 @@ set_target_properties(KSaneCore
 
 ecm_generate_headers(KSaneCore_HEADERS
     HEADER_NAMES
-        KSaneCore
-        KSaneOption
+        CoreInterface
+        CoreOption
     REQUIRED_HEADERS KSaneCore_HEADERS
     RELATIVE "../src/"
 )
