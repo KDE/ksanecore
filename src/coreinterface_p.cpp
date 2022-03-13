@@ -418,6 +418,7 @@ void CoreInterfacePrivate::batchModeTimerUpdate()
     if (m_batchModeCounter >= delay) {
         m_batchModeCounter = 0;
         if (m_scanThread!= nullptr) {
+            Q_EMIT q->scanProgress(-1);
             m_scanThread->start();
         }
         m_batchModeTimer.stop();
