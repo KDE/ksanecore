@@ -18,11 +18,12 @@ ListOption::ListOption(const SANE_Handle handle, const int index)
     : BaseOption(handle, index)
 {
     m_optionType = CoreOption::TypeValueList;
+    connect(this, &BaseOption::optionReloaded, this, &ListOption::countOptions);
 }
 
 void ListOption::readValue()
 {
-    if (state() == CoreOption::StateHidden) {
+    if (BaseOption::state() == CoreOption::StateHidden) {
         return;
     }
 
@@ -131,7 +132,7 @@ bool ListOption::setValue(const QVariant &value)
 QVariant ListOption::minimumValue() const
 {
     QVariant value;
-    if (state() == CoreOption::StateHidden) {
+    if (BaseOption::state() == CoreOption::StateHidden) {
         return value;
     }
     double dValueMin;
@@ -160,7 +161,7 @@ QVariant ListOption::minimumValue() const
 
 QVariant ListOption::value() const
 {
-    if (state() == CoreOption::StateHidden) {
+    if (BaseOption::state() == CoreOption::StateHidden) {
         return QVariant();
     }
     return m_currentValue;
@@ -212,7 +213,7 @@ bool ListOption::setValue(double value)
 
 QString ListOption::valueAsString() const
 {
-    if (state() == CoreOption::StateHidden) {
+    if (BaseOption::state() == CoreOption::StateHidden) {
         return QString();
     }
     return m_currentValue.toString();
@@ -220,7 +221,7 @@ QString ListOption::valueAsString() const
 
 bool ListOption::setValue(const QString &value)
 {
-    if (state() == CoreOption::StateHidden) {
+    if (BaseOption::state() == CoreOption::StateHidden) {
         return false;
     }
 
@@ -279,6 +280,38 @@ bool ListOption::setValue(const QString &value)
 
     readValue();
     return true;
+}
+
+void ListOption::countOptions()
+{
+    m_optionsCount = 0;
+
+    switch (m_optDesc->type) {
+
+    case SANE_TYPE_INT:
+    case SANE_TYPE_FIXED:
+        m_optionsCount = m_optDesc->constraint.word_list[0];
+        break;
+
+    case SANE_TYPE_STRING:
+        while (m_optDesc->constraint.string_list[m_optionsCount] != nullptr) {
+            m_optionsCount++;
+        }
+        break;
+
+    default :
+        qCDebug(KSANECORE_LOG) << "can not handle type:" << m_optDesc->type;
+        break;
+    }
+}
+
+CoreOption::OptionState ListOption::state() const
+{
+    if (m_optionsCount <= 1) {
+        return CoreOption::StateHidden;
+    } else {
+        return BaseOption::state();
+    }
 }
 
 } // namespace KSane

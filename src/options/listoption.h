@@ -26,15 +26,20 @@ public:
     QString valueAsString() const override;
     QVariantList valueList() const override;
     QVariantList internalValueList() const override;
+    CoreOption::OptionState state() const override;
 
 public Q_SLOTS:
     bool setValue(const QVariant &value) override;
+
+private Q_SLOTS:
+    void countOptions();
 
 private:
     bool setValue(double value);
     bool setValue(const QString &value);
 
-    QVariant       m_currentValue;
+    QVariant m_currentValue;
+    int m_optionsCount = 0;
 };
 
 } // namespace KSane
