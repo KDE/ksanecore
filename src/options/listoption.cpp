@@ -61,6 +61,7 @@ QVariantList ListOption::valueList() const
 {
     int i;
     QVariantList list;
+    list.reserve(m_optionsCount);
 
     switch (m_optDesc->type) {
     case SANE_TYPE_INT:
@@ -91,6 +92,7 @@ QVariantList ListOption::internalValueList() const
 {
     int i;
     QVariantList list;
+    list.reserve(m_optionsCount);
 
     switch (m_optDesc->type) {
     case SANE_TYPE_INT:
