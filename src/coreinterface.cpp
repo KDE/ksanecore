@@ -283,13 +283,13 @@ QMap <QString, QString> CoreInterface::getOptionsMap()
     return options;
 }
 
-int CoreInterface::setOptionsMap(const QMap <QString, QString> &opts)
+int CoreInterface::setOptionsMap(const QMap <QString, QString> &options)
 {
     if (!d->m_saneHandle || d->m_scanThread->isRunning()) {
         return -1;
     }
 
-    QMap <QString, QString> optionMapCopy = opts;
+    QMap <QString, QString> optionMapCopy = options;
 
     int i;
     int ret = 0;

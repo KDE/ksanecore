@@ -200,13 +200,13 @@ public:
     /**
      * This method reads the available parameters and their values and
      * returns them in a QMap (Name, value)
-     * @param opts is a QMap with the parameter names and values.
+     * @return map with the parameter names and their values.
      */
     QMap <QString, QString> getOptionsMap();
 
     /**
      * This method can be used to write many parameter values at once.
-     * @param opts is a QMap with the parameter names and values.
+     * @param options a QMap with the parameter names and values.
      * @return This function returns the number of successful writes
      * or -1 if scanning is in progress.
      */
