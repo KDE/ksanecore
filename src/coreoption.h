@@ -32,7 +32,7 @@ class KSANECORE_EXPORT CoreOption : public QObject
 public:
 
     /** This enumeration describes the type of the option. */
-    typedef enum {
+    enum OptionType{
         TypeDetectFail,
         TypeBool,
         TypeInteger,
@@ -41,13 +41,13 @@ public:
         TypeString,
         TypeGamma,
         TypeAction
-    } OptionType;
+    };
 
     Q_ENUM(OptionType);
 
     /** This enumeration describes the unit of the value of the option,
      * if any. */
-    typedef enum {
+    enum OptionUnit {
         UnitNone,
         UnitPixel,
         UnitBit,
@@ -56,17 +56,17 @@ public:
         UnitPercent,
         UnitMicroSecond,
         UnitSecond
-    } OptionUnit;
+    };
 
     Q_ENUM(OptionUnit);
 
     /** This enumeration describes the current statue of the value of
      * the option, indicating if this option should be displayed or not. */
-    typedef enum {
+    enum OptionState {
         StateHidden,
         StateDisabled,
         StateActive
-    } OptionState;
+    };
 
     Q_ENUM(OptionState);
 
