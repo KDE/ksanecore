@@ -103,12 +103,12 @@ void Authentication::authorization(SANE_String_Const resource, SANE_Char *userna
     res = res.left(end);
     qCDebug(KSANECORE_LOG) << res;
 
-    QList<Private::AuthStruct> list = getInstance()->d->authList;
-    for (int i = 0; i < list.size(); i++) {
-        qCDebug(KSANECORE_LOG) << res << list.at(i).resource;
-        if (list.at(i).resource.contains(res)) {
-            qstrncpy(username, list.at(i).username.toLocal8Bit().constData(), SANE_MAX_USERNAME_LEN);
-            qstrncpy(password, list.at(i).password.toLocal8Bit().constData(), SANE_MAX_PASSWORD_LEN);
+    const QList<Private::AuthStruct> list = getInstance()->d->authList;
+    for (const auto &authItem : list) {
+        qCDebug(KSANECORE_LOG) << res << authItem.resource;
+        if (authItem.resource.contains(res)) {
+            qstrncpy(username, authItem.username.toLocal8Bit().constData(), SANE_MAX_USERNAME_LEN);
+            qstrncpy(password, authItem.password.toLocal8Bit().constData(), SANE_MAX_PASSWORD_LEN);
             break;
         }
     }

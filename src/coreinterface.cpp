@@ -271,12 +271,10 @@ CoreOption *CoreInterface::getOption(const QString &optionName)
 
 QMap <QString, QString> CoreInterface::getOptionsMap()
 {
-    BaseOption *option;
     QMap <QString, QString> options;
     QString tmp;
 
-    for (int i = 0; i < d->m_optionsList.size(); i++) {
-        option = d->m_optionsList.at(i);
+    for (const auto option : qAsConst(d->m_optionsList)) {
         tmp = option->valueAsString();
         if (!tmp.isEmpty()) {
             options[option->name()] = tmp;
