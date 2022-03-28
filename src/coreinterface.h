@@ -126,7 +126,7 @@ public:
      * @return whether the devices list are being reloaded or not
      * @param type specify whether only specific device types shall be queried
      */
-    bool reloadDevicesList(const DeviceType type = AllDevices);
+    bool reloadDevicesList(DeviceType type = AllDevices);
 
     /**
      * This method opens the specified scanner device and adds the scan options to the
@@ -186,8 +186,8 @@ public:
      * @param optionEnum the enum specifying the option.
      * @return pointer to the KSaneOption. Returns a nullptr in case the options
      * is not available for the currently opened device.
-     */
-    CoreOption *getOption(const OptionName optionEnum);
+     */  
+    CoreOption *getOption(OptionName optionEnum);
 
     /**
      * This function returns a specific option.
