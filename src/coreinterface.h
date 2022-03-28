@@ -144,7 +144,7 @@ public:
      * @param password the password required to open for the scanner.
      * @return the status of the opening action.
      */
-    OpenStatus openRestrictedDevice(const QString &deviceName, QString userName, QString password);
+    OpenStatus openRestrictedDevice(const QString &deviceName, const QString &userName, const QString &password);
 
     /**
      * This method closes the currently open scanner device.

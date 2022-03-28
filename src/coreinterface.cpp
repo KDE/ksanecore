@@ -130,7 +130,7 @@ CoreInterface::OpenStatus CoreInterface::openDevice(const QString &deviceName)
     return d->loadDeviceOptions();
 }
 
-CoreInterface::OpenStatus CoreInterface::openRestrictedDevice(const QString &deviceName, QString userName, QString password)
+CoreInterface::OpenStatus CoreInterface::openRestrictedDevice(const QString &deviceName, const QString &userName, const QString &password)
 {
     SANE_Status                    status;
 
