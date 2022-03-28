@@ -131,7 +131,7 @@ public:
     /**
      * This method opens the specified scanner device and adds the scan options to the
      * options list.
-     * @param deviceName is the libsane device name for the scanner to open.
+     * @param deviceName is the SANE device name for the scanner to open.
      * @return the status of the opening action.
      */
     OpenStatus openDevice(const QString &deviceName);
@@ -139,7 +139,7 @@ public:
     /**
      * This method opens the specified scanner device with a specified username and password.
      * Adds the scan options to the options list.
-     * @param deviceName is the libsane device name for the scanner to open.
+     * @param deviceName is the SANE device name for the scanner to open.
      * @param userName the username required to open for the scanner.
      * @param password the password required to open for the scanner.
      * @return the status of the opening action.
@@ -244,7 +244,7 @@ public Q_SLOTS:
 
     /**
      * This method is used to start a scan.
-     * @note libksane may return one or more images as a result of one invocation of this slot.
+     * @note CoreInterface may return one or more images as a result of one invocation of this slot.
      * If no more images are wanted stopScan() should be called in the slot handling the
      * imageReady signal.
      */

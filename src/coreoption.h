@@ -23,7 +23,7 @@ class OptionPrivate;
 
 /**
  * A wrapper class providing access to the internal KSaneBaseOption
- * to access all options provided by lib(k)sane
+ * to access all options provided by KSANECore/SANE
  */
 class KSANECORE_EXPORT CoreOption : public QObject
 {
@@ -86,8 +86,8 @@ public:
      * @return the description */
     QString description() const;
 
-    /** This function the type of the option as determined by libksane.
-     * Each type provides a different implementation for different
+    /** This function the type of the option as determined by KSANECore.
+     * Each type provides a different implementation for different 
      * variable types, e.g. integer, float or string.
      * @return the type of option the of value OptionType */
     OptionType type() const;
