@@ -263,6 +263,8 @@ void CoreInterfacePrivate::clearDeviceOptions()
     m_devName.clear();
     m_model.clear();
     m_vendor.clear();
+    m_batchMode = nullptr;
+    m_batchModeDelay = nullptr;
 }
 
 void CoreInterfacePrivate::devicesListUpdated()

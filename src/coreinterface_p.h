@@ -86,8 +86,8 @@ public:
     // next scanning will start with a hardware button press
     bool m_waitForExternalButton = false;
     // batch mode options
-    BaseOption *m_batchMode;
-    BaseOption *m_batchModeDelay;
+    BaseOption *m_batchMode = nullptr;
+    BaseOption *m_batchModeDelay = nullptr;
     QTimer m_batchModeTimer;
     int m_batchModeCounter = 0;
 };
