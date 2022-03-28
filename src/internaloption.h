@@ -19,7 +19,7 @@ class InternalOption : public CoreOption
 
 public:
 
-    InternalOption(BaseOption *option, QObject *parent = nullptr);
+    explicit InternalOption(BaseOption *option, QObject *parent = nullptr);
 
 };
 

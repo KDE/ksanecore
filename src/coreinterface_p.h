@@ -32,7 +32,7 @@ class CoreInterfacePrivate : public QObject
     Q_OBJECT
 
 public:
-    CoreInterfacePrivate(CoreInterface *parent);
+    explicit CoreInterfacePrivate(CoreInterface *parent);
     CoreInterface::OpenStatus loadDeviceOptions();
     void clearDeviceOptions();
     void setDefaultValues();

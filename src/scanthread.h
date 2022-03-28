@@ -40,7 +40,7 @@ public:
         ReadReady
     };
 
-    ScanThread(SANE_Handle handle);
+    explicit ScanThread(SANE_Handle handle);
     void run() override;
     void setImageInverted(const QVariant &newValue);
     void setImageResolution(const QVariant &newValue);

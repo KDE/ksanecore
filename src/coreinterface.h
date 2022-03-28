@@ -110,7 +110,7 @@ public:
     /**
      * This constructor initializes the private class variables.
      */
-    CoreInterface(QObject *parent = nullptr);
+    explicit CoreInterface(QObject *parent = nullptr);
 
     /**
      * Standard destructor.

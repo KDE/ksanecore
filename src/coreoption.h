@@ -70,7 +70,7 @@ public:
 
     Q_ENUM(OptionState);
 
-    CoreOption(QObject *parent = nullptr);
+    explicit CoreOption(QObject *parent = nullptr);
     ~CoreOption() override;
 
     /** This function returns the internal name of the option
