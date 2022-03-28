@@ -30,35 +30,6 @@
 namespace KSane
 {
 
-static const QHash<QString, CoreInterface::OptionName> stringEnumTranslation = {
-    { QStringLiteral(SANE_NAME_SCAN_SOURCE), CoreInterface::SourceOption },
-    { QStringLiteral(SANE_NAME_SCAN_MODE), CoreInterface::ScanModeOption },
-    { QStringLiteral(SANE_NAME_BIT_DEPTH), CoreInterface::BitDepthOption },
-    { QStringLiteral(SANE_NAME_SCAN_RESOLUTION), CoreInterface::ResolutionOption },
-    { QStringLiteral(SANE_NAME_SCAN_TL_X), CoreInterface::TopLeftXOption },
-    { QStringLiteral(SANE_NAME_SCAN_TL_Y), CoreInterface::TopLeftYOption },
-    { QStringLiteral(SANE_NAME_SCAN_BR_X), CoreInterface::BottomRightXOption },
-    { QStringLiteral(SANE_NAME_SCAN_BR_Y), CoreInterface::BottomRightYOption },
-    { QStringLiteral("film-type"), CoreInterface::FilmTypeOption },
-    { QStringLiteral(SANE_NAME_NEGATIVE), CoreInterface::NegativeOption },
-    { InvertColorsOptionName, CoreInterface::InvertColorOption },
-    { PageSizeOptionName, CoreInterface::PageSizeOption },
-    { QStringLiteral(SANE_NAME_THRESHOLD), CoreInterface::ThresholdOption },
-    { QStringLiteral(SANE_NAME_SCAN_X_RESOLUTION), CoreInterface::XResolutionOption },
-    { QStringLiteral(SANE_NAME_SCAN_Y_RESOLUTION), CoreInterface::YResolutionOption },
-    { QStringLiteral(SANE_NAME_PREVIEW), CoreInterface::PreviewOption },
-    { QStringLiteral("wait-for-button"), CoreInterface::WaitForButtonOption },
-    { QStringLiteral(SANE_NAME_BRIGHTNESS), CoreInterface::BrightnessOption },
-    { QStringLiteral(SANE_NAME_CONTRAST), CoreInterface::ContrastOption },
-    { QStringLiteral(SANE_NAME_GAMMA_VECTOR), CoreInterface::GammaOption },
-    { QStringLiteral(SANE_NAME_GAMMA_VECTOR_R), CoreInterface::GammaRedOption },
-    { QStringLiteral(SANE_NAME_GAMMA_VECTOR_G), CoreInterface::GammaGreenOption },
-    { QStringLiteral(SANE_NAME_GAMMA_VECTOR_B), CoreInterface::GammaBlueOption },
-    { QStringLiteral(SANE_NAME_BLACK_LEVEL), CoreInterface::BlackLevelOption },
-    { QStringLiteral(SANE_NAME_WHITE_LEVEL), CoreInterface::WhiteLevelOption },
-    { BatchModeOptionName, CoreInterface::BatchModeOption },
-    { BatchDelayOptionName, CoreInterface::BatchDelayOption }, };
-
 CoreInterfacePrivate::CoreInterfacePrivate(CoreInterface *parent):
     q(parent)
 {
@@ -78,6 +49,35 @@ CoreInterfacePrivate::CoreInterfacePrivate(CoreInterface *parent):
 
 CoreInterface::OpenStatus CoreInterfacePrivate::loadDeviceOptions()
 {
+    static const QHash<QString, CoreInterface::OptionName> stringEnumTranslation = {
+        { QStringLiteral(SANE_NAME_SCAN_SOURCE), CoreInterface::SourceOption },
+        { QStringLiteral(SANE_NAME_SCAN_MODE), CoreInterface::ScanModeOption },
+        { QStringLiteral(SANE_NAME_BIT_DEPTH), CoreInterface::BitDepthOption },
+        { QStringLiteral(SANE_NAME_SCAN_RESOLUTION), CoreInterface::ResolutionOption },
+        { QStringLiteral(SANE_NAME_SCAN_TL_X), CoreInterface::TopLeftXOption },
+        { QStringLiteral(SANE_NAME_SCAN_TL_Y), CoreInterface::TopLeftYOption },
+        { QStringLiteral(SANE_NAME_SCAN_BR_X), CoreInterface::BottomRightXOption },
+        { QStringLiteral(SANE_NAME_SCAN_BR_Y), CoreInterface::BottomRightYOption },
+        { QStringLiteral("film-type"), CoreInterface::FilmTypeOption },
+        { QStringLiteral(SANE_NAME_NEGATIVE), CoreInterface::NegativeOption },
+        { InvertColorsOptionName, CoreInterface::InvertColorOption },
+        { PageSizeOptionName, CoreInterface::PageSizeOption },
+        { QStringLiteral(SANE_NAME_THRESHOLD), CoreInterface::ThresholdOption },
+        { QStringLiteral(SANE_NAME_SCAN_X_RESOLUTION), CoreInterface::XResolutionOption },
+        { QStringLiteral(SANE_NAME_SCAN_Y_RESOLUTION), CoreInterface::YResolutionOption },
+        { QStringLiteral(SANE_NAME_PREVIEW), CoreInterface::PreviewOption },
+        { QStringLiteral("wait-for-button"), CoreInterface::WaitForButtonOption },
+        { QStringLiteral(SANE_NAME_BRIGHTNESS), CoreInterface::BrightnessOption },
+        { QStringLiteral(SANE_NAME_CONTRAST), CoreInterface::ContrastOption },
+        { QStringLiteral(SANE_NAME_GAMMA_VECTOR), CoreInterface::GammaOption },
+        { QStringLiteral(SANE_NAME_GAMMA_VECTOR_R), CoreInterface::GammaRedOption },
+        { QStringLiteral(SANE_NAME_GAMMA_VECTOR_G), CoreInterface::GammaGreenOption },
+        { QStringLiteral(SANE_NAME_GAMMA_VECTOR_B), CoreInterface::GammaBlueOption },
+        { QStringLiteral(SANE_NAME_BLACK_LEVEL), CoreInterface::BlackLevelOption },
+        { QStringLiteral(SANE_NAME_WHITE_LEVEL), CoreInterface::WhiteLevelOption },
+        { BatchModeOptionName, CoreInterface::BatchModeOption },
+        { BatchDelayOptionName, CoreInterface::BatchDelayOption }, };
+
     const SANE_Option_Descriptor  *optDesc;
     SANE_Status                    status;
     SANE_Word                      numSaneOptions;
