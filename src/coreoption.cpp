@@ -13,7 +13,7 @@
 namespace KSane
 {
 
-CoreOption::CoreOption(QObject *parent) : QObject(parent), d(std::unique_ptr<OptionPrivate>(new OptionPrivate()))
+CoreOption::CoreOption(QObject *parent) : QObject(parent), d(std::make_unique<OptionPrivate>())
 {
 }
 

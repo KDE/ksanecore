@@ -32,7 +32,7 @@ static int s_objectCount = 0;
 Q_GLOBAL_STATIC(QMutex, s_objectMutex)
 
 CoreInterface::CoreInterface(QObject *parent)
-    : QObject(parent), d(std::unique_ptr<CoreInterfacePrivate>(new CoreInterfacePrivate(this)))
+    : QObject(parent), d(std::make_unique<CoreInterfacePrivate>(this))
 {
     SANE_Int    version;
     SANE_Status status;
