@@ -228,7 +228,7 @@ bool BaseOption::setValue(const QVariant &)
 {
     return false;
 }
- 
+
 bool BaseOption::storeCurrentData()
 {
     SANE_Status status;

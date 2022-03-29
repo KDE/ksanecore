@@ -25,9 +25,9 @@ bool BoolOption::setValue(const QVariant &value)
     if (state() == CoreOption::StateHidden) {
         return false;
     }
-    
+
     bool toggled = value.toBool();
-    
+
     if (m_checked != toggled) {
         unsigned char data[4];
 

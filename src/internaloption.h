@@ -22,7 +22,7 @@ public:
     InternalOption(BaseOption *option, QObject *parent = nullptr);
 
 };
-    
+
 } // namespace KSane
 
 #endif // KSANE_INTERNAL_OPTION_H

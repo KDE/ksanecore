@@ -27,7 +27,7 @@ bool GammaOption::setValue(const QVariant &value)
     if (state() == CoreOption::StateHidden) {
         return false;
     }
-    
+
     if (static_cast<QMetaType::Type>(value.type()) == QMetaType::QString) {
         const QString stringValue = value.toString();
         QStringList gammaValues;
@@ -77,7 +77,7 @@ bool GammaOption::setValue(const QVariant &value)
 void GammaOption::readOption()
 {
     BaseOption::readOption();
-    
+
     if (m_optDesc) {
         int size = m_optDesc->size / sizeof(SANE_Word);
         m_gammaTable.resize(size);
@@ -126,7 +126,7 @@ QString GammaOption::valueAsString() const
 }
 
 void GammaOption::calculateGTwriteData()
-{   
+{
     double maxValue = m_optDesc->constraint.range->max;
     double gamma    = 100.0 / m_gamma;
     double contrast = (200.0 / (100.0 - m_contrast)) - 1;

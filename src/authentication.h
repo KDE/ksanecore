@@ -19,7 +19,7 @@ extern "C"
 
 namespace KSane
 {
-    
+
 /**
  * Sane authentication helpers.
  */

@@ -21,7 +21,7 @@ public:
 
     void readValue() override;
     void readOption() override;
-    
+
     QVariant maximumValue() const override;
     QVariant value() const override;
     int valueSize() const override;
@@ -32,7 +32,7 @@ public Q_SLOTS:
 
 private:
     void calculateGTwriteData();
-    
+
     int             m_brightness;
     int             m_contrast;
     int             m_gamma;

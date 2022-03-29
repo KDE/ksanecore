@@ -57,7 +57,7 @@ QString CoreOption::description() const
 }
 
 CoreOption::OptionType CoreOption::type() const
-{  
+{
     if (d->option != nullptr) {
         return d->option->type();
     } else {
@@ -66,7 +66,7 @@ CoreOption::OptionType CoreOption::type() const
 }
 
 QVariant CoreOption::minimumValue() const
-{  
+{
     if (d->option != nullptr) {
         return d->option->minimumValue();
     } else {
@@ -93,7 +93,7 @@ QVariant CoreOption::stepValue() const
 }
 
 QVariantList CoreOption::valueList() const
-{ 
+{
     if (d->option != nullptr) {
         return d->option->valueList();
     } else {
@@ -120,7 +120,7 @@ QVariant CoreOption::value() const
 }
 
 CoreOption::OptionUnit CoreOption::valueUnit() const
-{   
+{
     if (d->option != nullptr) {
         return d->option->valueUnit();
     } else {
@@ -138,14 +138,14 @@ int CoreOption::valueSize() const
 }
 
 bool CoreOption::setValue(const QVariant &value)
-{    
+{
     if (d->option != nullptr) {
         return d->option->setValue(value);
     } else {
         return false;
     }
 }
- 
+
 bool CoreOption::storeCurrentData()
 {
     if (d->option != nullptr) {

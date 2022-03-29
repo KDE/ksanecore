@@ -62,7 +62,7 @@ void StringOption::readValue()
 QVariant StringOption::value() const
 {
     return QVariant(m_string);
-}  
+}
 
 int StringOption::valueSize() const
 {

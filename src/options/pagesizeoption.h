@@ -14,8 +14,8 @@
 namespace KSane
 {
 
-static const QString PageSizeOptionName = QStringLiteral("KSane::PageSize");    
-    
+static const QString PageSizeOptionName = QStringLiteral("KSane::PageSize");
+
 class PageSizeOption : public BaseOption
 {
     Q_OBJECT
@@ -27,7 +27,7 @@ public:
 
     QVariant value() const override;
     QString valueAsString() const override;
-    
+
     CoreOption::OptionState state() const override;
     QString name() const override;
     QString title() const override;
@@ -42,10 +42,10 @@ private Q_SLOTS:
     void optionTopLeftYUpdated();
     void optionBottomRightXUpdated();
     void optionBottomRightYUpdated();
-        
-private:  
+
+private:
     double ensureMilliMeter(BaseOption *option, double value);
-    
+
     BaseOption *m_optionTopLeftX;
     BaseOption *m_optionTopLeftY;
     BaseOption *m_optionBottomRightX;
@@ -55,7 +55,7 @@ private:
     CoreOption::OptionState m_state = CoreOption::StateDisabled;
     QVariantList m_availableSizesListNames;
     QList<QSizeF> m_availableSizesList;
-};  
+};
 
 }  // namespace KSane
 

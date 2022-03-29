@@ -26,7 +26,7 @@
 /** This namespace collects all methods and classes in LibKSane. */
 namespace KSane
 {
-    
+
 class CoreInterfacePrivate : public QObject
 {
     Q_OBJECT
@@ -36,7 +36,7 @@ public:
     CoreInterface::OpenStatus loadDeviceOptions();
     void clearDeviceOptions();
     void setDefaultValues();
-    
+
     void scanIsFinished(CoreInterface::ScanStatus status, const QString &message);
 
 public Q_SLOTS:
@@ -46,7 +46,7 @@ public Q_SLOTS:
     void scheduleValuesReload();
     void reloadOptions();
     void reloadValues();
-    
+
 private Q_SLOTS:
     void determineMultiPageScanning(const QVariant &value);
     void setWaitForExternalButton(const QVariant &value);
@@ -69,22 +69,22 @@ public:
     QTimer m_readValuesTimer;
     QTimer m_optionPollTimer;
     bool m_optionPollingNaughtylisted = false;
-    
+
     QString m_saneUserName;
     QString m_sanePassword;
-    
+
     ScanThread            *m_scanThread = nullptr;
     FindSaneDevicesThread *m_findDevThread;
     Authentication        *m_auth;
     CoreInterface             *q;
-    
+
     // state variables
     // determines whether scanner will send multiple images
     bool m_executeMultiPageScanning = false;
     // scanning has been cancelled externally
     bool m_cancelMultiPageScan = false;
     // next scanning will start with a hardware button press
-    bool m_waitForExternalButton = false;    
+    bool m_waitForExternalButton = false;
     // batch mode options
     BaseOption *m_batchMode;
     BaseOption *m_batchModeDelay;

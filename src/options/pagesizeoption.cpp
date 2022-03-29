@@ -22,9 +22,9 @@ PageSizeOption::PageSizeOption(BaseOption *optionTopLeftX, BaseOption *optionTop
                         BaseOption *optionBottomRightX, BaseOption *optionBottomRightY,
                         BaseOption *optionResolution) : BaseOption()
 {
-    if (optionTopLeftX == nullptr || optionTopLeftY == nullptr || 
+    if (optionTopLeftX == nullptr || optionTopLeftY == nullptr ||
         optionBottomRightX == nullptr || optionBottomRightY == nullptr) {
-        
+
         m_optionType = CoreOption::TypeDetectFail;
         return;
     }
@@ -39,7 +39,7 @@ PageSizeOption::PageSizeOption(BaseOption *optionTopLeftX, BaseOption *optionTop
     m_optionBottomRightX = optionBottomRightX;
     m_optionBottomRightY = optionBottomRightY;
     m_optionResolution = optionResolution;
-    
+
     const QList<QPageSize::PageSizeId> possibleSizesList = {
         QPageSize::A3,
         QPageSize::A4,
@@ -63,13 +63,13 @@ PageSizeOption::PageSizeOption(BaseOption *optionTopLeftX, BaseOption *optionTop
         QPageSize::JisB5,
         QPageSize::JisB6,
     };
-    
+
     m_availableSizesList << QPageSize::size(QPageSize::Custom, QPageSize::Millimeter);
     m_availableSizesListNames << QPageSize::name(QPageSize::Custom);
-    
-    double maxScannerWidth = ensureMilliMeter(m_optionBottomRightX, m_optionBottomRightX->maximumValue().toDouble());  
+
+    double maxScannerWidth = ensureMilliMeter(m_optionBottomRightX, m_optionBottomRightX->maximumValue().toDouble());
     double maxScannerHeight = ensureMilliMeter(m_optionBottomRightY, m_optionBottomRightY->maximumValue().toDouble());
-    
+
     // Add portrait page sizes
     for (const auto sizeCode : possibleSizesList) {
         QSizeF size = QPageSize::size(sizeCode, QPageSize::Millimeter);
@@ -99,11 +99,11 @@ PageSizeOption::PageSizeOption(BaseOption *optionTopLeftX, BaseOption *optionTop
 
     // Set custom as current
     m_currentIndex = 0;
-    if (m_availableSizesList.count() > 1) { 
+    if (m_availableSizesList.count() > 1) {
         m_state = CoreOption::StateActive;
     } else {
         m_state = CoreOption::StateHidden;
-    }    
+    }
     m_optionType = CoreOption::TypeValueList;
 }
 
@@ -118,7 +118,7 @@ bool PageSizeOption::setValue(const QVariant &value)
             QString sizeEntry = m_availableSizesListNames.at(i).toString();
             if (sizeEntry == newValue) {
                 m_currentIndex = i;
-                
+
                 if (i != 0) {
                     const auto size = m_availableSizesList.at(i);
                     m_optionTopLeftX->setValue(0);
@@ -130,7 +130,7 @@ bool PageSizeOption::setValue(const QVariant &value)
                 return true;
             }
         }
-    } 
+    }
     return false;
 }
 
@@ -144,12 +144,12 @@ QVariant PageSizeOption::value() const
 }
 
 QString PageSizeOption::valueAsString() const
-{   
+{
     if (m_currentIndex >= 0 && m_currentIndex < m_availableSizesListNames.size()) {
         return m_availableSizesListNames.at(m_currentIndex).toString();
     } else {
         return QString();
-    }    
+    }
 }
 
 QVariantList PageSizeOption::valueList() const
@@ -179,7 +179,7 @@ QString PageSizeOption::description() const
 
 void PageSizeOption::optionTopLeftXUpdated()
 {
-    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size() 
+    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size()
         && m_optionTopLeftY->value().toDouble() != 0 ) {
         m_currentIndex = 0;
         Q_EMIT valueChanged(QPageSize::name(QPageSize::Custom));
@@ -188,7 +188,7 @@ void PageSizeOption::optionTopLeftXUpdated()
 
 void PageSizeOption::optionTopLeftYUpdated()
 {
-    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size() 
+    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size()
         && m_optionTopLeftY->value().toDouble() != 0 ) {
         m_currentIndex = 0;
         Q_EMIT valueChanged(QPageSize::name(QPageSize::Custom));
@@ -196,8 +196,8 @@ void PageSizeOption::optionTopLeftYUpdated()
 }
 
 void PageSizeOption::optionBottomRightXUpdated()
-{  
-    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size() 
+{
+    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size()
         && ensureMilliMeter(m_optionBottomRightX, m_optionBottomRightX->value().toDouble())!= m_availableSizesList.at(m_currentIndex).width() ) {
         m_currentIndex = 0;
         Q_EMIT valueChanged(QPageSize::name(QPageSize::Custom));
@@ -205,15 +205,15 @@ void PageSizeOption::optionBottomRightXUpdated()
 }
 
 void PageSizeOption::optionBottomRightYUpdated()
-{   
-    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size() 
+{
+    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size()
         && ensureMilliMeter(m_optionBottomRightY, m_optionBottomRightY->value().toDouble()) != m_availableSizesList.at(m_currentIndex).height() ) {
         m_currentIndex = 0;
         Q_EMIT valueChanged(QPageSize::name(QPageSize::Custom));
     }
 }
 
-double PageSizeOption::ensureMilliMeter(BaseOption *option, double value) 
+double PageSizeOption::ensureMilliMeter(BaseOption *option, double value)
 {
     // convert if necessary with current DPI if available
     if (option->valueUnit() == CoreOption::UnitPixel &&  m_optionResolution != nullptr) {

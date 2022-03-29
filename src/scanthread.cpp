@@ -229,7 +229,7 @@ void ScanThread::copyToScanData(int readBytes)
             }
         }
     }
-    
+
     QMutexLocker locker(&m_imageMutex);
     if (m_imageBuilder.copyToImage(m_readData, readBytes)) {
         m_frameRead += readBytes;

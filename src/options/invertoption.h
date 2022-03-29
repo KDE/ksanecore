@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
- * 
+ *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
@@ -12,8 +12,8 @@
 namespace KSane
 {
 
-static const QString InvertColorsOptionName = QStringLiteral("KSane::InvertColors");    
-    
+static const QString InvertColorsOptionName = QStringLiteral("KSane::InvertColors");
+
 class InvertOption : public BaseOption
 {
     Q_OBJECT
@@ -23,7 +23,7 @@ public:
 
     QVariant value() const override;
     QString valueAsString() const override;
-    
+
     CoreOption::OptionState state() const override;
     QString name() const override;
     QString title() const override;
@@ -34,7 +34,7 @@ public Q_SLOTS:
 
 private:
     bool m_checked = false;
-};  
+};
 
 } // namespace KSane
 
