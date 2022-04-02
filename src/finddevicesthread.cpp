@@ -20,10 +20,25 @@ extern "C"
 
 #include <ksanecore_debug.h>
 
+#include "deviceinformation_p.h"
+
 namespace KSane
 {
 static FindSaneDevicesThread *s_instancesane = nullptr;
 Q_GLOBAL_STATIC(QMutex, s_mutexsane)
+
+class InternalDeviceInformation : public DeviceInformation
+{
+public:
+    InternalDeviceInformation(const QString &name, const QString &vendor,
+                              const QString &model, const QString &type)
+    {
+        d->name = name;
+        d->model = model;
+        d->vendor = vendor;
+        d->type = type;
+    }
+};
 
 FindSaneDevicesThread *FindSaneDevicesThread::getInstance()
 {
@@ -51,23 +66,23 @@ FindSaneDevicesThread::~FindSaneDevicesThread()
 #else
     QMutexLocker locker(s_mutexsane);
 #endif
+    qDeleteAll(m_deviceList);
     wait();
 }
 
 void FindSaneDevicesThread::run()
 {
     SANE_Device const **devList;
-    //SANE_Int            version;
     SANE_Status         status;
 
     // This is unfortunately not very reliable as many back-ends do not refresh
     // the device list after the sane_init() call...
     status = sane_get_devices(&devList, SANE_FALSE);
 
+    qDeleteAll(m_deviceList);
     m_deviceList.clear();
     if (status == SANE_STATUS_GOOD) {
         int i = 0;
-        CoreInterface::DeviceInfo deviceInfo;
 
         while (devList[i] != nullptr) {
             /* Do not list cameras as scanner devices when requested.
@@ -75,13 +90,12 @@ void FindSaneDevicesThread::run()
             const QString type = QString::fromUtf8(devList[i]->type);
             if (m_deviceType == CoreInterface::AllDevices || (m_deviceType == CoreInterface::NoCameraAndVirtualDevices &&
                 type != QLatin1String("still camera") && type != QLatin1String("video camera") && type != QLatin1String("virtual device"))) {
-                deviceInfo.name = QString::fromUtf8(devList[i]->name);
-                deviceInfo.vendor = QString::fromUtf8(devList[i]->vendor);
-                deviceInfo.model = QString::fromUtf8(devList[i]->model);
-                deviceInfo.type = type;
-                m_deviceList << deviceInfo;
-                qCDebug(KSANECORE_LOG) << "Adding device " << deviceInfo.vendor <<
-                deviceInfo.name << deviceInfo.model << deviceInfo.type << " to device list";
+                InternalDeviceInformation *device = new InternalDeviceInformation(QString::fromUtf8(devList[i]->name),
+                                          QString::fromUtf8(devList[i]->vendor),
+                                          QString::fromUtf8(devList[i]->model), type);
+                m_deviceList.append(std::move(device));
+                qCDebug(KSANECORE_LOG) << "Adding device " << device->vendor() <<
+                device->name() << device->model() << device->type() << " to device list";
             } else {
                 qCDebug(KSANECORE_LOG) << "Ignoring device type" << type;
             }
@@ -90,7 +104,7 @@ void FindSaneDevicesThread::run()
     }
 }
 
-const QList<CoreInterface::DeviceInfo> FindSaneDevicesThread::devicesList() const
+QList<DeviceInformation *> FindSaneDevicesThread::devicesList() const
 {
     return m_deviceList;
 }

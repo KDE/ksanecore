@@ -16,6 +16,7 @@ target_sources(KSaneCore PRIVATE
     authentication.cpp
     coreoption.cpp
     internaloption.cpp
+    deviceinformation.cpp
     options/baseoption.cpp
     options/actionoption.cpp
     options/booloption.cpp
@@ -65,6 +66,7 @@ ecm_generate_headers(KSaneCore_HEADERS
     HEADER_NAMES
         CoreInterface
         CoreOption
+        DeviceInformation
     REQUIRED_HEADERS KSaneCore_HEADERS
     RELATIVE "../src/"
 )

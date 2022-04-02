@@ -18,6 +18,8 @@
 #include <QList>
 #include <QImage>
 
+#include "deviceinformation.h"
+
 namespace KSane
 {
 
@@ -95,16 +97,6 @@ public:
     enum DeviceType {
         AllDevices,
         NoCameraAndVirtualDevices
-    };
-
-    /*
-     * Struct describing scanner devices.
-     */
-    struct DeviceInfo {
-        QString name;     /* unique device name */
-        QString vendor;   /* device vendor string */
-        QString model;    /* device model name */
-        QString type;     /* device type (e.g., "flatbed scanner") */
     };
 
     /**
@@ -283,12 +275,12 @@ Q_SIGNALS:
     /**
      * This signal is emitted every time the device list is updated or
      * after reloadDevicesList() is called.
-     * @param deviceList is a QList of CoreInterface::DeviceInfo that contain the
+     * @param deviceList is a QList of KSane::DeviceInformation that contain the
      * device name, model, vendor and type of the attached scanners.
      * @note The list is only a snapshot of the current available devices. Devices
      * might be added or removed/opened after the signal is emitted.
      */
-    void availableDevices(const QList<CoreInterface::DeviceInfo> &deviceList);
+    void availableDevices(const QList<DeviceInformation *> &deviceList);
 
     /**
      * This signal is emitted when a hardware button is pressed.

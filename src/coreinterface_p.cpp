@@ -270,11 +270,11 @@ void CoreInterfacePrivate::clearDeviceOptions()
 void CoreInterfacePrivate::devicesListUpdated()
 {
     if (m_vendor.isEmpty()) {
-        const QList<CoreInterface::DeviceInfo> deviceList = m_findDevThread->devicesList();
+        const QList<DeviceInformation *> deviceList = m_findDevThread->devicesList();
         for (const auto &device : deviceList) {
-            if (device.name == m_devName) {
-                m_vendor = device.vendor;
-                m_model = device.model;
+            if (device->name() == m_devName) {
+                m_vendor = device->vendor();
+                m_model = device->model();
                 break;
             }
         }

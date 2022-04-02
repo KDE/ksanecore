@@ -9,6 +9,7 @@
 #define KSANE_FIND_DEVICES_THREAD_H
 
 #include "coreinterface.h"
+#include "deviceinformation.h"
 
 #include <QThread>
 #include <QList>
@@ -25,13 +26,13 @@ public:
     ~FindSaneDevicesThread() override;
     void run() override;
 
-    const QList<CoreInterface::DeviceInfo> devicesList() const;
+    QList<DeviceInformation *> devicesList() const;
     void setDeviceType(const CoreInterface::DeviceType type);
 
 private:
     FindSaneDevicesThread();
 
-    QList<CoreInterface::DeviceInfo> m_deviceList;
+    QList<DeviceInformation *> m_deviceList;
     CoreInterface::DeviceType m_deviceType = CoreInterface::AllDevices;
 };
 
