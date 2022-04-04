@@ -30,6 +30,8 @@ include(CMakePackageConfigHelpers)
 include(CheckFunctionExists)
 include(GenerateExportHeader)
 include(ECMQtDeclareLoggingCategory)
+include(KDEGitCommitHooks)
+include(KDEClangFormat)
 
 ecm_setup_version(
     ${RELEASE_SERVICE_VERSION}
@@ -85,3 +87,5 @@ install(EXPORT KSaneCoreTargets
 )
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
