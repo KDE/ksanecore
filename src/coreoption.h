@@ -32,16 +32,7 @@ class KSANECORE_EXPORT CoreOption : public QObject
 public:
 
     /** This enumeration describes the type of the option. */
-    enum OptionType{
-        TypeDetectFail,
-        TypeBool,
-        TypeInteger,
-        TypeDouble,
-        TypeValueList,
-        TypeString,
-        TypeGamma,
-        TypeAction
-    };
+    enum OptionType { TypeDetectFail, TypeBool, TypeInteger, TypeDouble, TypeValueList, TypeString, TypeGamma, TypeAction };
 
     Q_ENUM(OptionType);
 
@@ -87,7 +78,7 @@ public:
     QString description() const;
 
     /** This function the type of the option as determined by KSANECore.
-     * Each type provides a different implementation for different 
+     * Each type provides a different implementation for different
      * variable types, e.g. integer, float or string.
      * @return the type of option the of value OptionType */
     OptionType type() const;

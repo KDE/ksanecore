@@ -44,8 +44,7 @@ CoreInterface::CoreInterface(QObject *parent)
         // only call sane init for the first instance
         status = sane_init(&version, &Authentication::authorization);
         if (status != SANE_STATUS_GOOD) {
-            qCDebug(KSANECORE_LOG) << "libksane: sane_init() failed("
-                     << sane_strstatus(status) << ")";
+            qCDebug(KSANECORE_LOG) << "libksane: sane_init() failed(" << sane_strstatus(status) << ")";
         }
     }
     s_objectMutex->unlock();

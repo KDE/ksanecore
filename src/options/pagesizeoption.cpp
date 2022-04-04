@@ -18,13 +18,14 @@ static constexpr int PageSizeWiggleRoom = 2; // in mm
 namespace KSane
 {
 
-PageSizeOption::PageSizeOption(BaseOption *optionTopLeftX, BaseOption *optionTopLeftY,
-                        BaseOption *optionBottomRightX, BaseOption *optionBottomRightY,
-                        BaseOption *optionResolution) : BaseOption()
+PageSizeOption::PageSizeOption(BaseOption *optionTopLeftX,
+                               BaseOption *optionTopLeftY,
+                               BaseOption *optionBottomRightX,
+                               BaseOption *optionBottomRightY,
+                               BaseOption *optionResolution)
+    : BaseOption()
 {
-    if (optionTopLeftX == nullptr || optionTopLeftY == nullptr ||
-        optionBottomRightX == nullptr || optionBottomRightY == nullptr) {
-
+    if (optionTopLeftX == nullptr || optionTopLeftY == nullptr || optionBottomRightX == nullptr || optionBottomRightY == nullptr) {
         m_optionType = CoreOption::TypeDetectFail;
         return;
     }
@@ -179,8 +180,7 @@ QString PageSizeOption::description() const
 
 void PageSizeOption::optionTopLeftXUpdated()
 {
-    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size()
-        && m_optionTopLeftY->value().toDouble() != 0 ) {
+    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size() && m_optionTopLeftY->value().toDouble() != 0) {
         m_currentIndex = 0;
         Q_EMIT valueChanged(QPageSize::name(QPageSize::Custom));
     }
@@ -188,8 +188,7 @@ void PageSizeOption::optionTopLeftXUpdated()
 
 void PageSizeOption::optionTopLeftYUpdated()
 {
-    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size()
-        && m_optionTopLeftY->value().toDouble() != 0 ) {
+    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size() && m_optionTopLeftY->value().toDouble() != 0) {
         m_currentIndex = 0;
         Q_EMIT valueChanged(QPageSize::name(QPageSize::Custom));
     }
@@ -198,7 +197,7 @@ void PageSizeOption::optionTopLeftYUpdated()
 void PageSizeOption::optionBottomRightXUpdated()
 {
     if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size()
-        && ensureMilliMeter(m_optionBottomRightX, m_optionBottomRightX->value().toDouble())!= m_availableSizesList.at(m_currentIndex).width() ) {
+        && ensureMilliMeter(m_optionBottomRightX, m_optionBottomRightX->value().toDouble()) != m_availableSizesList.at(m_currentIndex).width()) {
         m_currentIndex = 0;
         Q_EMIT valueChanged(QPageSize::name(QPageSize::Custom));
     }
@@ -207,7 +206,7 @@ void PageSizeOption::optionBottomRightXUpdated()
 void PageSizeOption::optionBottomRightYUpdated()
 {
     if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size()
-        && ensureMilliMeter(m_optionBottomRightY, m_optionBottomRightY->value().toDouble()) != m_availableSizesList.at(m_currentIndex).height() ) {
+        && ensureMilliMeter(m_optionBottomRightY, m_optionBottomRightY->value().toDouble()) != m_availableSizesList.at(m_currentIndex).height()) {
         m_currentIndex = 0;
         Q_EMIT valueChanged(QPageSize::name(QPageSize::Custom));
     }

@@ -88,14 +88,15 @@ void FindSaneDevicesThread::run()
             /* Do not list cameras as scanner devices when requested.
              * Strings taken from SANE API documentation. */
             const QString type = QString::fromUtf8(devList[i]->type);
-            if (m_deviceType == CoreInterface::AllDevices || (m_deviceType == CoreInterface::NoCameraAndVirtualDevices &&
-                type != QLatin1String("still camera") && type != QLatin1String("video camera") && type != QLatin1String("virtual device"))) {
+            if (m_deviceType == CoreInterface::AllDevices
+                || (m_deviceType == CoreInterface::NoCameraAndVirtualDevices && type != QLatin1String("still camera") && type != QLatin1String("video camera")
+                    && type != QLatin1String("virtual device"))) {
                 InternalDeviceInformation *device = new InternalDeviceInformation(QString::fromUtf8(devList[i]->name),
-                                          QString::fromUtf8(devList[i]->vendor),
-                                          QString::fromUtf8(devList[i]->model), type);
+                                                                                  QString::fromUtf8(devList[i]->vendor),
+                                                                                  QString::fromUtf8(devList[i]->model),
+                                                                                  type);
                 m_deviceList.append(std::move(device));
-                qCDebug(KSANECORE_LOG) << "Adding device " << device->vendor() <<
-                device->name() << device->model() << device->type() << " to device list";
+                qCDebug(KSANECORE_LOG) << "Adding device " << device->vendor() << device->name() << device->model() << device->type() << " to device list";
             } else {
                 qCDebug(KSANECORE_LOG) << "Ignoring device type" << type;
             }

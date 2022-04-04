@@ -17,8 +17,7 @@ CoreOption::CoreOption(QObject *parent) : QObject(parent), d(std::make_unique<Op
 {
 }
 
-CoreOption::~CoreOption()
-= default;
+CoreOption::~CoreOption() = default;
 
 CoreOption::OptionState CoreOption::state() const
 {

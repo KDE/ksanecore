@@ -31,15 +31,15 @@ void ImageBuilder::start(const SANE_Parameters &params)
     QImage::Format imageFormat = QImage::Format_RGB32;
     if (m_params.format == SANE_FRAME_GRAY) {
         switch (m_params.depth) {
-            case 1:
-                imageFormat = QImage::Format_Mono;
-                break;
-            case 16:
-                imageFormat = QImage::Format_Grayscale16;
-                break;
-            default:
-                imageFormat = QImage::Format_Grayscale8;
-                break;
+        case 1:
+            imageFormat = QImage::Format_Mono;
+            break;
+        case 16:
+            imageFormat = QImage::Format_Grayscale16;
+            break;
+        default:
+            imageFormat = QImage::Format_Grayscale8;
+            break;
         }
     } else if (m_params.depth > 8) {
         imageFormat = QImage::Format_RGBX64;
@@ -154,7 +154,9 @@ bool ImageBuilder::copyToImage(const SANE_Byte readData[], int read_bytes)
                     }
                     QRgba64 *rgbData = reinterpret_cast<QRgba64*>(m_image->scanLine(m_pixelY));
                     rgbData[m_pixelX] = QRgba64::fromRgba64((m_pixelData[0] + (m_pixelData[1] << 8)),
-                        (m_pixelData[2] + (m_pixelData[3] << 8)), (m_pixelData[4] + (m_pixelData[5] << 8)), 0xFFFF);
+                                                            (m_pixelData[2] + (m_pixelData[3] << 8)),
+                                                            (m_pixelData[4] + (m_pixelData[5] << 8)),
+                                                            0xFFFF);
                     incrementPixelData();
                 }
             }
@@ -164,88 +166,86 @@ bool ImageBuilder::copyToImage(const SANE_Byte readData[], int read_bytes)
         break;
 
     case SANE_FRAME_RED: {
-            uchar *imgBits = m_image->bits();
-            int index = 0;
-            if (m_params.depth == 8) {
-                for (int i = 0; i < read_bytes; i++) {
-                    index = m_frameRead * 4 + 2;
-                    if (index > m_image->sizeInBytes()) {
-                        renewImage();
-                    }
-                    imgBits[index] = readData[i];
-                    m_frameRead++;
+        uchar *imgBits = m_image->bits();
+        int index = 0;
+        if (m_params.depth == 8) {
+            for (int i = 0; i < read_bytes; i++) {
+                index = m_frameRead * 4 + 2;
+                if (index > m_image->sizeInBytes()) {
+                    renewImage();
                 }
-                return true;
-            } else if (m_params.depth == 16) {
-                for (int i = 0; i < read_bytes; i++) {
-                    index = (m_frameRead - m_frameRead % 2) * 4 + m_frameRead % 2;
-                    if (index > m_image->sizeInBytes()) {
-                        renewImage();
-                    }
-                    imgBits[index] = readData[i];
-                    m_frameRead++;
-                }
-                return true;
+                imgBits[index] = readData[i];
+                m_frameRead++;
             }
-            break;
+            return true;
+        } else if (m_params.depth == 16) {
+            for (int i = 0; i < read_bytes; i++) {
+                index = (m_frameRead - m_frameRead % 2) * 4 + m_frameRead % 2;
+                if (index > m_image->sizeInBytes()) {
+                    renewImage();
+                }
+                imgBits[index] = readData[i];
+                m_frameRead++;
+            }
+            return true;
         }
+        break;
+    }
     case SANE_FRAME_GREEN: {
-            uchar *imgBits = m_image->bits();
-            int index = 0;
-            if (m_params.depth == 8) {
-                for (int i = 0; i < read_bytes; i++) {
-                    int index = m_frameRead * 4 + 1;
-                    if (index > m_image->sizeInBytes()) {
-                        renewImage();
-                    }
-                    imgBits[index] = readData[i];
-                    m_frameRead++;
+        uchar *imgBits = m_image->bits();
+        int index = 0;
+        if (m_params.depth == 8) {
+            for (int i = 0; i < read_bytes; i++) {
+                int index = m_frameRead * 4 + 1;
+                if (index > m_image->sizeInBytes()) {
+                    renewImage();
                 }
-                return true;
-            } else if (m_params.depth == 16) {
-                for (int i = 0; i < read_bytes; i++) {
-                    index = (m_frameRead - m_frameRead % 2) * 4 + 2 + m_frameRead % 2;
-                    if (index > m_image->sizeInBytes()) {
-                        renewImage();
-                    }
-                    imgBits[index] = readData[i];
-                    m_frameRead++;
-                }
-                return true;
+                imgBits[index] = readData[i];
+                m_frameRead++;
             }
-            break;
+            return true;
+        } else if (m_params.depth == 16) {
+            for (int i = 0; i < read_bytes; i++) {
+                index = (m_frameRead - m_frameRead % 2) * 4 + 2 + m_frameRead % 2;
+                if (index > m_image->sizeInBytes()) {
+                    renewImage();
+                }
+                imgBits[index] = readData[i];
+                m_frameRead++;
+            }
+            return true;
         }
+        break;
+    }
     case SANE_FRAME_BLUE: {
-            uchar *imgBits = m_image->bits();
-            int index = 0;
-            if (m_params.depth == 8) {
-                for (int i = 0; i < read_bytes; i++) {
-                    int index = m_frameRead * 4;
-                    if (index > m_image->sizeInBytes()) {
-                        renewImage();
-                    }
-                    imgBits[index] = readData[i];
-                    m_frameRead++;
+        uchar *imgBits = m_image->bits();
+        int index = 0;
+        if (m_params.depth == 8) {
+            for (int i = 0; i < read_bytes; i++) {
+                int index = m_frameRead * 4;
+                if (index > m_image->sizeInBytes()) {
+                    renewImage();
                 }
-                return true;
-            } else if (m_params.depth == 16) {
-                for (int i = 0; i < read_bytes; i++) {
-                    index = (m_frameRead - m_frameRead % 2) * 4 + 4 + m_frameRead % 2;
-                    if (index > m_image->sizeInBytes()) {
-                        renewImage();
-                    }
-                    imgBits[index] = readData[i];
-                    m_frameRead++;
-                }
-                return true;
+                imgBits[index] = readData[i];
+                m_frameRead++;
             }
-            break;
+            return true;
+        } else if (m_params.depth == 16) {
+            for (int i = 0; i < read_bytes; i++) {
+                index = (m_frameRead - m_frameRead % 2) * 4 + 4 + m_frameRead % 2;
+                if (index > m_image->sizeInBytes()) {
+                    renewImage();
+                }
+                imgBits[index] = readData[i];
+                m_frameRead++;
+            }
+            return true;
         }
+        break;
+    }
     }
 
-    qCWarning(KSANECORE_LOG) << "Format" << m_params.format
-               << "and depth" << m_params.depth
-               << "is not yet supported by libksane!";
+    qCWarning(KSANECORE_LOG) << "Format" << m_params.format << "and depth" << m_params.depth << "is not yet supported by libksane!";
     return false;
 }
 

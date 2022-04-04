@@ -14,8 +14,7 @@ DeviceInformation::DeviceInformation() : d(std::make_unique<DeviceInformationPri
 {
 }
 
-DeviceInformation::~DeviceInformation()
-= default;
+DeviceInformation::~DeviceInformation() = default;
 
 QString DeviceInformation::name() const
 {

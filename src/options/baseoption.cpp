@@ -198,13 +198,20 @@ CoreOption::OptionUnit BaseOption::valueUnit() const
 {
     if (m_optDesc != nullptr) {
         switch (m_optDesc->unit) {
-        case SANE_UNIT_PIXEL:       return CoreOption::UnitPixel;
-        case SANE_UNIT_BIT:         return CoreOption::UnitBit;
-        case SANE_UNIT_MM:          return CoreOption::UnitMilliMeter;
-        case SANE_UNIT_DPI:         return CoreOption::UnitDPI;
-        case SANE_UNIT_PERCENT:     return CoreOption::UnitPercent;
-        case SANE_UNIT_MICROSECOND: return CoreOption::UnitMicroSecond;
-        default: return CoreOption::UnitNone;
+        case SANE_UNIT_PIXEL:
+            return CoreOption::UnitPixel;
+        case SANE_UNIT_BIT:
+            return CoreOption::UnitBit;
+        case SANE_UNIT_MM:
+            return CoreOption::UnitMilliMeter;
+        case SANE_UNIT_DPI:
+            return CoreOption::UnitDPI;
+        case SANE_UNIT_PERCENT:
+            return CoreOption::UnitPercent;
+        case SANE_UNIT_MICROSECOND:
+            return CoreOption::UnitMicroSecond;
+        default:
+            return CoreOption::UnitNone;
         }
     } else {
         return CoreOption::UnitNone;

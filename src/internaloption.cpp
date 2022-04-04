@@ -16,7 +16,9 @@ InternalOption::InternalOption(BaseOption *option, QObject *parent) : CoreOption
     d->option = option;
     connect(d->option, &BaseOption::optionReloaded, this, &CoreOption::optionReloaded);
     connect(d->option, &BaseOption::valueChanged, this, &CoreOption::valueChanged);
-    connect(d->option, &BaseOption::destroyed, this, [=]() { d->option = nullptr; } );
+    connect(d->option, &BaseOption::destroyed, this, [=]() {
+        d->option = nullptr;
+    });
 }
 
 }  // namespace KSane

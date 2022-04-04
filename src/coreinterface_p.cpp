@@ -50,33 +50,34 @@ CoreInterfacePrivate::CoreInterfacePrivate(CoreInterface *parent):
 CoreInterface::OpenStatus CoreInterfacePrivate::loadDeviceOptions()
 {
     static const QHash<QString, CoreInterface::OptionName> stringEnumTranslation = {
-        { QStringLiteral(SANE_NAME_SCAN_SOURCE), CoreInterface::SourceOption },
-        { QStringLiteral(SANE_NAME_SCAN_MODE), CoreInterface::ScanModeOption },
-        { QStringLiteral(SANE_NAME_BIT_DEPTH), CoreInterface::BitDepthOption },
-        { QStringLiteral(SANE_NAME_SCAN_RESOLUTION), CoreInterface::ResolutionOption },
-        { QStringLiteral(SANE_NAME_SCAN_TL_X), CoreInterface::TopLeftXOption },
-        { QStringLiteral(SANE_NAME_SCAN_TL_Y), CoreInterface::TopLeftYOption },
-        { QStringLiteral(SANE_NAME_SCAN_BR_X), CoreInterface::BottomRightXOption },
-        { QStringLiteral(SANE_NAME_SCAN_BR_Y), CoreInterface::BottomRightYOption },
-        { QStringLiteral("film-type"), CoreInterface::FilmTypeOption },
-        { QStringLiteral(SANE_NAME_NEGATIVE), CoreInterface::NegativeOption },
-        { InvertColorsOptionName, CoreInterface::InvertColorOption },
-        { PageSizeOptionName, CoreInterface::PageSizeOption },
-        { QStringLiteral(SANE_NAME_THRESHOLD), CoreInterface::ThresholdOption },
-        { QStringLiteral(SANE_NAME_SCAN_X_RESOLUTION), CoreInterface::XResolutionOption },
-        { QStringLiteral(SANE_NAME_SCAN_Y_RESOLUTION), CoreInterface::YResolutionOption },
-        { QStringLiteral(SANE_NAME_PREVIEW), CoreInterface::PreviewOption },
-        { QStringLiteral("wait-for-button"), CoreInterface::WaitForButtonOption },
-        { QStringLiteral(SANE_NAME_BRIGHTNESS), CoreInterface::BrightnessOption },
-        { QStringLiteral(SANE_NAME_CONTRAST), CoreInterface::ContrastOption },
-        { QStringLiteral(SANE_NAME_GAMMA_VECTOR), CoreInterface::GammaOption },
-        { QStringLiteral(SANE_NAME_GAMMA_VECTOR_R), CoreInterface::GammaRedOption },
-        { QStringLiteral(SANE_NAME_GAMMA_VECTOR_G), CoreInterface::GammaGreenOption },
-        { QStringLiteral(SANE_NAME_GAMMA_VECTOR_B), CoreInterface::GammaBlueOption },
-        { QStringLiteral(SANE_NAME_BLACK_LEVEL), CoreInterface::BlackLevelOption },
-        { QStringLiteral(SANE_NAME_WHITE_LEVEL), CoreInterface::WhiteLevelOption },
-        { BatchModeOptionName, CoreInterface::BatchModeOption },
-        { BatchDelayOptionName, CoreInterface::BatchDelayOption }, };
+        {QStringLiteral(SANE_NAME_SCAN_SOURCE), CoreInterface::SourceOption},
+        {QStringLiteral(SANE_NAME_SCAN_MODE), CoreInterface::ScanModeOption},
+        {QStringLiteral(SANE_NAME_BIT_DEPTH), CoreInterface::BitDepthOption},
+        {QStringLiteral(SANE_NAME_SCAN_RESOLUTION), CoreInterface::ResolutionOption},
+        {QStringLiteral(SANE_NAME_SCAN_TL_X), CoreInterface::TopLeftXOption},
+        {QStringLiteral(SANE_NAME_SCAN_TL_Y), CoreInterface::TopLeftYOption},
+        {QStringLiteral(SANE_NAME_SCAN_BR_X), CoreInterface::BottomRightXOption},
+        {QStringLiteral(SANE_NAME_SCAN_BR_Y), CoreInterface::BottomRightYOption},
+        {QStringLiteral("film-type"), CoreInterface::FilmTypeOption},
+        {QStringLiteral(SANE_NAME_NEGATIVE), CoreInterface::NegativeOption},
+        {InvertColorsOptionName, CoreInterface::InvertColorOption},
+        {PageSizeOptionName, CoreInterface::PageSizeOption},
+        {QStringLiteral(SANE_NAME_THRESHOLD), CoreInterface::ThresholdOption},
+        {QStringLiteral(SANE_NAME_SCAN_X_RESOLUTION), CoreInterface::XResolutionOption},
+        {QStringLiteral(SANE_NAME_SCAN_Y_RESOLUTION), CoreInterface::YResolutionOption},
+        {QStringLiteral(SANE_NAME_PREVIEW), CoreInterface::PreviewOption},
+        {QStringLiteral("wait-for-button"), CoreInterface::WaitForButtonOption},
+        {QStringLiteral(SANE_NAME_BRIGHTNESS), CoreInterface::BrightnessOption},
+        {QStringLiteral(SANE_NAME_CONTRAST), CoreInterface::ContrastOption},
+        {QStringLiteral(SANE_NAME_GAMMA_VECTOR), CoreInterface::GammaOption},
+        {QStringLiteral(SANE_NAME_GAMMA_VECTOR_R), CoreInterface::GammaRedOption},
+        {QStringLiteral(SANE_NAME_GAMMA_VECTOR_G), CoreInterface::GammaGreenOption},
+        {QStringLiteral(SANE_NAME_GAMMA_VECTOR_B), CoreInterface::GammaBlueOption},
+        {QStringLiteral(SANE_NAME_BLACK_LEVEL), CoreInterface::BlackLevelOption},
+        {QStringLiteral(SANE_NAME_WHITE_LEVEL), CoreInterface::WhiteLevelOption},
+        {BatchModeOptionName, CoreInterface::BatchModeOption},
+        {BatchDelayOptionName, CoreInterface::BatchDelayOption},
+    };
 
     const SANE_Option_Descriptor  *optDesc;
     SANE_Status                    status;
@@ -181,8 +182,9 @@ CoreInterface::OpenStatus CoreInterfacePrivate::loadDeviceOptions()
         if (option->needsPolling()) {
             m_optionsPollList.append(option);
             if (option->type() == CoreOption::TypeBool) {
-                connect(option, &BaseOption::valueChanged, this,
-                    [=]( const QVariant &newValue ) { Q_EMIT q->buttonPressed(option->name(), option->title(), newValue.toBool()); } );
+                connect(option, &BaseOption::valueChanged, this, [=](const QVariant &newValue) {
+                    Q_EMIT q->buttonPressed(option->name(), option->title(), newValue.toBool());
+                });
             }
         }
         const auto it = stringEnumTranslation.find(option->name());
@@ -192,8 +194,7 @@ CoreInterface::OpenStatus CoreInterfacePrivate::loadDeviceOptions()
     }
 
     // add extra option for selecting specific page sizes
-    BaseOption *pageSizeOption = new PageSizeOption(optionTopLeftX, optionTopLeftY,
-                            optionBottomRightX, optionBottomRightY, optionResolution);
+    BaseOption *pageSizeOption = new PageSizeOption(optionTopLeftX, optionTopLeftY, optionBottomRightX, optionBottomRightY, optionResolution);
     m_optionsList.append(pageSizeOption);
     m_externalOptionsList.append(new InternalOption(pageSizeOption));
     m_optionsLocation.insert(CoreInterface::PageSizeOption, m_optionsList.size() - 1);
@@ -402,10 +403,9 @@ void CoreInterfacePrivate::determineMultiPageScanning(const QVariant &value)
 {
     const QString sourceString = value.toString();
 
-    m_executeMultiPageScanning = sourceString.contains(QStringLiteral("Automatic Document Feeder")) ||
-    sourceString.contains(sane_i18n("Automatic Document Feeder")) ||
-    sourceString.contains(QStringLiteral("ADF")) ||
-    sourceString.contains(QStringLiteral("Duplex"));
+    m_executeMultiPageScanning = sourceString.contains(QStringLiteral("Automatic Document Feeder"))
+        || sourceString.contains(sane_i18n("Automatic Document Feeder")) || sourceString.contains(QStringLiteral("ADF"))
+        || sourceString.contains(QStringLiteral("Duplex"));
 }
 
 void CoreInterfacePrivate::setWaitForExternalButton(const QVariant &value)

@@ -178,7 +178,7 @@ public:
      * @param optionEnum the enum specifying the option.
      * @return pointer to the KSaneOption. Returns a nullptr in case the options
      * is not available for the currently opened device.
-     */  
+     */
     CoreOption *getOption(OptionName optionEnum);
 
     /**
