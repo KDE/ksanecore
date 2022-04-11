@@ -83,6 +83,8 @@ protected:
     static SANE_Word toSANE_Word(unsigned char *data);
     static void fromSANE_Word(unsigned char *data, SANE_Word from);
     bool writeData(void *data);
+    void beginOptionReload();
+    void endOptionReload();
 
     SANE_Handle                   m_handle = nullptr;
     int                           m_index = -1;

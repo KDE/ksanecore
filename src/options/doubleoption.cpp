@@ -28,7 +28,7 @@ DoubleOption::DoubleOption(const SANE_Handle handle, const int index)
 
 void DoubleOption::readOption()
 {
-    BaseOption::readOption();
+    beginOptionReload();
 
     double step = MIN_FIXED_STEP;
     if (m_optDesc->constraint_type == SANE_CONSTRAINT_RANGE) {
@@ -38,6 +38,8 @@ void DoubleOption::readOption()
         }
     }
     m_minChange = step;
+
+    endOptionReload();
 }
 
 void DoubleOption::readValue()

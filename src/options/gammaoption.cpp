@@ -75,7 +75,7 @@ bool GammaOption::setValue(const QVariant &value)
 
 void GammaOption::readOption()
 {
-    BaseOption::readOption();
+    beginOptionReload();
 
     if (m_optDesc) {
         int size = m_optDesc->size / sizeof(SANE_Word);
@@ -84,6 +84,8 @@ void GammaOption::readOption()
             m_gammaTable[i] = i;
         }
     }
+
+    endOptionReload();
 }
 
 void GammaOption::readValue()

@@ -31,10 +31,20 @@ BaseOption::~BaseOption()
 
 void BaseOption::readOption()
 {
+    beginOptionReload();
+    endOptionReload();
+}
+
+void BaseOption::beginOptionReload()
+{
     if (m_handle != nullptr) {
         m_optDesc = sane_get_option_descriptor(m_handle, m_index);
-        Q_EMIT optionReloaded();
     }
+}
+
+void BaseOption::endOptionReload()
+{
+    Q_EMIT optionReloaded();
 }
 
 CoreOption::OptionState BaseOption::state() const

@@ -18,7 +18,6 @@ ListOption::ListOption(const SANE_Handle handle, const int index)
     : BaseOption(handle, index)
 {
     m_optionType = CoreOption::TypeValueList;
-    connect(this, &BaseOption::optionReloaded, this, &ListOption::countOptions);
 }
 
 void ListOption::readValue()
@@ -57,11 +56,18 @@ void ListOption::readValue()
     }
 }
 
+void ListOption::readOption()
+{
+    beginOptionReload();
+    countEntries();
+    endOptionReload();
+}
+
 QVariantList ListOption::valueList() const
 {
     int i;
     QVariantList list;
-    list.reserve(m_optionsCount);
+    list.reserve(m_entriesCount);
 
     switch (m_optDesc->type) {
     case SANE_TYPE_INT:
@@ -92,7 +98,7 @@ QVariantList ListOption::internalValueList() const
 {
     int i;
     QVariantList list;
-    list.reserve(m_optionsCount);
+    list.reserve(m_entriesCount);
 
     switch (m_optDesc->type) {
     case SANE_TYPE_INT:
@@ -284,20 +290,20 @@ bool ListOption::setValue(const QString &value)
     return true;
 }
 
-void ListOption::countOptions()
+void ListOption::countEntries()
 {
-    m_optionsCount = 0;
+    m_entriesCount = 0;
 
     switch (m_optDesc->type) {
 
     case SANE_TYPE_INT:
     case SANE_TYPE_FIXED:
-        m_optionsCount = m_optDesc->constraint.word_list[0];
+        m_entriesCount = m_optDesc->constraint.word_list[0];
         break;
 
     case SANE_TYPE_STRING:
-        while (m_optDesc->constraint.string_list[m_optionsCount] != nullptr) {
-            m_optionsCount++;
+        while (m_optDesc->constraint.string_list[m_entriesCount] != nullptr) {
+            m_entriesCount++;
         }
         break;
 
@@ -309,7 +315,7 @@ void ListOption::countOptions()
 
 CoreOption::OptionState ListOption::state() const
 {
-    if (m_optionsCount <= 1) {
+    if (m_entriesCount <= 1) {
         return CoreOption::StateHidden;
     } else {
         return BaseOption::state();

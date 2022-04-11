@@ -20,6 +20,7 @@ public:
     ListOption(const SANE_Handle handle, const int index);
 
     void readValue() override;
+    void readOption() override;
 
     QVariant minimumValue() const override;
     QVariant value() const override;
@@ -31,15 +32,13 @@ public:
 public Q_SLOTS:
     bool setValue(const QVariant &value) override;
 
-private Q_SLOTS:
-    void countOptions();
-
 private:
     bool setValue(double value);
     bool setValue(const QString &value);
+    void countEntries();
 
     QVariant m_currentValue;
-    int m_optionsCount = 0;
+    int m_entriesCount = 0;
 };
 
 } // namespace KSane
