@@ -86,6 +86,8 @@ install(EXPORT KSaneCoreTargets
     NAMESPACE KSane::
 )
 
+ki18n_install(po)
+
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
