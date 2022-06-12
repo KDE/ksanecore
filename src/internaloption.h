@@ -7,13 +7,13 @@
 #ifndef KSANE_INTERNAL_OPTION_H
 #define KSANE_INTERNAL_OPTION_H
 
-#include "coreoption.h"
 #include "baseoption.h"
+#include "option.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
-class InternalOption : public CoreOption
+class InternalOption : public Option
 {
     Q_OBJECT
 
@@ -23,7 +23,7 @@ public:
 
 };
 
-} // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_INTERNAL_OPTION_H
 

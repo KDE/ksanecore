@@ -13,7 +13,7 @@
 
 #include <ksanecore_debug.h>
 
-namespace KSane
+namespace KSaneCore
 {
 
 ScanThread::ScanThread(SANE_Handle handle):
@@ -238,4 +238,4 @@ void ScanThread::copyToScanData(int readBytes)
     }
 }
 
-}  // namespace KSane
+} // namespace KSaneCore

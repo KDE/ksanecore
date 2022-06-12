@@ -9,7 +9,7 @@
 
 #include "baseoption.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 class IntegerOption : public BaseOption
@@ -34,6 +34,6 @@ private:
     int m_iVal = 0;
 };
 
-}  // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_INTEGER_OPTION_H

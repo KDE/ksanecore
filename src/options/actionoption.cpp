@@ -9,13 +9,13 @@
 
 #include <ksanecore_debug.h>
 
-namespace KSane
+namespace KSaneCore
 {
 
 ActionOption::ActionOption(const SANE_Handle handle, const int index)
     : BaseOption(handle, index)
 {
-    m_optionType = CoreOption::TypeAction;
+    m_optionType = Option::TypeAction;
 }
 
 bool ActionOption::setValue(const QVariant &)
@@ -25,4 +25,4 @@ bool ActionOption::setValue(const QVariant &)
     return true;
 }
 
-} // namespace KSane
+} // namespace KSaneCore

@@ -9,32 +9,32 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-//Qt includes
+// Qt includes
 
 #include <QMutex>
 
 // Sane includes
-extern "C"
-{
-#include <sane/saneopts.h>
+extern "C" {
 #include <sane/sane.h>
+#include <sane/saneopts.h>
 }
 
-#include "coreinterface.h"
-#include "coreinterface_p.h"
+#include "interface.h"
+#include "interface_p.h"
 
 #include <ksanecore_debug.h>
 
-namespace KSane
+namespace KSaneCore
 {
 static int s_objectCount = 0;
 
 Q_GLOBAL_STATIC(QMutex, s_objectMutex)
 
-CoreInterface::CoreInterface(QObject *parent)
-    : QObject(parent), d(std::make_unique<CoreInterfacePrivate>(this))
+Interface::Interface(QObject *parent)
+    : QObject(parent)
+    , d(std::make_unique<InterfacePrivate>(this))
 {
-    SANE_Int    version;
+    SANE_Int version;
     SANE_Status status;
 
     s_objectMutex->lock();
@@ -50,10 +50,10 @@ CoreInterface::CoreInterface(QObject *parent)
     s_objectMutex->unlock();
 
     d->m_readValuesTimer.setSingleShot(true);
-    connect(&d->m_readValuesTimer, &QTimer::timeout, d.get(), &CoreInterfacePrivate::reloadValues);
+    connect(&d->m_readValuesTimer, &QTimer::timeout, d.get(), &InterfacePrivate::reloadValues);
 }
 
-CoreInterface::~CoreInterface()
+Interface::~Interface()
 {
     closeDevice();
 
@@ -69,22 +69,22 @@ CoreInterface::~CoreInterface()
     s_objectMutex->unlock();
 }
 
-QString CoreInterface::deviceName() const
+QString Interface::deviceName() const
 {
     return d->m_devName;
 }
 
-QString CoreInterface::deviceVendor() const
+QString Interface::deviceVendor() const
 {
     return d->m_vendor;
 }
 
-QString CoreInterface::deviceModel() const
+QString Interface::deviceModel() const
 {
     return d->m_model;
 }
 
-bool CoreInterface::reloadDevicesList(const DeviceType type)
+bool Interface::reloadDevicesList(const DeviceType type)
 {
     /* On some SANE backends, the handle becomes invalid when
      * querying for new devices. Hence, this is only allowed when
@@ -97,9 +97,9 @@ bool CoreInterface::reloadDevicesList(const DeviceType type)
     return false;
 }
 
-CoreInterface::OpenStatus CoreInterface::openDevice(const QString &deviceName)
+Interface::OpenStatus Interface::openDevice(const QString &deviceName)
 {
-    SANE_Status                    status;
+    SANE_Status status;
 
     if (d->m_saneHandle != nullptr) {
         // this CoreInterface already has an open device
@@ -129,9 +129,9 @@ CoreInterface::OpenStatus CoreInterface::openDevice(const QString &deviceName)
     return d->loadDeviceOptions();
 }
 
-CoreInterface::OpenStatus CoreInterface::openRestrictedDevice(const QString &deviceName, const QString &userName, const QString &password)
+Interface::OpenStatus Interface::openRestrictedDevice(const QString &deviceName, const QString &userName, const QString &password)
 {
-    SANE_Status                    status;
+    SANE_Status status;
 
     if (d->m_saneHandle != nullptr) {
         // this CoreInterface already has an open device
@@ -165,7 +165,7 @@ CoreInterface::OpenStatus CoreInterface::openRestrictedDevice(const QString &dev
     return d->loadDeviceOptions();
 }
 
-bool CoreInterface::closeDevice()
+bool Interface::closeDevice()
 {
     if (!d->m_saneHandle) {
         return false;
@@ -189,7 +189,7 @@ bool CoreInterface::closeDevice()
     return true;
 }
 
-void CoreInterface::startScan()
+void Interface::startScan()
 {
     if (!d->m_saneHandle) {
         return;
@@ -205,7 +205,7 @@ void CoreInterface::startScan()
     d->m_scanThread->start();
 }
 
-void CoreInterface::stopScan()
+void Interface::stopScan()
 {
     if (!d->m_saneHandle) {
         return;
@@ -222,7 +222,7 @@ void CoreInterface::stopScan()
     }
 }
 
-QImage *CoreInterface::scanImage() const
+QImage *Interface::scanImage() const
 {
     if (d->m_saneHandle != nullptr) {
         return d->m_scanThread->scanImage();
@@ -230,26 +230,26 @@ QImage *CoreInterface::scanImage() const
     return nullptr;
 }
 
-void CoreInterface::lockScanImage()
+void Interface::lockScanImage()
 {
     if (d->m_saneHandle != nullptr) {
         d->m_scanThread->lockScanImage();
     }
 }
 
-void CoreInterface::unlockScanImage()
+void Interface::unlockScanImage()
 {
     if (d->m_saneHandle != nullptr) {
         d->m_scanThread->unlockScanImage();
     }
 }
 
-QList<CoreOption *> CoreInterface::getOptionsList()
+QList<Option *> Interface::getOptionsList()
 {
     return d->m_externalOptionsList;
 }
 
-CoreOption *CoreInterface::getOption(CoreInterface::OptionName optionEnum)
+Option *Interface::getOption(Interface::OptionName optionEnum)
 {
     auto it = d->m_optionsLocation.find(optionEnum);
     if (it != d->m_optionsLocation.end()) {
@@ -258,7 +258,7 @@ CoreOption *CoreInterface::getOption(CoreInterface::OptionName optionEnum)
     return nullptr;
 }
 
-CoreOption *CoreInterface::getOption(const QString &optionName)
+Option *Interface::getOption(const QString &optionName)
 {
     for (const auto &option : qAsConst(d->m_externalOptionsList)) {
         if (option->name() == optionName) {
@@ -268,9 +268,9 @@ CoreOption *CoreInterface::getOption(const QString &optionName)
     return nullptr;
 }
 
-QMap <QString, QString> CoreInterface::getOptionsMap()
+QMap<QString, QString> Interface::getOptionsMap()
 {
-    QMap <QString, QString> options;
+    QMap<QString, QString> options;
     QString tmp;
 
     for (const auto option : qAsConst(d->m_optionsList)) {
@@ -282,23 +282,23 @@ QMap <QString, QString> CoreInterface::getOptionsMap()
     return options;
 }
 
-int CoreInterface::setOptionsMap(const QMap <QString, QString> &options)
+int Interface::setOptionsMap(const QMap<QString, QString> &options)
 {
     if (!d->m_saneHandle || d->m_scanThread->isRunning()) {
         return -1;
     }
 
-    QMap <QString, QString> optionMapCopy = options;
+    QMap<QString, QString> optionMapCopy = options;
 
     int i;
     int ret = 0;
 
-    CoreOption *sourceOption = getOption(SourceOption);
-    CoreOption *modeOption = getOption(ScanModeOption);
+    Option *sourceOption = getOption(SourceOption);
+    Option *modeOption = getOption(ScanModeOption);
 
     // Priorize source option
     if (sourceOption != nullptr && optionMapCopy.contains(sourceOption->name())) {
-        if (sourceOption->setValue(optionMapCopy[sourceOption->name()]) ) {
+        if (sourceOption->setValue(optionMapCopy[sourceOption->name()])) {
             ret++;
         }
         optionMapCopy.remove(sourceOption->name());
@@ -322,4 +322,4 @@ int CoreInterface::setOptionsMap(const QMap <QString, QString> &options)
     return ret;
 }
 
-}  // NameSpace KSane
+} // NameSpace KSaneCore

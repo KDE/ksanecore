@@ -11,18 +11,18 @@
 
 #include <ksanecore_debug.h>
 
-namespace KSane
+namespace KSaneCore
 {
 
 ListOption::ListOption(const SANE_Handle handle, const int index)
     : BaseOption(handle, index)
 {
-    m_optionType = CoreOption::TypeValueList;
+    m_optionType = Option::TypeValueList;
 }
 
 void ListOption::readValue()
 {
-    if (BaseOption::state() == CoreOption::StateHidden) {
+    if (BaseOption::state() == Option::StateHidden) {
         return;
     }
 
@@ -140,7 +140,7 @@ bool ListOption::setValue(const QVariant &value)
 QVariant ListOption::minimumValue() const
 {
     QVariant value;
-    if (BaseOption::state() == CoreOption::StateHidden) {
+    if (BaseOption::state() == Option::StateHidden) {
         return value;
     }
     double dValueMin;
@@ -169,7 +169,7 @@ QVariant ListOption::minimumValue() const
 
 QVariant ListOption::value() const
 {
-    if (BaseOption::state() == CoreOption::StateHidden) {
+    if (BaseOption::state() == Option::StateHidden) {
         return QVariant();
     }
     return m_currentValue;
@@ -221,7 +221,7 @@ bool ListOption::setValue(double value)
 
 QString ListOption::valueAsString() const
 {
-    if (BaseOption::state() == CoreOption::StateHidden) {
+    if (BaseOption::state() == Option::StateHidden) {
         return QString();
     }
     return m_currentValue.toString();
@@ -229,7 +229,7 @@ QString ListOption::valueAsString() const
 
 bool ListOption::setValue(const QString &value)
 {
-    if (BaseOption::state() == CoreOption::StateHidden) {
+    if (BaseOption::state() == Option::StateHidden) {
         return false;
     }
 
@@ -313,13 +313,13 @@ void ListOption::countEntries()
     }
 }
 
-CoreOption::OptionState ListOption::state() const
+Option::OptionState ListOption::state() const
 {
     if (m_entriesCount <= 1) {
-        return CoreOption::StateHidden;
+        return Option::StateHidden;
     } else {
         return BaseOption::state();
     }
 }
 
-} // namespace KSane
+} // namespace KSaneCore

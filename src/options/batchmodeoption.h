@@ -9,7 +9,7 @@
 
 #include "baseoption.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 static const QString BatchModeOptionName = QStringLiteral("KSane::BatchMode");
@@ -21,7 +21,7 @@ class BatchModeOption : public BaseOption
 public:
     BatchModeOption();
 
-    CoreOption::OptionState state() const override;
+    Option::OptionState state() const override;
     QString name() const override;
     QString title() const override;
     QString description() const override;
@@ -36,6 +36,6 @@ private:
     bool m_checked = false;
 };
 
-} // NameSpace KSane
+} // NameSpace KSaneCore
 
 #endif // KSANE_BATCH_OPTION_H

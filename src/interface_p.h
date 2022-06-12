@@ -9,35 +9,35 @@
 #ifndef KSANE_CORE_PRIVATE_H
 #define KSANE_CORE_PRIVATE_H
 
-#include <QTimer>
-#include <QTime>
-#include <QVector>
-#include <QSet>
-#include <QList>
 #include <QHash>
+#include <QList>
+#include <QSet>
+#include <QTime>
+#include <QTimer>
 #include <QVarLengthArray>
+#include <QVector>
 
-#include "coreinterface.h"
-#include "baseoption.h"
-#include "scanthread.h"
-#include "finddevicesthread.h"
 #include "authentication.h"
+#include "baseoption.h"
+#include "finddevicesthread.h"
+#include "interface.h"
+#include "scanthread.h"
 
 /** This namespace collects all methods and classes in LibKSane. */
-namespace KSane
+namespace KSaneCore
 {
 
-class CoreInterfacePrivate : public QObject
+class InterfacePrivate : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit CoreInterfacePrivate(CoreInterface *parent);
-    CoreInterface::OpenStatus loadDeviceOptions();
+    explicit InterfacePrivate(Interface *parent);
+    Interface::OpenStatus loadDeviceOptions();
     void clearDeviceOptions();
     void setDefaultValues();
 
-    void scanIsFinished(CoreInterface::ScanStatus status, const QString &message);
+    void scanIsFinished(Interface::ScanStatus status, const QString &message);
 
 public Q_SLOTS:
     void devicesListUpdated();
@@ -54,17 +54,16 @@ private Q_SLOTS:
     void batchModeTimerUpdate();
 
 public:
-
     // device info
     SANE_Handle m_saneHandle = nullptr;
-    QString     m_devName;
-    QString     m_vendor;
-    QString     m_model;
+    QString m_devName;
+    QString m_vendor;
+    QString m_model;
 
     // Option variables
     QList<BaseOption *> m_optionsList;
-    QList<CoreOption *> m_externalOptionsList;
-    QHash<CoreInterface::OptionName, int> m_optionsLocation;
+    QList<Option *> m_externalOptionsList;
+    QHash<Interface::OptionName, int> m_optionsLocation;
     QList<BaseOption *> m_optionsPollList;
     QTimer m_readValuesTimer;
     QTimer m_optionPollTimer;
@@ -73,10 +72,10 @@ public:
     QString m_saneUserName;
     QString m_sanePassword;
 
-    ScanThread            *m_scanThread = nullptr;
+    ScanThread *m_scanThread = nullptr;
     FindSaneDevicesThread *m_findDevThread;
-    Authentication        *m_auth;
-    CoreInterface             *q;
+    Authentication *m_auth;
+    Interface *q;
 
     // state variables
     // determines whether scanner will send multiple images
@@ -92,6 +91,6 @@ public:
     int m_batchModeCounter = 0;
 };
 
-}  // NameSpace KSane
+} // NameSpace KSaneCore
 
 #endif // KSANE_CORE_PRIVATE_H

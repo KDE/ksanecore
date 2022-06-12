@@ -8,9 +8,9 @@
 #define KSANE_DELAY_OPTION_H
 
 #include "baseoption.h"
-#include "coreoption.h"
+#include "option.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 static const QString BatchDelayOptionName = QStringLiteral("KSane::BatchTimeDelay");
@@ -22,7 +22,7 @@ class BatchDelayOption : public BaseOption
 public:
     BatchDelayOption();
 
-    CoreOption::OptionState state() const override;
+    Option::OptionState state() const override;
     QString name() const override;
     QString title() const override;
     QString description() const override;
@@ -32,16 +32,16 @@ public:
     QVariant stepValue() const override;
     QVariant value() const override;
     QString valueAsString() const override;
-    CoreOption::OptionUnit valueUnit() const override;
+    Option::OptionUnit valueUnit() const override;
 
 public Q_SLOTS:
     bool setValue(const QVariant &value) override;
 
 private:
-    CoreOption::OptionState m_state = CoreOption::StateHidden;
+    Option::OptionState m_state = Option::StateHidden;
     int m_delayValue = 10;
 };
 
-}  // NameSpace KSane
+} // NameSpace KSaneCore
 
 #endif // KSANE_DELAY_OPTION_H

@@ -17,13 +17,13 @@ static const double FIXED_MIN = -32768.0;
 static const double MIN_FIXED_STEP = 0.0001;
 static const double FIXED_PRECISION = 1.0 / 65536;
 
-namespace KSane
+namespace KSaneCore
 {
 
 DoubleOption::DoubleOption(const SANE_Handle handle, const int index)
     : BaseOption(handle, index)
 {
-    m_optionType = CoreOption::TypeDouble;
+    m_optionType = Option::TypeDouble;
 }
 
 void DoubleOption::readOption()
@@ -44,7 +44,7 @@ void DoubleOption::readOption()
 
 void DoubleOption::readValue()
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return;
     }
 
@@ -66,7 +66,7 @@ void DoubleOption::readValue()
 
 bool DoubleOption::setValue(const QVariant &value)
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return false;
     }
     bool ok;
@@ -124,7 +124,7 @@ QVariant DoubleOption::stepValue() const
 
 QVariant DoubleOption::value() const
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return QVariant();
     }
     return QVariant(m_value);
@@ -132,10 +132,10 @@ QVariant DoubleOption::value() const
 
 QString DoubleOption::valueAsString() const
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return QString();
     }
     return QString::number(m_value, 'F', 6);
 }
 
-} // namespace KSane
+} // namespace KSaneCore

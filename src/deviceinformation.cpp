@@ -7,7 +7,7 @@
 #include "deviceinformation.h"
 #include "deviceinformation_p.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 DeviceInformation::DeviceInformation() : d(std::make_unique<DeviceInformationPrivate>())
@@ -36,4 +36,4 @@ QString DeviceInformation::type() const
     return d->type;
 }
 
-} // namespace KSane
+} // namespace KSaneCore

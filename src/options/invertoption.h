@@ -9,7 +9,7 @@
 
 #include "baseoption.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 static const QString InvertColorsOptionName = QStringLiteral("KSane::InvertColors");
@@ -24,7 +24,7 @@ public:
     QVariant value() const override;
     QString valueAsString() const override;
 
-    CoreOption::OptionState state() const override;
+    Option::OptionState state() const override;
     QString name() const override;
     QString title() const override;
     QString description() const override;
@@ -36,6 +36,6 @@ private:
     bool m_checked = false;
 };
 
-} // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_INVERT_OPTION_H

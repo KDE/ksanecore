@@ -14,25 +14,25 @@
 
 #include <memory>
 
-#include <QObject>
-#include <QList>
 #include <QImage>
+#include <QList>
+#include <QObject>
 
 #include "deviceinformation.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
-class CoreInterfacePrivate;
-class CoreOption;
+class InterfacePrivate;
+class Option;
 
 /**
  * This class provides the core interface for accessing the scan controls and options.
  */
-class KSANECORE_EXPORT CoreInterface : public QObject
+class KSANECORE_EXPORT Interface : public QObject
 {
     Q_OBJECT
-    friend class CoreInterfacePrivate;
+    friend class InterfacePrivate;
 
 public:
     /**
@@ -40,9 +40,9 @@ public:
      * @note There might come more enumerations in the future.
      */
     enum ScanStatus {
-        NoError,            // The scanning has finished successfully
-        ErrorGeneral,       // The error string should contain an error message.
-        Information         // There is some information to the user.
+        NoError, // The scanning has finished successfully
+        ErrorGeneral, // The error string should contain an error message.
+        Information // There is some information to the user.
     };
 
     /**
@@ -94,20 +94,17 @@ public:
      * Sometimes, webcam may show up as scanner device and some
      * more special scanner are also classified as cameras.
      */
-    enum DeviceType {
-        AllDevices,
-        NoCameraAndVirtualDevices
-    };
+    enum DeviceType { AllDevices, NoCameraAndVirtualDevices };
 
     /**
      * This constructor initializes the private class variables.
      */
-    explicit CoreInterface(QObject *parent = nullptr);
+    explicit Interface(QObject *parent = nullptr);
 
     /**
      * Standard destructor.
      */
-    ~CoreInterface() override;
+    ~Interface() override;
 
     /**
      * Get the list of available scanning devices. Connect to availableDevices()
@@ -171,7 +168,7 @@ public:
      * Becomes invalid when closing a device.
      * The pointers must not be deleted by the client.
      */
-    QList<CoreOption *> getOptionsList();
+    QList<Option *> getOptionsList();
 
     /**
      * This function returns a specific option.
@@ -179,7 +176,7 @@ public:
      * @return pointer to the KSaneOption. Returns a nullptr in case the options
      * is not available for the currently opened device.
      */
-    CoreOption *getOption(OptionName optionEnum);
+    Option *getOption(OptionName optionEnum);
 
     /**
      * This function returns a specific option.
@@ -187,14 +184,14 @@ public:
      * @return pointer to the KSaneOption. Returns a nullptr in case the options
      * is not available for the currently opened device.
      */
-    CoreOption *getOption(const QString &optionName);
+    Option *getOption(const QString &optionName);
 
     /**
      * This method reads the available parameters and their values and
      * returns them in a QMap (Name, value)
      * @return map with the parameter names and their values.
      */
-    QMap <QString, QString> getOptionsMap();
+    QMap<QString, QString> getOptionsMap();
 
     /**
      * This method can be used to write many parameter values at once.
@@ -202,7 +199,7 @@ public:
      * @return This function returns the number of successful writes
      * or -1 if scanning is in progress.
      */
-    int setOptionsMap(const QMap <QString, QString> &options);
+    int setOptionsMap(const QMap<QString, QString> &options);
 
     /**
      * Gives direct access to the QImage that is used to store the image
@@ -255,7 +252,7 @@ Q_SIGNALS:
      * @param strStatus If an error has occurred this string will contain an error message.
      * otherwise the string is empty.
      */
-    void scanFinished(KSane::CoreInterface::ScanStatus status, const QString &strStatus);
+    void scanFinished(KSaneCore::Interface::ScanStatus status, const QString &strStatus);
 
     /**
      * This signal is emitted when the user is to be notified about something.
@@ -263,7 +260,7 @@ Q_SIGNALS:
      * @param strStatus If an error has occurred this string will contain an error message.
      * otherwise the string is empty.
      */
-    void userMessage(KSane::CoreInterface::ScanStatus status, const QString &strStatus);
+    void userMessage(KSaneCore::Interface::ScanStatus status, const QString &strStatus);
 
     /**
      * This signal is emitted for progress information during a scan.
@@ -301,9 +298,9 @@ Q_SIGNALS:
     void batchModeCountDown(int remainingSeconds);
 
 private:
-    std::unique_ptr<CoreInterfacePrivate> d;
+    std::unique_ptr<InterfacePrivate> d;
 };
 
-} // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_COREINTERFACE_H

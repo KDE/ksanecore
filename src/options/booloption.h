@@ -9,7 +9,7 @@
 
 #include "baseoption.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 class BoolOption : public BaseOption
@@ -31,6 +31,6 @@ private:
     bool m_checked = false;
 };
 
-} // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_BOOL_OPTION_H

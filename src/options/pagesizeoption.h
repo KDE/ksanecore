@@ -11,7 +11,7 @@
 
 #include "baseoption.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 static const QString PageSizeOptionName = QStringLiteral("KSane::PageSize");
@@ -30,7 +30,7 @@ public:
     QVariant value() const override;
     QString valueAsString() const override;
 
-    CoreOption::OptionState state() const override;
+    Option::OptionState state() const override;
     QString name() const override;
     QString title() const override;
     QString description() const override;
@@ -54,11 +54,11 @@ private:
     BaseOption *m_optionBottomRightY;
     BaseOption *m_optionResolution;
     int m_currentIndex = -1;
-    CoreOption::OptionState m_state = CoreOption::StateDisabled;
+    Option::OptionState m_state = Option::StateDisabled;
     QVariantList m_availableSizesListNames;
     QList<QSizeF> m_availableSizesList;
 };
 
-}  // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_PAGESIZE_OPTION_H

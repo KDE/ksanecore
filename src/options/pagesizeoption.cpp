@@ -15,7 +15,7 @@
 
 static constexpr int PageSizeWiggleRoom = 2; // in mm
 
-namespace KSane
+namespace KSaneCore
 {
 
 PageSizeOption::PageSizeOption(BaseOption *optionTopLeftX,
@@ -26,7 +26,7 @@ PageSizeOption::PageSizeOption(BaseOption *optionTopLeftX,
     : BaseOption()
 {
     if (optionTopLeftX == nullptr || optionTopLeftY == nullptr || optionBottomRightX == nullptr || optionBottomRightY == nullptr) {
-        m_optionType = CoreOption::TypeDetectFail;
+        m_optionType = Option::TypeDetectFail;
         return;
     }
 
@@ -101,11 +101,11 @@ PageSizeOption::PageSizeOption(BaseOption *optionTopLeftX,
     // Set custom as current
     m_currentIndex = 0;
     if (m_availableSizesList.count() > 1) {
-        m_state = CoreOption::StateActive;
+        m_state = Option::StateActive;
     } else {
-        m_state = CoreOption::StateHidden;
+        m_state = Option::StateHidden;
     }
-    m_optionType = CoreOption::TypeValueList;
+    m_optionType = Option::TypeValueList;
 }
 
 bool PageSizeOption::setValue(const QVariant &value)
@@ -158,7 +158,7 @@ QVariantList PageSizeOption::valueList() const
     return m_availableSizesListNames;
 }
 
-CoreOption::OptionState PageSizeOption::state() const
+Option::OptionState PageSizeOption::state() const
 {
     return m_state;
 }
@@ -215,7 +215,7 @@ void PageSizeOption::optionBottomRightYUpdated()
 double PageSizeOption::ensureMilliMeter(BaseOption *option, double value)
 {
     // convert if necessary with current DPI if available
-    if (option->valueUnit() == CoreOption::UnitPixel &&  m_optionResolution != nullptr) {
+    if (option->valueUnit() == Option::UnitPixel && m_optionResolution != nullptr) {
         double dpi = m_optionResolution->value().toDouble();
         if (dpi > 1) {
             return value / (dpi / 25.4);
@@ -224,4 +224,4 @@ double PageSizeOption::ensureMilliMeter(BaseOption *option, double value)
     return value;
 }
 
-} // namespace KSane
+} // namespace KSaneCore

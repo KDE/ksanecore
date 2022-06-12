@@ -9,7 +9,7 @@
 
 #include "baseoption.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 class ListOption : public BaseOption
@@ -27,7 +27,7 @@ public:
     QString valueAsString() const override;
     QVariantList valueList() const override;
     QVariantList internalValueList() const override;
-    CoreOption::OptionState state() const override;
+    Option::OptionState state() const override;
 
 public Q_SLOTS:
     bool setValue(const QVariant &value) override;
@@ -41,6 +41,6 @@ private:
     int m_entriesCount = 0;
 };
 
-} // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_VALUELIST_OPTION_H

@@ -11,18 +11,18 @@
 
 #include <ksanecore_debug.h>
 
-namespace KSane
+namespace KSaneCore
 {
 
 StringOption::StringOption(const SANE_Handle handle, const int index)
     : BaseOption(handle, index)
 {
-    m_optionType = CoreOption::TypeString;
+    m_optionType = Option::TypeString;
 }
 
 bool StringOption::setValue(const QVariant &val)
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return false;
     }
     QString text = val.toString();
@@ -41,7 +41,7 @@ bool StringOption::setValue(const QVariant &val)
 
 void StringOption::readValue()
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return;
     }
 
@@ -71,10 +71,10 @@ int StringOption::valueSize() const
 
 QString StringOption::valueAsString() const
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return QString();
     }
     return m_string;
 }
 
-} // namespace KSane
+} // namespace KSaneCore

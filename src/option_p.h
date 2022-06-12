@@ -9,7 +9,7 @@
 
 #include "baseoption.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 class OptionPrivate
@@ -18,7 +18,6 @@ public:
     BaseOption *option;
 };
 
-}  // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_COREOPTION_P_H
-

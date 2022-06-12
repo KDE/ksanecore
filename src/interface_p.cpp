@@ -7,82 +7,82 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#include "coreinterface_p.h"
+#include "interface_p.h"
 
 #include <QImage>
 #include <QRegularExpression>
 
 #include <ksanecore_debug.h>
 
-#include "internaloption.h"
 #include "actionoption.h"
+#include "batchdelayoption.h"
+#include "batchmodeoption.h"
 #include "booloption.h"
-#include "listoption.h"
-#include "stringoption.h"
 #include "doubleoption.h"
 #include "gammaoption.h"
 #include "integeroption.h"
+#include "internaloption.h"
 #include "invertoption.h"
+#include "listoption.h"
 #include "pagesizeoption.h"
-#include "batchmodeoption.h"
-#include "batchdelayoption.h"
+#include "stringoption.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
-CoreInterfacePrivate::CoreInterfacePrivate(CoreInterface *parent):
-    q(parent)
+InterfacePrivate::InterfacePrivate(Interface *parent)
+    : q(parent)
 {
     clearDeviceOptions();
 
     m_findDevThread = FindSaneDevicesThread::getInstance();
-    connect(m_findDevThread, &FindSaneDevicesThread::finished, this, &CoreInterfacePrivate::devicesListUpdated);
-    connect(m_findDevThread, &FindSaneDevicesThread::finished, this, &CoreInterfacePrivate::signalDevicesListUpdate);
+    connect(m_findDevThread, &FindSaneDevicesThread::finished, this, &InterfacePrivate::devicesListUpdated);
+    connect(m_findDevThread, &FindSaneDevicesThread::finished, this, &InterfacePrivate::signalDevicesListUpdate);
 
     m_auth = Authentication::getInstance();
     m_optionPollTimer.setInterval(100);
-    connect(&m_optionPollTimer, &QTimer::timeout, this, &CoreInterfacePrivate::pollPollOptions);
+    connect(&m_optionPollTimer, &QTimer::timeout, this, &InterfacePrivate::pollPollOptions);
 
     m_batchModeTimer.setInterval(1000);
-    connect(&m_batchModeTimer, &QTimer::timeout, this, &CoreInterfacePrivate::batchModeTimerUpdate);
+    connect(&m_batchModeTimer, &QTimer::timeout, this, &InterfacePrivate::batchModeTimerUpdate);
 }
 
-CoreInterface::OpenStatus CoreInterfacePrivate::loadDeviceOptions()
+Interface::OpenStatus InterfacePrivate::loadDeviceOptions()
 {
-    static const QHash<QString, CoreInterface::OptionName> stringEnumTranslation = {
-        {QStringLiteral(SANE_NAME_SCAN_SOURCE), CoreInterface::SourceOption},
-        {QStringLiteral(SANE_NAME_SCAN_MODE), CoreInterface::ScanModeOption},
-        {QStringLiteral(SANE_NAME_BIT_DEPTH), CoreInterface::BitDepthOption},
-        {QStringLiteral(SANE_NAME_SCAN_RESOLUTION), CoreInterface::ResolutionOption},
-        {QStringLiteral(SANE_NAME_SCAN_TL_X), CoreInterface::TopLeftXOption},
-        {QStringLiteral(SANE_NAME_SCAN_TL_Y), CoreInterface::TopLeftYOption},
-        {QStringLiteral(SANE_NAME_SCAN_BR_X), CoreInterface::BottomRightXOption},
-        {QStringLiteral(SANE_NAME_SCAN_BR_Y), CoreInterface::BottomRightYOption},
-        {QStringLiteral("film-type"), CoreInterface::FilmTypeOption},
-        {QStringLiteral(SANE_NAME_NEGATIVE), CoreInterface::NegativeOption},
-        {InvertColorsOptionName, CoreInterface::InvertColorOption},
-        {PageSizeOptionName, CoreInterface::PageSizeOption},
-        {QStringLiteral(SANE_NAME_THRESHOLD), CoreInterface::ThresholdOption},
-        {QStringLiteral(SANE_NAME_SCAN_X_RESOLUTION), CoreInterface::XResolutionOption},
-        {QStringLiteral(SANE_NAME_SCAN_Y_RESOLUTION), CoreInterface::YResolutionOption},
-        {QStringLiteral(SANE_NAME_PREVIEW), CoreInterface::PreviewOption},
-        {QStringLiteral("wait-for-button"), CoreInterface::WaitForButtonOption},
-        {QStringLiteral(SANE_NAME_BRIGHTNESS), CoreInterface::BrightnessOption},
-        {QStringLiteral(SANE_NAME_CONTRAST), CoreInterface::ContrastOption},
-        {QStringLiteral(SANE_NAME_GAMMA_VECTOR), CoreInterface::GammaOption},
-        {QStringLiteral(SANE_NAME_GAMMA_VECTOR_R), CoreInterface::GammaRedOption},
-        {QStringLiteral(SANE_NAME_GAMMA_VECTOR_G), CoreInterface::GammaGreenOption},
-        {QStringLiteral(SANE_NAME_GAMMA_VECTOR_B), CoreInterface::GammaBlueOption},
-        {QStringLiteral(SANE_NAME_BLACK_LEVEL), CoreInterface::BlackLevelOption},
-        {QStringLiteral(SANE_NAME_WHITE_LEVEL), CoreInterface::WhiteLevelOption},
-        {BatchModeOptionName, CoreInterface::BatchModeOption},
-        {BatchDelayOptionName, CoreInterface::BatchDelayOption},
+    static const QHash<QString, Interface::OptionName> stringEnumTranslation = {
+        {QStringLiteral(SANE_NAME_SCAN_SOURCE), Interface::SourceOption},
+        {QStringLiteral(SANE_NAME_SCAN_MODE), Interface::ScanModeOption},
+        {QStringLiteral(SANE_NAME_BIT_DEPTH), Interface::BitDepthOption},
+        {QStringLiteral(SANE_NAME_SCAN_RESOLUTION), Interface::ResolutionOption},
+        {QStringLiteral(SANE_NAME_SCAN_TL_X), Interface::TopLeftXOption},
+        {QStringLiteral(SANE_NAME_SCAN_TL_Y), Interface::TopLeftYOption},
+        {QStringLiteral(SANE_NAME_SCAN_BR_X), Interface::BottomRightXOption},
+        {QStringLiteral(SANE_NAME_SCAN_BR_Y), Interface::BottomRightYOption},
+        {QStringLiteral("film-type"), Interface::FilmTypeOption},
+        {QStringLiteral(SANE_NAME_NEGATIVE), Interface::NegativeOption},
+        {InvertColorsOptionName, Interface::InvertColorOption},
+        {PageSizeOptionName, Interface::PageSizeOption},
+        {QStringLiteral(SANE_NAME_THRESHOLD), Interface::ThresholdOption},
+        {QStringLiteral(SANE_NAME_SCAN_X_RESOLUTION), Interface::XResolutionOption},
+        {QStringLiteral(SANE_NAME_SCAN_Y_RESOLUTION), Interface::YResolutionOption},
+        {QStringLiteral(SANE_NAME_PREVIEW), Interface::PreviewOption},
+        {QStringLiteral("wait-for-button"), Interface::WaitForButtonOption},
+        {QStringLiteral(SANE_NAME_BRIGHTNESS), Interface::BrightnessOption},
+        {QStringLiteral(SANE_NAME_CONTRAST), Interface::ContrastOption},
+        {QStringLiteral(SANE_NAME_GAMMA_VECTOR), Interface::GammaOption},
+        {QStringLiteral(SANE_NAME_GAMMA_VECTOR_R), Interface::GammaRedOption},
+        {QStringLiteral(SANE_NAME_GAMMA_VECTOR_G), Interface::GammaGreenOption},
+        {QStringLiteral(SANE_NAME_GAMMA_VECTOR_B), Interface::GammaBlueOption},
+        {QStringLiteral(SANE_NAME_BLACK_LEVEL), Interface::BlackLevelOption},
+        {QStringLiteral(SANE_NAME_WHITE_LEVEL), Interface::WhiteLevelOption},
+        {BatchModeOptionName, Interface::BatchModeOption},
+        {BatchDelayOptionName, Interface::BatchDelayOption},
     };
 
-    const SANE_Option_Descriptor  *optDesc;
-    SANE_Status                    status;
-    SANE_Word                      numSaneOptions;
-    SANE_Int                       res;
+    const SANE_Option_Descriptor *optDesc;
+    SANE_Status status;
+    SANE_Word numSaneOptions;
+    SANE_Int res;
     // update the device list if needed to get the vendor and model info
     if (m_findDevThread->devicesList().size() == 0) {
         m_findDevThread->start();
@@ -100,14 +100,14 @@ CoreInterface::OpenStatus CoreInterfacePrivate::loadDeviceOptions()
     if (optDesc == nullptr) {
         m_auth->clearDeviceAuth(m_devName);
         m_devName.clear();
-        return CoreInterface::OpeningFailed;
+        return Interface::OpeningFailed;
     }
     QVarLengthArray<char> data(optDesc->size);
     status = sane_control_option(m_saneHandle, 0, SANE_ACTION_GET_VALUE, data.data(), &res);
     if (status != SANE_STATUS_GOOD) {
         m_auth->clearDeviceAuth(m_devName);
         m_devName.clear();
-        return CoreInterface::OpeningFailed;
+        return Interface::OpeningFailed;
     }
     numSaneOptions = *reinterpret_cast<SANE_Word *>(data.data());
 
@@ -122,28 +122,28 @@ CoreInterface::OpenStatus CoreInterfacePrivate::loadDeviceOptions()
     m_externalOptionsList.reserve(numSaneOptions);
     for (int i = 1; i < numSaneOptions; ++i) {
         switch (BaseOption::optionType(sane_get_option_descriptor(m_saneHandle, i))) {
-        case CoreOption::TypeDetectFail:
+        case Option::TypeDetectFail:
             option = new BaseOption(m_saneHandle, i);
             break;
-        case CoreOption::TypeBool:
+        case Option::TypeBool:
             option = new BoolOption(m_saneHandle, i);
             break;
-        case CoreOption::TypeInteger:
+        case Option::TypeInteger:
             option = new IntegerOption(m_saneHandle, i);
             break;
-        case CoreOption::TypeDouble:
+        case Option::TypeDouble:
             option = new DoubleOption(m_saneHandle, i);
             break;
-        case CoreOption::TypeValueList:
+        case Option::TypeValueList:
             option = new ListOption(m_saneHandle, i);
             break;
-        case CoreOption::TypeString:
+        case Option::TypeString:
             option = new StringOption(m_saneHandle, i);
             break;
-        case CoreOption::TypeGamma:
+        case Option::TypeGamma:
             option = new GammaOption(m_saneHandle, i);
             break;
-        case CoreOption::TypeAction:
+        case Option::TypeAction:
             option = new ActionOption(m_saneHandle, i);
             break;
         }
@@ -168,20 +168,20 @@ CoreInterface::OpenStatus CoreInterfacePrivate::loadDeviceOptions()
         if (option->name() == QStringLiteral(SANE_NAME_SCAN_SOURCE)) {
             // some scanners only have ADF and never update the source name
             determineMultiPageScanning(option->value());
-            connect(option, &BaseOption::valueChanged, this, &CoreInterfacePrivate::determineMultiPageScanning);
+            connect(option, &BaseOption::valueChanged, this, &InterfacePrivate::determineMultiPageScanning);
         }
         if (option->name() == QStringLiteral("wait-for-button")) {
-            connect(option, &BaseOption::valueChanged, this, &CoreInterfacePrivate::setWaitForExternalButton);
+            connect(option, &BaseOption::valueChanged, this, &InterfacePrivate::setWaitForExternalButton);
         }
 
         m_optionsList.append(option);
         m_externalOptionsList.append(new InternalOption(option));
-        connect(option, &BaseOption::optionsNeedReload, this, &CoreInterfacePrivate::reloadOptions);
-        connect(option, &BaseOption::valuesNeedReload, this, &CoreInterfacePrivate::scheduleValuesReload);
+        connect(option, &BaseOption::optionsNeedReload, this, &InterfacePrivate::reloadOptions);
+        connect(option, &BaseOption::valuesNeedReload, this, &InterfacePrivate::scheduleValuesReload);
 
         if (option->needsPolling()) {
             m_optionsPollList.append(option);
-            if (option->type() == CoreOption::TypeBool) {
+            if (option->type() == Option::TypeBool) {
                 connect(option, &BaseOption::valueChanged, this, [=](const QVariant &newValue) {
                     Q_EMIT q->buttonPressed(option->name(), option->title(), newValue.toBool());
                 });
@@ -197,23 +197,23 @@ CoreInterface::OpenStatus CoreInterfacePrivate::loadDeviceOptions()
     BaseOption *pageSizeOption = new PageSizeOption(optionTopLeftX, optionTopLeftY, optionBottomRightX, optionBottomRightY, optionResolution);
     m_optionsList.append(pageSizeOption);
     m_externalOptionsList.append(new InternalOption(pageSizeOption));
-    m_optionsLocation.insert(CoreInterface::PageSizeOption, m_optionsList.size() - 1);
+    m_optionsLocation.insert(Interface::PageSizeOption, m_optionsList.size() - 1);
 
     // add extra option for batch mode scanning with a delay
     m_batchMode = new BatchModeOption();
     m_optionsList.append(m_batchMode);
     m_externalOptionsList.append(new InternalOption(m_batchMode));
-    m_optionsLocation.insert(CoreInterface::BatchModeOption, m_optionsList.size() - 1);
+    m_optionsLocation.insert(Interface::BatchModeOption, m_optionsList.size() - 1);
     m_batchModeDelay = new BatchDelayOption();
     m_optionsList.append(m_batchModeDelay);
     m_externalOptionsList.append(new InternalOption(m_batchModeDelay));
-    m_optionsLocation.insert(CoreInterface::BatchDelayOption, m_optionsList.size() - 1);
+    m_optionsLocation.insert(Interface::BatchDelayOption, m_optionsList.size() - 1);
 
     // add extra option for inverting image colors
     BaseOption *invertOption = new InvertOption();
     m_optionsList.append(invertOption);
     m_externalOptionsList.append(new InternalOption(invertOption));
-    m_optionsLocation.insert(CoreInterface::InvertColorOption, m_optionsList.size() - 1);
+    m_optionsLocation.insert(Interface::InvertColorOption, m_optionsList.size() - 1);
 
     // NOTICE The Pixma network backend behaves badly. polling a value will result in 1 second
     // sleeps for every poll. The problem has been reported, but no easy/quick fix was available and
@@ -241,15 +241,15 @@ CoreInterface::OpenStatus CoreInterfacePrivate::loadDeviceOptions()
         connect(optionResolution, &BaseOption::valueChanged, m_scanThread, &ScanThread::setImageResolution);
     }
 
-    connect(m_scanThread, &ScanThread::scanProgressUpdated, q, &CoreInterface::scanProgress);
-    connect(m_scanThread, &ScanThread::finished, this, &CoreInterfacePrivate::imageScanFinished);
+    connect(m_scanThread, &ScanThread::scanProgressUpdated, q, &Interface::scanProgress);
+    connect(m_scanThread, &ScanThread::finished, this, &InterfacePrivate::imageScanFinished);
 
     // try to set to default values
     setDefaultValues();
-    return CoreInterface::OpeningSucceeded;
+    return Interface::OpeningSucceeded;
 }
 
-void CoreInterfacePrivate::clearDeviceOptions()
+void InterfacePrivate::clearDeviceOptions()
 {
     // delete all the options in the list.
     while (!m_optionsList.isEmpty()) {
@@ -268,7 +268,7 @@ void CoreInterfacePrivate::clearDeviceOptions()
     m_batchModeDelay = nullptr;
 }
 
-void CoreInterfacePrivate::devicesListUpdated()
+void InterfacePrivate::devicesListUpdated()
 {
     if (m_vendor.isEmpty()) {
         const QList<DeviceInformation *> deviceList = m_findDevThread->devicesList();
@@ -282,37 +282,37 @@ void CoreInterfacePrivate::devicesListUpdated()
     }
 }
 
-void CoreInterfacePrivate::signalDevicesListUpdate()
+void InterfacePrivate::signalDevicesListUpdate()
 {
     Q_EMIT q->availableDevices(m_findDevThread->devicesList());
 }
 
-void CoreInterfacePrivate::setDefaultValues()
+void InterfacePrivate::setDefaultValues()
 {
-    CoreOption *option;
+    Option *option;
 
     // Try to get Color mode by default
-    if ((option = q->getOption(CoreInterface::ScanModeOption)) != nullptr) {
+    if ((option = q->getOption(Interface::ScanModeOption)) != nullptr) {
         option->setValue(sane_i18n(SANE_VALUE_SCAN_MODE_COLOR));
     }
 
     // Try to set 8 bit color
-    if ((option = q->getOption(CoreInterface::BitDepthOption)) != nullptr) {
+    if ((option = q->getOption(Interface::BitDepthOption)) != nullptr) {
         option->setValue(8);
     }
 
     // Try to set Scan resolution to 300 DPI
-    if ((option = q->getOption(CoreInterface::ResolutionOption)) != nullptr) {
+    if ((option = q->getOption(Interface::ResolutionOption)) != nullptr) {
         option->setValue(300);
     }
 }
 
-void CoreInterfacePrivate::scheduleValuesReload()
+void InterfacePrivate::scheduleValuesReload()
 {
     m_readValuesTimer.start(5);
 }
 
-void CoreInterfacePrivate::reloadOptions()
+void InterfacePrivate::reloadOptions()
 {
     for (const auto option : qAsConst(m_optionsList)) {
         option->readOption();
@@ -321,21 +321,21 @@ void CoreInterfacePrivate::reloadOptions()
     }
 }
 
-void CoreInterfacePrivate::reloadValues()
+void InterfacePrivate::reloadValues()
 {
     for (const auto option : qAsConst(m_optionsList)) {
         option->readValue();
     }
 }
 
-void CoreInterfacePrivate::pollPollOptions()
+void InterfacePrivate::pollPollOptions()
 {
     for (int i = 1; i < m_optionsPollList.size(); ++i) {
         m_optionsPollList.at(i)->readValue();
     }
 }
 
-void CoreInterfacePrivate::imageScanFinished()
+void InterfacePrivate::imageScanFinished()
 {
     Q_EMIT q->scanProgress(100);
     if (m_scanThread->frameStatus() == ScanThread::ReadReady) {
@@ -362,17 +362,17 @@ void CoreInterfacePrivate::imageScanFinished()
             m_scanThread->start();
             return;
         }
-        scanIsFinished(CoreInterface::NoError, QString());
+        scanIsFinished(Interface::NoError, QString());
     } else {
         switch (m_scanThread->saneStatus()) {
         case SANE_STATUS_GOOD:
         case SANE_STATUS_CANCELLED:
         case SANE_STATUS_EOF:
-            scanIsFinished(CoreInterface::NoError, sane_i18n(sane_strstatus(m_scanThread->saneStatus())));
+            scanIsFinished(Interface::NoError, sane_i18n(sane_strstatus(m_scanThread->saneStatus())));
             break;
         case SANE_STATUS_NO_DOCS:
-            Q_EMIT q->userMessage(CoreInterface::Information, sane_i18n(sane_strstatus(m_scanThread->saneStatus())));
-            scanIsFinished(CoreInterface::Information, sane_i18n(sane_strstatus(m_scanThread->saneStatus())));
+            Q_EMIT q->userMessage(Interface::Information, sane_i18n(sane_strstatus(m_scanThread->saneStatus())));
+            scanIsFinished(Interface::Information, sane_i18n(sane_strstatus(m_scanThread->saneStatus())));
             break;
         case SANE_STATUS_UNSUPPORTED:
         case SANE_STATUS_IO_ERROR:
@@ -382,14 +382,14 @@ void CoreInterfacePrivate::imageScanFinished()
         case SANE_STATUS_COVER_OPEN:
         case SANE_STATUS_DEVICE_BUSY:
         case SANE_STATUS_ACCESS_DENIED:
-            Q_EMIT q->userMessage(CoreInterface::ErrorGeneral, sane_i18n(sane_strstatus(m_scanThread->saneStatus())));
-            scanIsFinished(CoreInterface::ErrorGeneral, sane_i18n(sane_strstatus(m_scanThread->saneStatus())));
+            Q_EMIT q->userMessage(Interface::ErrorGeneral, sane_i18n(sane_strstatus(m_scanThread->saneStatus())));
+            scanIsFinished(Interface::ErrorGeneral, sane_i18n(sane_strstatus(m_scanThread->saneStatus())));
             break;
         }
     }
 }
 
-void CoreInterfacePrivate::scanIsFinished(CoreInterface::ScanStatus status, const QString &message)
+void InterfacePrivate::scanIsFinished(Interface::ScanStatus status, const QString &message)
 {
     sane_cancel(m_saneHandle);
     if (m_optionsPollList.size() > 0 && !m_optionPollingNaughtylisted) {
@@ -399,7 +399,7 @@ void CoreInterfacePrivate::scanIsFinished(CoreInterface::ScanStatus status, cons
     Q_EMIT q->scanFinished(status, message);
 }
 
-void CoreInterfacePrivate::determineMultiPageScanning(const QVariant &value)
+void InterfacePrivate::determineMultiPageScanning(const QVariant &value)
 {
     const QString sourceString = value.toString();
 
@@ -408,18 +408,18 @@ void CoreInterfacePrivate::determineMultiPageScanning(const QVariant &value)
         || sourceString.contains(QStringLiteral("Duplex"));
 }
 
-void CoreInterfacePrivate::setWaitForExternalButton(const QVariant &value)
+void InterfacePrivate::setWaitForExternalButton(const QVariant &value)
 {
     m_waitForExternalButton = value.toBool();
 }
 
-void CoreInterfacePrivate::batchModeTimerUpdate()
+void InterfacePrivate::batchModeTimerUpdate()
 {
     const int delay = m_batchModeDelay->value().toInt();
     Q_EMIT q->batchModeCountDown(delay - m_batchModeCounter);
     if (m_batchModeCounter >= delay) {
         m_batchModeCounter = 0;
-        if (m_scanThread!= nullptr) {
+        if (m_scanThread != nullptr) {
             Q_EMIT q->scanProgress(-1);
             m_scanThread->start();
         }
@@ -428,4 +428,4 @@ void CoreInterfacePrivate::batchModeTimerUpdate()
     m_batchModeCounter++;
 }
 
-}  // NameSpace KSane
+} // NameSpace KSaneCore

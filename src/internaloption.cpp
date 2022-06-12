@@ -6,19 +6,20 @@
 
 
 #include "internaloption.h"
-#include "coreoption_p.h"
+#include "option_p.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
-InternalOption::InternalOption(BaseOption *option, QObject *parent) : CoreOption(parent)
+InternalOption::InternalOption(BaseOption *option, QObject *parent)
+    : Option(parent)
 {
     d->option = option;
-    connect(d->option, &BaseOption::optionReloaded, this, &CoreOption::optionReloaded);
-    connect(d->option, &BaseOption::valueChanged, this, &CoreOption::valueChanged);
+    connect(d->option, &BaseOption::optionReloaded, this, &Option::optionReloaded);
+    connect(d->option, &BaseOption::valueChanged, this, &Option::valueChanged);
     connect(d->option, &BaseOption::destroyed, this, [=]() {
         d->option = nullptr;
     });
 }
 
-}  // namespace KSane
+} // namespace KSaneCore

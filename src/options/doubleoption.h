@@ -10,7 +10,7 @@
 
 #include "baseoption.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 class DoubleOption : public BaseOption
@@ -37,6 +37,6 @@ private:
     double  m_minChange = 0.0001;
 };
 
-} // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_DOUBLE_OPTION_H

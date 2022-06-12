@@ -12,18 +12,18 @@
 static const int KSW_INT_MAX = 2147483647;
 static const int KSW_INT_MIN = -2147483647 - 1; // prevent warning
 
-namespace KSane
+namespace KSaneCore
 {
 
 IntegerOption::IntegerOption(const SANE_Handle handle, const int index)
     : BaseOption(handle, index)
 {
-    m_optionType = CoreOption::TypeInteger;
+    m_optionType = Option::TypeInteger;
 }
 
 void IntegerOption::readValue()
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return;
     }
 
@@ -83,7 +83,7 @@ QVariant IntegerOption::stepValue() const
 QVariant IntegerOption::value() const
 {
     QVariant value;
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return value;
     }
     value = m_iVal;
@@ -92,7 +92,7 @@ QVariant IntegerOption::value() const
 
 QString IntegerOption::valueAsString() const
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return QString();
     }
     return QString::number(m_iVal);
@@ -112,4 +112,4 @@ bool IntegerOption::setValue(const QVariant &val)
     return ok;
 }
 
-}  // namespace KSane
+} // namespace KSaneCore

@@ -11,12 +11,12 @@
 
 // Qt includes
 
+#include "ksanecore_export.h"
 #include <QObject>
 #include <QString>
 #include <QVariant>
-#include "ksanecore_export.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 class OptionPrivate;
@@ -25,12 +25,11 @@ class OptionPrivate;
  * A wrapper class providing access to the internal KSaneBaseOption
  * to access all options provided by KSANECore/SANE
  */
-class KSANECORE_EXPORT CoreOption : public QObject
+class KSANECORE_EXPORT Option : public QObject
 {
     Q_OBJECT
 
 public:
-
     /** This enumeration describes the type of the option. */
     enum OptionType { TypeDetectFail, TypeBool, TypeInteger, TypeDouble, TypeValueList, TypeString, TypeGamma, TypeAction };
 
@@ -38,31 +37,18 @@ public:
 
     /** This enumeration describes the unit of the value of the option,
      * if any. */
-    enum OptionUnit {
-        UnitNone,
-        UnitPixel,
-        UnitBit,
-        UnitMilliMeter,
-        UnitDPI,
-        UnitPercent,
-        UnitMicroSecond,
-        UnitSecond
-    };
+    enum OptionUnit { UnitNone, UnitPixel, UnitBit, UnitMilliMeter, UnitDPI, UnitPercent, UnitMicroSecond, UnitSecond };
 
     Q_ENUM(OptionUnit);
 
     /** This enumeration describes the current statue of the value of
      * the option, indicating if this option should be displayed or not. */
-    enum OptionState {
-        StateHidden,
-        StateDisabled,
-        StateActive
-    };
+    enum OptionState { StateHidden, StateDisabled, StateActive };
 
     Q_ENUM(OptionState);
 
-    explicit CoreOption(QObject *parent = nullptr);
-    ~CoreOption() override;
+    explicit Option(QObject *parent = nullptr);
+    ~Option() override;
 
     /** This function returns the internal name of the option
      * @return the internal name */
@@ -162,10 +148,9 @@ public Q_SLOTS:
     bool setValue(const QVariant &value);
 
 protected:
-    std::unique_ptr<KSane::OptionPrivate> d;
+    std::unique_ptr<KSaneCore::OptionPrivate> d;
 };
 
-}  // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_COREOPTION_H
-

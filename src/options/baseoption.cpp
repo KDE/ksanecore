@@ -9,7 +9,7 @@
 
 #include <ksanecore_debug.h>
 
-namespace KSane
+namespace KSaneCore
 {
 
 BaseOption::BaseOption() : QObject()
@@ -47,20 +47,18 @@ void BaseOption::endOptionReload()
     Q_EMIT optionReloaded();
 }
 
-CoreOption::OptionState BaseOption::state() const
+Option::OptionState BaseOption::state() const
 {
     if (m_optDesc == nullptr) {
-        return CoreOption::StateHidden;
+        return Option::StateHidden;
     }
 
-    if (((m_optDesc->cap & SANE_CAP_SOFT_DETECT) == 0) ||
-            (m_optDesc->cap & SANE_CAP_INACTIVE) ||
-            ((m_optDesc->size == 0) && (type() != CoreOption::TypeAction))) {
-        return CoreOption::StateHidden;
+    if (((m_optDesc->cap & SANE_CAP_SOFT_DETECT) == 0) || (m_optDesc->cap & SANE_CAP_INACTIVE) || ((m_optDesc->size == 0) && (type() != Option::TypeAction))) {
+        return Option::StateHidden;
     } else if ((m_optDesc->cap & SANE_CAP_SOFT_SELECT) == 0) {
-        return CoreOption::StateDisabled;
+        return Option::StateDisabled;
     }
-    return CoreOption::StateActive;
+    return Option::StateActive;
 }
 
 bool BaseOption::needsPolling() const
@@ -101,7 +99,7 @@ QString BaseOption::description() const
     return sane_i18n(m_optDesc->desc);
 }
 
-CoreOption::OptionType BaseOption::type() const
+Option::OptionType BaseOption::type() const
 {
     return m_optionType;
 }
@@ -111,7 +109,7 @@ bool BaseOption::writeData(void *data)
     SANE_Status status;
     SANE_Int res;
 
-    if (state() == CoreOption::StateDisabled) {
+    if (state() == Option::StateDisabled) {
         return false;
     }
 
@@ -204,27 +202,27 @@ QVariantList BaseOption::internalValueList() const
     return QVariantList();
 }
 
-CoreOption::OptionUnit BaseOption::valueUnit() const
+Option::OptionUnit BaseOption::valueUnit() const
 {
     if (m_optDesc != nullptr) {
         switch (m_optDesc->unit) {
         case SANE_UNIT_PIXEL:
-            return CoreOption::UnitPixel;
+            return Option::UnitPixel;
         case SANE_UNIT_BIT:
-            return CoreOption::UnitBit;
+            return Option::UnitBit;
         case SANE_UNIT_MM:
-            return CoreOption::UnitMilliMeter;
+            return Option::UnitMilliMeter;
         case SANE_UNIT_DPI:
-            return CoreOption::UnitDPI;
+            return Option::UnitDPI;
         case SANE_UNIT_PERCENT:
-            return CoreOption::UnitPercent;
+            return Option::UnitPercent;
         case SANE_UNIT_MICROSECOND:
-            return CoreOption::UnitMicroSecond;
+            return Option::UnitMicroSecond;
         default:
-            return CoreOption::UnitNone;
+            return Option::UnitNone;
         }
     } else {
-        return CoreOption::UnitNone;
+        return Option::UnitNone;
     }
 }
 
@@ -252,7 +250,7 @@ bool BaseOption::storeCurrentData()
     SANE_Int res;
 
     // check if we can read the value
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return false;
     }
 
@@ -277,10 +275,10 @@ bool BaseOption::restoreSavedData()
     }
 
     // check if we can write the value
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return false;
     }
-    if (state() == CoreOption::StateDisabled) {
+    if (state() == Option::StateDisabled) {
         return false;
     }
 
@@ -289,20 +287,20 @@ bool BaseOption::restoreSavedData()
     return true;
 }
 
-CoreOption::OptionType BaseOption::optionType(const SANE_Option_Descriptor *optDesc)
+Option::OptionType BaseOption::optionType(const SANE_Option_Descriptor *optDesc)
 {
     if (!optDesc) {
-        return CoreOption::TypeDetectFail;
+        return Option::TypeDetectFail;
     }
 
     switch (optDesc->constraint_type) {
     case SANE_CONSTRAINT_NONE:
         switch (optDesc->type) {
         case SANE_TYPE_BOOL:
-            return CoreOption::TypeBool;
+            return Option::TypeBool;
         case SANE_TYPE_INT:
             if (optDesc->size == sizeof(SANE_Word)) {
-                return CoreOption::TypeInteger;
+                return Option::TypeInteger;
             }
             qCDebug(KSANECORE_LOG) << "Can not handle:" << optDesc->title;
             qCDebug(KSANECORE_LOG) << "SANE_CONSTRAINT_NONE && SANE_TYPE_INT";
@@ -310,34 +308,34 @@ CoreOption::OptionType BaseOption::optionType(const SANE_Option_Descriptor *optD
             break;
         case SANE_TYPE_FIXED:
             if (optDesc->size == sizeof(SANE_Word)) {
-                return CoreOption::TypeDouble;
+                return Option::TypeDouble;
             }
             qCDebug(KSANECORE_LOG) << "Can not handle:" << optDesc->title;
             qCDebug(KSANECORE_LOG) << "SANE_CONSTRAINT_NONE && SANE_TYPE_FIXED";
             qCDebug(KSANECORE_LOG) << "size" << optDesc->size << "!= sizeof(SANE_Word)";
             break;
         case SANE_TYPE_BUTTON:
-            return CoreOption::TypeAction;
+            return Option::TypeAction;
         case SANE_TYPE_STRING:
-            return CoreOption::TypeString;
+            return Option::TypeString;
         case SANE_TYPE_GROUP:
-            return CoreOption::TypeDetectFail;
+            return Option::TypeDetectFail;
         }
         break;
     case SANE_CONSTRAINT_RANGE:
         switch (optDesc->type) {
         case SANE_TYPE_BOOL:
-            return CoreOption::TypeBool;
+            return Option::TypeBool;
         case SANE_TYPE_INT:
             if (optDesc->size == sizeof(SANE_Word)) {
-                return CoreOption::TypeInteger;
+                return Option::TypeInteger;
             }
 
             if ((strcmp(optDesc->name, SANE_NAME_GAMMA_VECTOR) == 0) ||
                     (strcmp(optDesc->name, SANE_NAME_GAMMA_VECTOR_R) == 0) ||
                     (strcmp(optDesc->name, SANE_NAME_GAMMA_VECTOR_G) == 0) ||
                     (strcmp(optDesc->name, SANE_NAME_GAMMA_VECTOR_B) == 0)) {
-                return CoreOption::TypeGamma;
+                return Option::TypeGamma;
             }
             qCDebug(KSANECORE_LOG) << "Can not handle:" << optDesc->title;
             qCDebug(KSANECORE_LOG) << "SANE_CONSTRAINT_RANGE && SANE_TYPE_INT && !SANE_NAME_GAMMA_VECTOR...";
@@ -345,7 +343,7 @@ CoreOption::OptionType BaseOption::optionType(const SANE_Option_Descriptor *optD
             break;
         case SANE_TYPE_FIXED:
             if (optDesc->size == sizeof(SANE_Word)) {
-                return CoreOption::TypeDouble;
+                return Option::TypeDouble;
             }
             qCDebug(KSANECORE_LOG) << "Can not handle:" << optDesc->title;
             qCDebug(KSANECORE_LOG) << "SANE_CONSTRAINT_RANGE && SANE_TYPE_FIXED";
@@ -355,18 +353,18 @@ CoreOption::OptionType BaseOption::optionType(const SANE_Option_Descriptor *optD
         case SANE_TYPE_STRING:
             qCDebug(KSANECORE_LOG) << "Can not handle:" << optDesc->title;
             qCDebug(KSANECORE_LOG) << "SANE_CONSTRAINT_RANGE && SANE_TYPE_STRING";
-            return CoreOption::TypeDetectFail;
+            return Option::TypeDetectFail;
         case SANE_TYPE_BUTTON:
-            return CoreOption::TypeAction;
+            return Option::TypeAction;
         case SANE_TYPE_GROUP:
-            return CoreOption::TypeDetectFail;
+            return Option::TypeDetectFail;
         }
         break;
     case SANE_CONSTRAINT_WORD_LIST:
     case SANE_CONSTRAINT_STRING_LIST:
-        return CoreOption::TypeValueList;
+        return Option::TypeValueList;
     }
-    return CoreOption::TypeDetectFail;
+    return Option::TypeDetectFail;
 }
 
-} // namespace KSane
+} // namespace KSaneCore

@@ -8,17 +8,17 @@
 
 #include <ksanecore_debug.h>
 
-namespace KSane
+namespace KSaneCore
 {
 
 BatchModeOption::BatchModeOption()
 {
-    m_optionType = CoreOption::TypeBool;
+    m_optionType = Option::TypeBool;
 }
 
-CoreOption::OptionState BatchModeOption::state() const
+Option::OptionState BatchModeOption::state() const
 {
-    return CoreOption::StateActive;
+    return Option::StateActive;
 }
 
 QString BatchModeOption::name() const
@@ -54,7 +54,7 @@ QVariant BatchModeOption::value() const
 
 QString BatchModeOption::valueAsString() const
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return QString();
     }
     if (m_checked) {
@@ -64,4 +64,4 @@ QString BatchModeOption::valueAsString() const
     }
 }
 
-}  // NameSpace KSane
+} // NameSpace KSaneCore

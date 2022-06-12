@@ -8,12 +8,12 @@
 
 #include <ksanecore_debug.h>
 
-namespace KSane
+namespace KSaneCore
 {
 
 InvertOption::InvertOption()
 {
-    m_optionType = CoreOption::TypeBool;
+    m_optionType = Option::TypeBool;
 }
 
 bool InvertOption::setValue(const QVariant &value)
@@ -43,9 +43,9 @@ QString InvertOption::valueAsString() const
     }
 }
 
-CoreOption::OptionState InvertOption::state() const
+Option::OptionState InvertOption::state() const
 {
-    return CoreOption::StateActive;
+    return Option::StateActive;
 }
 
 QString InvertOption::name() const
@@ -63,4 +63,4 @@ QString InvertOption::description() const
     return i18n("Invert the colors of the scanned image.");
 }
 
-}  // namespace KSane
+} // namespace KSaneCore

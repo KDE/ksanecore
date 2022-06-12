@@ -12,7 +12,7 @@
 
 #include <ksanecore_debug.h>
 
-namespace KSane
+namespace KSaneCore
 {
 ImageBuilder::ImageBuilder(QImage *image, int *dpi)
     : m_image(image), m_dpi(dpi)
@@ -264,4 +264,4 @@ void ImageBuilder::incrementPixelData()
     }
 }
 
-} // namespace KSane
+} // namespace KSaneCore

@@ -26,7 +26,7 @@ extern "C"
 
 #define SCAN_READ_CHUNK_SIZE 100000
 
-namespace KSane
+namespace KSaneCore
 {
 
 class ScanThread: public QThread
@@ -81,6 +81,6 @@ private:
     QTimer          m_emitProgressUpdateTimer;
 };
 
-} // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_SCAN_THREAD_H

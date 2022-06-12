@@ -9,7 +9,7 @@
 
 #include "baseoption.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 class ActionOption : public BaseOption
@@ -23,6 +23,6 @@ public Q_SLOTS:
     bool setValue(const QVariant &value) override;
 };
 
-} // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_ACTION_OPTION_H

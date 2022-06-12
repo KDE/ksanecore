@@ -9,7 +9,7 @@
 
 #include "baseoption.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 class DeviceInformationPrivate
@@ -21,7 +21,7 @@ public:
     QString type;     /* device type (e.g., "flatbed scanner") */
 };
 
-}  // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_DEVICEINFORMATION_P_H
 

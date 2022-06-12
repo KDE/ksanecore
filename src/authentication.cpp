@@ -14,7 +14,7 @@
 
 #include <ksanecore_debug.h>
 
-namespace KSane
+namespace KSaneCore
 {
 
 static Authentication *s_instance = nullptr;
@@ -114,5 +114,4 @@ void Authentication::authorization(SANE_String_Const resource, SANE_Char *userna
     }
 }
 
-} // namespace KSane
-
+} // namespace KSaneCore

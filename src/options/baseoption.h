@@ -22,11 +22,11 @@ extern "C"
 #include <sane/saneopts.h>
 }
 
-#include "../coreoption.h"
+#include "../option.h"
 
 #define SANE_TRANSLATION_DOMAIN "sane-backends"
 
-namespace KSane
+namespace KSaneCore
 {
 
 inline QString sane_i18n(const char *text) {
@@ -43,7 +43,7 @@ public:
     BaseOption();
     BaseOption(const SANE_Handle handle, const int index);
     ~BaseOption() override;
-    static CoreOption::OptionType optionType(const SANE_Option_Descriptor *optDesc);
+    static Option::OptionType optionType(const SANE_Option_Descriptor *optDesc);
 
     bool needsPolling() const;
     virtual void readOption();
@@ -53,15 +53,15 @@ public:
     virtual QString name() const;
     virtual QString title() const;
     virtual QString description() const;
-    virtual CoreOption::OptionType type() const;
-    virtual CoreOption::OptionState state() const;
+    virtual Option::OptionType type() const;
+    virtual Option::OptionState state() const;
     virtual QVariant minimumValue() const;
     virtual QVariant maximumValue() const;
     virtual QVariant stepValue() const;
     virtual QVariant value() const;
     virtual QVariantList valueList() const;
     virtual QVariantList internalValueList() const;
-    virtual CoreOption::OptionUnit valueUnit() const;
+    virtual Option::OptionUnit valueUnit() const;
     virtual int valueSize() const;
     virtual QString valueAsString() const;
 
@@ -90,10 +90,10 @@ protected:
     int                           m_index = -1;
     const SANE_Option_Descriptor *m_optDesc = nullptr; ///< This pointer is provided by sane
     unsigned char                *m_data= nullptr;
-    CoreOption::OptionType        m_optionType = CoreOption::TypeDetectFail;
+    Option::OptionType m_optionType = Option::TypeDetectFail;
 };
 
-} // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_BASE_OPTION_H
 

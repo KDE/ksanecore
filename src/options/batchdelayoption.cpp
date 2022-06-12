@@ -7,17 +7,18 @@
 #include "batchdelayoption.h"
 #include <ksanecore_debug.h>
 
-namespace KSane
+namespace KSaneCore
 {
 
 BatchDelayOption::BatchDelayOption()
 {
-    m_optionType = CoreOption::TypeInteger;
+    m_optionType = Option::TypeInteger;
 }
 
-CoreOption::OptionState BatchDelayOption::state() const
+Option::OptionState BatchDelayOption::state() const
 {
-    return CoreOption::StateActive;;
+    return Option::StateActive;
+    ;
 }
 
 QString BatchDelayOption::name() const
@@ -60,9 +61,9 @@ QString BatchDelayOption::valueAsString() const
     return QString::number(m_delayValue);
 }
 
-CoreOption::OptionUnit BatchDelayOption::valueUnit() const
+Option::OptionUnit BatchDelayOption::valueUnit() const
 {
-    return CoreOption::UnitSecond;
+    return Option::UnitSecond;
 }
 
 bool BatchDelayOption::setValue(const QVariant &val)
@@ -76,4 +77,4 @@ bool BatchDelayOption::setValue(const QVariant &val)
     return ok;
 }
 
-}  // NameSpace KSane
+} // NameSpace KSaneCore

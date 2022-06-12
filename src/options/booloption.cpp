@@ -11,18 +11,18 @@
 
 #include <ksanecore_debug.h>
 
-namespace KSane
+namespace KSaneCore
 {
 
 BoolOption::BoolOption(const SANE_Handle handle, const int index)
     : BaseOption(handle, index)
 {
-    m_optionType = CoreOption::TypeBool;
+    m_optionType = Option::TypeBool;
 }
 
 bool BoolOption::setValue(const QVariant &value)
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return false;
     }
 
@@ -41,7 +41,7 @@ bool BoolOption::setValue(const QVariant &value)
 
 void BoolOption::readValue()
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return;
     }
 
@@ -63,7 +63,7 @@ void BoolOption::readValue()
 
 QVariant BoolOption::value() const
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return QVariant();
     }
     return m_checked;
@@ -71,7 +71,7 @@ QVariant BoolOption::value() const
 
 QString BoolOption::valueAsString() const
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return QString();
     }
     if (m_checked) {
@@ -81,4 +81,4 @@ QString BoolOption::valueAsString() const
     }
 }
 
-} // namespace KSane
+} // namespace KSaneCore

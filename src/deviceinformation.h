@@ -14,7 +14,7 @@
 
 #include "ksanecore_export.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 class DeviceInformationPrivate;
@@ -47,10 +47,10 @@ public:
     QString type() const;
 
 protected:
-    std::unique_ptr<KSane::DeviceInformationPrivate> d;
+    std::unique_ptr<KSaneCore::DeviceInformationPrivate> d;
 };
 
-}  // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_DEVICEINFORMATION_H
 

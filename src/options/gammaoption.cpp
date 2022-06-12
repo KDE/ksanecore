@@ -13,18 +13,18 @@
 
 #include <cmath>
 
-namespace KSane
+namespace KSaneCore
 {
 
 GammaOption::GammaOption(const SANE_Handle handle, const int index)
     : BaseOption(handle, index)
 {
-    m_optionType = CoreOption::TypeGamma;
+    m_optionType = Option::TypeGamma;
 }
 
 bool GammaOption::setValue(const QVariant &value)
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return false;
     }
 
@@ -96,7 +96,7 @@ void GammaOption::readValue()
 
 QVariant GammaOption::value() const
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return QVariant();
     }
     return QVariantList{ m_brightness, m_contrast, m_gamma };
@@ -119,7 +119,7 @@ QVariant GammaOption::maximumValue() const
 
 QString GammaOption::valueAsString() const
 {
-    if (state() == CoreOption::StateHidden) {
+    if (state() == Option::StateHidden) {
         return QString();
     }
 
@@ -161,4 +161,4 @@ void GammaOption::calculateGTwriteData()
     Q_EMIT valueChanged(values);
 }
 
-}  // namespace KSane
+} // namespace KSaneCore

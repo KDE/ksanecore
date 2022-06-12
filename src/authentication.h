@@ -17,7 +17,7 @@ extern "C"
 #include <sane/sane.h>
 }
 
-namespace KSane
+namespace KSaneCore
 {
 
 /**
@@ -39,6 +39,6 @@ private:
     Private *const d;
 };
 
-} // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_AUTHENTICATION_H

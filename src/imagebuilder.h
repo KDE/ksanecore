@@ -16,7 +16,7 @@ extern "C"
 
 class QImage;
 
-namespace KSane
+namespace KSaneCore
 {
 
 /* Constructs a QImage out of the raw scanned data retrieved via libsane */
@@ -45,6 +45,6 @@ private:
     int *m_dpi;
 };
 
-} // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_IMAGE_BUILDER_H

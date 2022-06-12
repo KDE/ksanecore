@@ -8,13 +8,13 @@
 #ifndef KSANE_FIND_DEVICES_THREAD_H
 #define KSANE_FIND_DEVICES_THREAD_H
 
-#include "coreinterface.h"
 #include "deviceinformation.h"
+#include "interface.h"
 
 #include <QThread>
 #include <QList>
 
-namespace KSane
+namespace KSaneCore
 {
 
 class FindSaneDevicesThread : public QThread
@@ -27,15 +27,15 @@ public:
     void run() override;
 
     QList<DeviceInformation *> devicesList() const;
-    void setDeviceType(const CoreInterface::DeviceType type);
+    void setDeviceType(const Interface::DeviceType type);
 
 private:
     FindSaneDevicesThread();
 
     QList<DeviceInformation *> m_deviceList;
-    CoreInterface::DeviceType m_deviceType = CoreInterface::AllDevices;
+    Interface::DeviceType m_deviceType = Interface::AllDevices;
 };
 
-} // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_FIND_DEVICES_THREAD_H

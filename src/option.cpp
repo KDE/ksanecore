@@ -4,22 +4,24 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
-#include "coreoption.h"
-#include "coreoption_p.h"
+#include "option.h"
 #include "baseoption.h"
+#include "option_p.h"
 
 #include <ksanecore_debug.h>
 
-namespace KSane
+namespace KSaneCore
 {
 
-CoreOption::CoreOption(QObject *parent) : QObject(parent), d(std::make_unique<OptionPrivate>())
+Option::Option(QObject *parent)
+    : QObject(parent)
+    , d(std::make_unique<OptionPrivate>())
 {
 }
 
-CoreOption::~CoreOption() = default;
+Option::~Option() = default;
 
-CoreOption::OptionState CoreOption::state() const
+Option::OptionState Option::state() const
 {
     if (d->option != nullptr) {
         return d->option->state();
@@ -28,7 +30,7 @@ CoreOption::OptionState CoreOption::state() const
     }
 }
 
-QString CoreOption::name() const
+QString Option::name() const
 {
     if (d->option != nullptr) {
         return d->option->name();
@@ -37,7 +39,7 @@ QString CoreOption::name() const
     }
 }
 
-QString CoreOption::title() const
+QString Option::title() const
 {
     if (d->option != nullptr) {
         return d->option->title();
@@ -46,7 +48,7 @@ QString CoreOption::title() const
     }
 }
 
-QString CoreOption::description() const
+QString Option::description() const
 {
     if (d->option != nullptr) {
         return d->option->description();
@@ -55,7 +57,7 @@ QString CoreOption::description() const
     }
 }
 
-CoreOption::OptionType CoreOption::type() const
+Option::OptionType Option::type() const
 {
     if (d->option != nullptr) {
         return d->option->type();
@@ -64,7 +66,7 @@ CoreOption::OptionType CoreOption::type() const
     }
 }
 
-QVariant CoreOption::minimumValue() const
+QVariant Option::minimumValue() const
 {
     if (d->option != nullptr) {
         return d->option->minimumValue();
@@ -73,7 +75,7 @@ QVariant CoreOption::minimumValue() const
     }
 }
 
-QVariant CoreOption::maximumValue() const
+QVariant Option::maximumValue() const
 {
     if (d->option != nullptr) {
         return d->option->maximumValue();
@@ -82,7 +84,7 @@ QVariant CoreOption::maximumValue() const
     }
 }
 
-QVariant CoreOption::stepValue() const
+QVariant Option::stepValue() const
 {
     if (d->option != nullptr) {
         return d->option->stepValue();
@@ -91,7 +93,7 @@ QVariant CoreOption::stepValue() const
     }
 }
 
-QVariantList CoreOption::valueList() const
+QVariantList Option::valueList() const
 {
     if (d->option != nullptr) {
         return d->option->valueList();
@@ -100,7 +102,7 @@ QVariantList CoreOption::valueList() const
     }
 }
 
-QVariantList CoreOption::internalValueList() const
+QVariantList Option::internalValueList() const
 {
     if (d->option != nullptr) {
         return d->option->internalValueList();
@@ -109,7 +111,7 @@ QVariantList CoreOption::internalValueList() const
     }
 }
 
-QVariant CoreOption::value() const
+QVariant Option::value() const
 {
     if (d->option != nullptr) {
         return d->option->value();
@@ -118,7 +120,7 @@ QVariant CoreOption::value() const
     }
 }
 
-CoreOption::OptionUnit CoreOption::valueUnit() const
+Option::OptionUnit Option::valueUnit() const
 {
     if (d->option != nullptr) {
         return d->option->valueUnit();
@@ -127,7 +129,7 @@ CoreOption::OptionUnit CoreOption::valueUnit() const
     }
 }
 
-int CoreOption::valueSize() const
+int Option::valueSize() const
 {
     if (d->option != nullptr) {
         return d->option->valueSize();
@@ -136,7 +138,7 @@ int CoreOption::valueSize() const
     }
 }
 
-bool CoreOption::setValue(const QVariant &value)
+bool Option::setValue(const QVariant &value)
 {
     if (d->option != nullptr) {
         return d->option->setValue(value);
@@ -145,7 +147,7 @@ bool CoreOption::setValue(const QVariant &value)
     }
 }
 
-bool CoreOption::storeCurrentData()
+bool Option::storeCurrentData()
 {
     if (d->option != nullptr) {
         return d->option->storeCurrentData();
@@ -154,7 +156,7 @@ bool CoreOption::storeCurrentData()
     }
 }
 
-bool CoreOption::restoreSavedData()
+bool Option::restoreSavedData()
 {
     if (d->option != nullptr) {
         return d->option->restoreSavedData();
@@ -163,4 +165,4 @@ bool CoreOption::restoreSavedData()
     }
 }
 
-} // namespace KSane
+} // namespace KSaneCore

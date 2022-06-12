@@ -11,10 +11,10 @@ target_sources(KSaneCore PRIVATE
     finddevicesthread.cpp
     scanthread.cpp
     imagebuilder.cpp
-    coreinterface.cpp
-    coreinterface_p.cpp
+    interface.cpp
+    interface_p.cpp
     authentication.cpp
-    coreoption.cpp
+    option.cpp
     internaloption.cpp
     deviceinformation.cpp
     options/baseoption.cpp
@@ -64,8 +64,8 @@ set_target_properties(KSaneCore
 
 ecm_generate_headers(KSaneCore_HEADERS
     HEADER_NAMES
-        CoreInterface
-        CoreOption
+        Interface
+        Option
         DeviceInformation
     REQUIRED_HEADERS KSaneCore_HEADERS
     RELATIVE "../src/"

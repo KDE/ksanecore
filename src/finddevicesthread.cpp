@@ -22,7 +22,7 @@ extern "C"
 
 #include "deviceinformation_p.h"
 
-namespace KSane
+namespace KSaneCore
 {
 static FindSaneDevicesThread *s_instancesane = nullptr;
 Q_GLOBAL_STATIC(QMutex, s_mutexsane)
@@ -88,8 +88,8 @@ void FindSaneDevicesThread::run()
             /* Do not list cameras as scanner devices when requested.
              * Strings taken from SANE API documentation. */
             const QString type = QString::fromUtf8(devList[i]->type);
-            if (m_deviceType == CoreInterface::AllDevices
-                || (m_deviceType == CoreInterface::NoCameraAndVirtualDevices && type != QLatin1String("still camera") && type != QLatin1String("video camera")
+            if (m_deviceType == Interface::AllDevices
+                || (m_deviceType == Interface::NoCameraAndVirtualDevices && type != QLatin1String("still camera") && type != QLatin1String("video camera")
                     && type != QLatin1String("virtual device"))) {
                 InternalDeviceInformation *device = new InternalDeviceInformation(QString::fromUtf8(devList[i]->name),
                                                                                   QString::fromUtf8(devList[i]->vendor),
@@ -110,9 +110,9 @@ QList<DeviceInformation *> FindSaneDevicesThread::devicesList() const
     return m_deviceList;
 }
 
-void FindSaneDevicesThread::setDeviceType(const CoreInterface::DeviceType type)
+void FindSaneDevicesThread::setDeviceType(const Interface::DeviceType type)
 {
     m_deviceType = type;
 }
 
-} // namespace KSane
+} // namespace KSaneCore

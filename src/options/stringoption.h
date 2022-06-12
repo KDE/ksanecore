@@ -9,7 +9,7 @@
 
 #include "baseoption.h"
 
-namespace KSane
+namespace KSaneCore
 {
 
 class StringOption : public BaseOption
@@ -32,6 +32,6 @@ private:
     QString       m_string;
 };
 
-} // namespace KSane
+} // namespace KSaneCore
 
 #endif // KSANE_STRING_OPTION_H
