@@ -33,19 +33,19 @@ public:
     /** This enumeration describes the type of the option. */
     enum OptionType { TypeDetectFail, TypeBool, TypeInteger, TypeDouble, TypeValueList, TypeString, TypeGamma, TypeAction };
 
-    Q_ENUM(OptionType);
+    Q_ENUM(OptionType)
 
     /** This enumeration describes the unit of the value of the option,
      * if any. */
     enum OptionUnit { UnitNone, UnitPixel, UnitBit, UnitMilliMeter, UnitDPI, UnitPercent, UnitMicroSecond, UnitSecond };
 
-    Q_ENUM(OptionUnit);
+    Q_ENUM(OptionUnit)
 
     /** This enumeration describes the current statue of the value of
      * the option, indicating if this option should be displayed or not. */
     enum OptionState { StateHidden, StateDisabled, StateActive };
 
-    Q_ENUM(OptionState);
+    Q_ENUM(OptionState)
 
     explicit Option(QObject *parent = nullptr);
     ~Option() override;
