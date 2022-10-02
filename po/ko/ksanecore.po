@@ -1,0 +1,72 @@
+# Copyright (C) YEAR This file is copyright:
+# This file is distributed under the same license as the ksanecore package.
+# Shinjo Park <kde@peremen.name>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ksanecore\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-06-17 00:43+0000\n"
+"PO-Revision-Date: 2022-02-20 22:55+0100\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
+"Language-Team: Korean <kde-kr@kde.org>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 21.08.1\n"
+
+#: interface.cpp:221
+#, kde-format
+msgid "Scanning stopped by user."
+msgstr "사용자가 스캔을 중단했습니다."
+
+#: options/batchdelayoption.cpp:31
+#, kde-format
+msgid "Batch mode time delay"
+msgstr "일괄 작업 모드 시간 지연"
+
+#: options/batchdelayoption.cpp:36
+#, kde-format
+msgid "Specify the time delay between each scan when batch mode is enabled."
+msgstr "일괄 작업 모드에서 각각 스캔별 지연 시간을 설정합니다."
+
+#: options/batchmodeoption.cpp:31
+#, kde-format
+msgid "Batch mode with time delay"
+msgstr "시간 지연이 있는 일괄 작업 모드"
+
+#: options/batchmodeoption.cpp:36
+#, kde-format
+msgid ""
+"Enables batch mode scanning. Continues scanning after a delay until canceled."
+msgstr ""
+"일괄 작업 스캔 모드를 활성화합니다. 취소하기 전까지 일정 시간 대기한 후 스캔"
+"을 계속합니다."
+
+#: options/invertoption.cpp:58
+#, kde-format
+msgid "Invert colors"
+msgstr "색 반전"
+
+#: options/invertoption.cpp:63
+#, kde-format
+msgid "Invert the colors of the scanned image."
+msgstr "스캔된 이미지의 색상을 반전합니다."
+
+#: options/pagesizeoption.cpp:98
+#, kde-format
+msgctxt "Page size landscape"
+msgid "Landscape %1"
+msgstr "가로 %1"
+
+#: options/pagesizeoption.cpp:173
+#, kde-format
+msgid "Scan area size"
+msgstr "스캔 영역 크기"
+
+#: options/pagesizeoption.cpp:178
+#, kde-format
+msgid "Select a predefined page size for the scanning area."
+msgstr "사전 정의된 스캔 영역 크기를 선택합니다."

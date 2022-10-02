@@ -1,0 +1,75 @@
+# Copyright (C) YEAR This file is copyright:
+# This file is distributed under the same license as the ksanecore package.
+# Luigi Toscano <luigi.toscano@tiscali.it>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ksanecore\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-06-17 00:43+0000\n"
+"PO-Revision-Date: 2022-01-02 01:34+0100\n"
+"Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
+"Language-Team: Italian <kde-i18n-it@kde.org>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.08.0\n"
+
+#: interface.cpp:221
+#, kde-format
+msgid "Scanning stopped by user."
+msgstr "Scansione interrotta dall'utente."
+
+#: options/batchdelayoption.cpp:31
+#, kde-format
+msgid "Batch mode time delay"
+msgstr "Ritardo modalità non interattiva"
+
+#: options/batchdelayoption.cpp:36
+#, kde-format
+msgid "Specify the time delay between each scan when batch mode is enabled."
+msgstr ""
+"Specifica il ritardo tra scansioni quando è attiva la modalità non "
+"interattiva."
+
+#: options/batchmodeoption.cpp:31
+#, kde-format
+msgid "Batch mode with time delay"
+msgstr "Modalità non interattiva con ritardo"
+
+#: options/batchmodeoption.cpp:36
+#, kde-format
+msgid ""
+"Enables batch mode scanning. Continues scanning after a delay until canceled."
+msgstr ""
+"Abilita la scansione in modalità non interattiva. Continua la scansione dopo "
+"un certo intervallo finché non viene annullata."
+
+#: options/invertoption.cpp:58
+#, kde-format
+msgid "Invert colors"
+msgstr "Inverti i colori"
+
+#: options/invertoption.cpp:63
+#, kde-format
+msgid "Invert the colors of the scanned image."
+msgstr "Inverti i colori dell'immagine scansionata."
+
+#: options/pagesizeoption.cpp:98
+#, kde-format
+msgctxt "Page size landscape"
+msgid "Landscape %1"
+msgstr "%1 orizzontale"
+
+#: options/pagesizeoption.cpp:173
+#, kde-format
+msgid "Scan area size"
+msgstr "Dimensione area di scansione"
+
+#: options/pagesizeoption.cpp:178
+#, kde-format
+msgid "Select a predefined page size for the scanning area."
+msgstr ""
+"Seleziona una dimensione di pagina predefinita per l'area di scansione."

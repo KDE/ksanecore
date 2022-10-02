@@ -1,0 +1,75 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR This file is copyright:
+# This file is distributed under the same license as the ksanecore package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ksanecore\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-06-17 00:43+0000\n"
+"PO-Revision-Date: 2022-03-23 17:48+0000\n"
+"Last-Translator: José Nuno Coelho Pires <zepires@gmail.com>\n"
+"Language-Team: Portuguese <kde-i18n-pt@kde.org>\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: interface.cpp:221
+#, kde-format
+msgid "Scanning stopped by user."
+msgstr "A digitalização foi interrompida pelo utilizador."
+
+#: options/batchdelayoption.cpp:31
+#, kde-format
+msgid "Batch mode time delay"
+msgstr "Atraso de tempo no modo em lote"
+
+#: options/batchdelayoption.cpp:36
+#, kde-format
+msgid "Specify the time delay between each scan when batch mode is enabled."
+msgstr ""
+"Defina o atraso de tempo entre cada digitalização quando o modo em lote está "
+"activo."
+
+#: options/batchmodeoption.cpp:31
+#, kde-format
+msgid "Batch mode with time delay"
+msgstr "Modo em lote com atraso de tempo"
+
+#: options/batchmodeoption.cpp:36
+#, kde-format
+msgid ""
+"Enables batch mode scanning. Continues scanning after a delay until canceled."
+msgstr ""
+"Activa a digitalização num modo em lote. Continua a digitalizar ao fim de "
+"algum tempo, até que cancele a operação."
+
+#: options/invertoption.cpp:58
+#, kde-format
+msgid "Invert colors"
+msgstr "Inverter as cores"
+
+#: options/invertoption.cpp:63
+#, kde-format
+msgid "Invert the colors of the scanned image."
+msgstr "Inverter as cores da imagem digitalizada."
+
+#: options/pagesizeoption.cpp:98
+#, kde-format
+msgctxt "Page size landscape"
+msgid "Landscape %1"
+msgstr "Paisagem %1"
+
+#: options/pagesizeoption.cpp:173
+#, kde-format
+msgid "Scan area size"
+msgstr "Tamanho da área de digitalização"
+
+#: options/pagesizeoption.cpp:178
+#, kde-format
+msgid "Select a predefined page size for the scanning area."
+msgstr ""
+"Seleccione um tamanho de página predefinido para a área de digitalização."

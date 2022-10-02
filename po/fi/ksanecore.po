@@ -1,0 +1,72 @@
+# Copyright (C) YEAR This file is copyright:
+# This file is distributed under the same license as the ksanecore package.
+# Tommi Nieminen <translator@legisign.org>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ksanecore\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-06-17 00:43+0000\n"
+"PO-Revision-Date: 2022-06-05 19:39+0300\n"
+"Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
+"Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.12.3\n"
+
+#: interface.cpp:221
+#, kde-format
+msgid "Scanning stopped by user."
+msgstr "Käyttäjä lopetti kuvanluvun."
+
+#: options/batchdelayoption.cpp:31
+#, kde-format
+msgid "Batch mode time delay"
+msgstr "Eräajon aikaviive"
+
+#: options/batchdelayoption.cpp:36
+#, kde-format
+msgid "Specify the time delay between each scan when batch mode is enabled."
+msgstr "Aseta kuvanlukujen välinen aikaviive käytettäessä eräajoa."
+
+#: options/batchmodeoption.cpp:31
+#, kde-format
+msgid "Batch mode with time delay"
+msgstr "Eräajo aikaviipeellä"
+
+#: options/batchmodeoption.cpp:36
+#, kde-format
+msgid ""
+"Enables batch mode scanning. Continues scanning after a delay until canceled."
+msgstr ""
+"Mahdollistaa eräajoluvun. Jatkaa lukemista aina aikaviipeellä, kunnes "
+"perutaan."
+
+#: options/invertoption.cpp:58
+#, kde-format
+msgid "Invert colors"
+msgstr "Käännä värit"
+
+#: options/invertoption.cpp:63
+#, kde-format
+msgid "Invert the colors of the scanned image."
+msgstr "Käännä luetun kuvan värit."
+
+#: options/pagesizeoption.cpp:98
+#, kde-format
+msgctxt "Page size landscape"
+msgid "Landscape %1"
+msgstr "Vaaka-%1"
+
+#: options/pagesizeoption.cpp:173
+#, kde-format
+msgid "Scan area size"
+msgstr "Tutkittavan alueen koko"
+
+#: options/pagesizeoption.cpp:178
+#, kde-format
+msgid "Select a predefined page size for the scanning area."
+msgstr "Aseta tutkittavaksi alueeksi esiasetettu paperikoko."
