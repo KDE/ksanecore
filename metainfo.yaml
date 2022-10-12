@@ -13,5 +13,5 @@ platforms:
     #- name: Android
 release: false
 libraries:
-    - cmake: "KF5::SaneCore"
-cmakename: KF5SaneCore
+    - cmake: "KSane::Core"
+cmakename: KSaneCore
