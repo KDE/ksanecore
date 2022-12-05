@@ -32,6 +32,7 @@ include(GenerateExportHeader)
 include(ECMQtDeclareLoggingCategory)
 include(KDEGitCommitHooks)
 include(KDEClangFormat)
+include(ECMDeprecationSettings)
 
 ecm_setup_version(
     ${RELEASE_SERVICE_VERSION}
@@ -53,6 +54,10 @@ find_package(Sane REQUIRED)
 message(STATUS "SANE_FOUND:       ${SANE_FOUND}")
 message(STATUS "SANE_INCLUDE_DIR: ${SANE_INCLUDE_DIR}")
 message(STATUS "SANE_LIBRARY:     ${SANE_LIBRARY}")
+
+ecm_set_disabled_deprecation_versions(QT 5.15.2
+    KF 5.101
+)
 
 add_subdirectory(src)
 if (BUILD_TESTING)
