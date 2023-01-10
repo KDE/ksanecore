@@ -15,7 +15,7 @@ project(KSaneCore VERSION ${RELEASE_SERVICE_VERSION})
 include(FeatureSummary)
 set(KF5_VERSION "5.90.0")
 find_package(ECM ${KF5_VERSION} REQUIRED NO_MODULE)
-set_package_properties(ECM PROPERTIES TYPE REQUIRED DESCRIPTION "Extra CMake Modules." URL "https://commits.kde.org/extra-cmake-modules")
+set_package_properties(ECM PROPERTIES TYPE REQUIRED DESCRIPTION "Extra CMake Modules." URL "https://invent.kde.org/frameworks/extra-cmake-modules")
 set(CMAKE_MODULE_PATH ${KSaneCore_SOURCE_DIR}/cmake-modules ${ECM_MODULE_PATH})
 
 include(KDEInstallDirs)
