@@ -52,7 +52,7 @@ target_link_libraries(KSaneCore
         Qt${QT_MAJOR_VERSION}::Gui
     PRIVATE
         Sane::Sane
-        KF5::I18n
+        KF${KF_MAJOR_VERSION}::I18n
 )
 
 set_target_properties(KSaneCore
