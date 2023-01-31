@@ -128,7 +128,11 @@ QVariantList ListOption::internalValueList() const
 bool ListOption::setValue(const QVariant &value)
 {
     bool success = false;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (static_cast<QMetaType::Type>(value.type()) == QMetaType::QString) {
+#else
+    if (value.userType() == QMetaType::QString) {
+#endif
         success = setValue(value.toString());
     } else {
         success = setValue(value.toDouble());

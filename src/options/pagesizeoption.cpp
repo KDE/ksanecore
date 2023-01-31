@@ -110,7 +110,11 @@ PageSizeOption::PageSizeOption(BaseOption *optionTopLeftX,
 
 bool PageSizeOption::setValue(const QVariant &value)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (static_cast<QMetaType::Type>(value.type()) == QMetaType::QString) {
+#else
+    if (value.userType() == QMetaType::QString) {
+#endif
         QString newValue = value.toString();
         if (newValue == m_availableSizesListNames.at(m_currentIndex)) {
             return true;

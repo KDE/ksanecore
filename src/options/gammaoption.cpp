@@ -27,8 +27,11 @@ bool GammaOption::setValue(const QVariant &value)
     if (state() == Option::StateHidden) {
         return false;
     }
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (static_cast<QMetaType::Type>(value.type()) == QMetaType::QString) {
+#else
+    if (value.userType() == QMetaType::QString) {
+#endif
         const QString stringValue = value.toString();
         QStringList gammaValues;
         int brightness;
@@ -56,10 +59,18 @@ bool GammaOption::setValue(const QVariant &value)
         }
         return true;
     }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (static_cast<QMetaType::Type>(value.type()) == QMetaType::QVariantList) {
+#else
+    if (value.userType() == QMetaType::QVariantList) {
+#endif
         QVariantList copy = value.toList();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (copy.size() != 3 || static_cast<QMetaType::Type>(copy.at(0).type()) != QMetaType::Int
             || static_cast<QMetaType::Type>(copy.at(1).type()) != QMetaType::Int || static_cast<QMetaType::Type>(copy.at(2).type()) != QMetaType::Int) {
+#else
+        if (copy.size() != 3 || copy.at(0).userType() != QMetaType::Int || copy.at(1).userType() != QMetaType::Int || copy.at(2).userType() != QMetaType::Int) {
+#endif
             return false;
         }
         if (m_brightness != copy.at(0).toInt() || m_contrast != copy.at(1).toInt() || m_gamma != copy.at(2).toInt() ) {

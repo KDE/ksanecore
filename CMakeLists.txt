@@ -62,7 +62,7 @@ message(STATUS "SANE_FOUND:       ${SANE_FOUND}")
 message(STATUS "SANE_INCLUDE_DIR: ${SANE_INCLUDE_DIR}")
 message(STATUS "SANE_LIBRARY:     ${SANE_LIBRARY}")
 
-ecm_set_disabled_deprecation_versions(QT 5.15.2
+ecm_set_disabled_deprecation_versions(QT 6.4
     KF 5.101
 )
 
