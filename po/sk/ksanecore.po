@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-17 00:43+0000\n"
+"POT-Creation-Date: 2023-02-01 00:55+0000\n"
 "PO-Revision-Date: 2022-01-08 11:52+0100\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -61,12 +61,12 @@ msgctxt "Page size landscape"
 msgid "Landscape %1"
 msgstr "Krajinka %1"
 
-#: options/pagesizeoption.cpp:173
+#: options/pagesizeoption.cpp:177
 #, kde-format
 msgid "Scan area size"
 msgstr "Veľkosť oblasti skenovania"
 
-#: options/pagesizeoption.cpp:178
+#: options/pagesizeoption.cpp:182
 #, kde-format
 msgid "Select a predefined page size for the scanning area."
 msgstr "Vyberte preddefinovanú veľkosť strany pre oblasť skenovania."
