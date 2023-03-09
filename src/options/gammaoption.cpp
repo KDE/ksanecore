@@ -59,11 +59,7 @@ bool GammaOption::setValue(const QVariant &value)
         }
         return true;
     }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    if (static_cast<QMetaType::Type>(value.type()) == QMetaType::QVariantList) {
-#else
-    if (value.userType() == QMetaType::QVariantList) {
-#endif
+    if (value.canConvert<QVariantList>()) { // It's a list
         QVariantList copy = value.toList();
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (copy.size() != 3 || static_cast<QMetaType::Type>(copy.at(0).type()) != QMetaType::Int
@@ -84,25 +80,31 @@ bool GammaOption::setValue(const QVariant &value)
     return false;
 }
 
-void GammaOption::readOption()
-{
-    beginOptionReload();
-
-    if (m_optDesc) {
-        int size = m_optDesc->size / sizeof(SANE_Word);
-        m_gammaTable.resize(size);
-        for (int i = 0; i < m_gammaTable.size(); i++) {
-            m_gammaTable[i] = i;
-        }
-    }
-
-    endOptionReload();
-}
-
 void GammaOption::readValue()
 {
-    // Unfortunately gamma table to brightness, contrast and gamma is
-    // not easy nor fast.. ergo not done
+    if (state() == Option::StateHidden) {
+        return;
+    }
+
+    QVarLengthArray<unsigned char> data(m_optDesc->size);
+    SANE_Status status;
+    SANE_Int res;
+    status = sane_control_option(m_handle, m_index, SANE_ACTION_GET_VALUE, data.data(), &res);
+    if (status != SANE_STATUS_GOOD) {
+        return;
+    }
+
+    QVector<int> gammaTable;
+    gammaTable.reserve(data.size() / sizeof(int));
+    for (int i = 0; i < data.size(); i += sizeof(SANE_Word)) gammaTable.append(toSANE_Word(&data[i]));
+
+    if (gammaTable != m_gammaTable) {
+        m_gammaTable = gammaTable;
+
+        m_gammaTableMax = m_optDesc->constraint.range->max;
+
+        calculateBCGwriteData();
+    }
 }
 
 QVariant GammaOption::value() const
@@ -143,7 +145,8 @@ void GammaOption::calculateGTwriteData()
     double gamma    = 100.0 / m_gamma;
     double contrast = (200.0 / (100.0 - m_contrast)) - 1;
     double halfMax  = maxValue / 2.0;
-    double brightness = (m_brightness / halfMax) * maxValue;
+    // NOTE: This used to add the value times 2, not scaled to maxValue
+    double brightness = m_brightness * maxValue / 100.0;
     double x;
 
     for (int i = 0; i < m_gammaTable.size(); i++) {
@@ -170,6 +173,100 @@ void GammaOption::calculateGTwriteData()
     writeData(m_gammaTable.data());
     QVariantList values = { m_brightness, m_contrast, m_gamma };
     Q_EMIT valueChanged(values);
+}
+
+void GammaOption::calculateBCGwriteData() {
+    int beginIndex = 0;
+    int endIndex = m_gammaTable.size() - 1;
+    // Find the start and end of the curve, to skip the flat regions
+    while (beginIndex < endIndex && m_gammaTable[beginIndex] == m_gammaTable[0])
+        beginIndex++;
+    while (endIndex > beginIndex && m_gammaTable[endIndex] == m_gammaTable[m_gammaTable.size()-1])
+        endIndex--;
+
+    float gamma = 0, contrast = 0, brightness = 0;
+    const QVector<int> &gammaTable = m_gammaTable;
+    const int &gammaTableMax = m_gammaTableMax;
+
+    auto guessGamma = [&gammaTable, &gamma](int i1, int i2, int step) {
+        int diff1 = gammaTable[i1 + step] - gammaTable[i1 - step];
+        int diff2 = gammaTable[i2 + step] - gammaTable[i2 - step];
+        if (diff1 == 0 || diff2 == 0)
+            return;
+        float stepProportion = static_cast<float>(i2) / i1;
+        float diffProportion = static_cast<float>(diff2) / diff1;
+        float guessedGamma = log(stepProportion * diffProportion) / log(stepProportion);
+        gamma += guessedGamma;
+    };
+
+    auto guessContrast = [&gammaTable, &gammaTableMax, &gamma, &contrast](int i1, int i2, int) {
+        int prevVal = gammaTable[i1], nextVal = gammaTable[i2];
+        float scaledDiff = static_cast<float>(nextVal - prevVal) / gammaTableMax;
+        float scaledPrevIndex = static_cast<float>(i1) / gammaTable.size();
+        float scaledNextIndex = static_cast<float>(i2) / gammaTable.size();
+        float guessedContrast = scaledDiff / (pow(scaledNextIndex, gamma) - pow(scaledPrevIndex, gamma));
+        contrast += guessedContrast;
+    };
+
+    auto guessBrightness = [&gammaTable, &gammaTableMax, &gamma, &contrast, &brightness](int i, int, int) {
+        float scaledThisVal = static_cast<float>(gammaTable[i]) / gammaTableMax;
+        float scaledIndex = static_cast<float>(i) / gammaTable.size();
+        float guessedBrightness = scaledThisVal - ((pow(scaledIndex, gamma) - 0.5) * contrast + 0.5);
+        brightness += guessedBrightness;
+    };
+
+    const int numberOfApproximations = 16;
+
+    auto passValuePairsAndSteps = [&beginIndex, &endIndex](auto func) {
+        const int step = (endIndex - beginIndex) / 8;
+        for (int i = 0; i < numberOfApproximations;) {
+            // Calculate step, even if not passed to the function, to separate the samples
+            int i1 = rand() % (endIndex - beginIndex - 2 * step - 2) + beginIndex + step + 1;
+            int i2 = rand() % (endIndex - beginIndex - 2 * step - 2) + beginIndex + step + 1;
+            if (i2 - i1 >= 4 * step) {
+                func(i1, i2, step);
+                i++;
+            }
+        }
+    };
+
+    if (endIndex == beginIndex) {
+        qCDebug(KSANECORE_LOG()) << "Ignoring gamma table: horizontal line at" << m_gammaTable[0];
+        setValue(QVariantList{0, 0, 100}); // Ignore the table, it's wrong
+        return;
+    }
+
+    if (endIndex - beginIndex <= 32) { // Table too small, make single guesses
+        if (endIndex - beginIndex > 4) { // Measurements don't overlap by just one value
+            guessGamma(beginIndex + 2, endIndex - 2, 2);
+        } else {
+            gamma = 1.0; // Assume linear gamma
+        }
+        guessContrast(beginIndex, endIndex, 0);
+        guessBrightness((beginIndex + endIndex) / 2, 0, 0);
+    } else {
+        passValuePairsAndSteps(guessGamma);
+        gamma /= numberOfApproximations;
+
+        passValuePairsAndSteps(guessContrast);
+        contrast /= numberOfApproximations;
+
+        passValuePairsAndSteps(guessBrightness);
+        brightness /= numberOfApproximations;
+    }
+
+    int newGamma = 100.0 / gamma;
+    int newContrast = 100.0 - 200.0 / (contrast + 1.0);
+    int newBrightness = brightness * 100.0;
+
+    if (m_gamma != newGamma || m_contrast != newContrast || m_brightness != newBrightness) {
+        m_gamma = newGamma;
+        m_contrast = newContrast;
+        m_brightness = newBrightness;
+
+        QVariantList values = { m_brightness, m_contrast, m_gamma };
+        Q_EMIT valueChanged(values);
+    }
 }
 
 } // namespace KSaneCore

@@ -20,7 +20,6 @@ public:
     GammaOption(const SANE_Handle handle, const int index);
 
     void readValue() override;
-    void readOption() override;
 
     QVariant maximumValue() const override;
     QVariant value() const override;
@@ -32,11 +31,13 @@ public Q_SLOTS:
 
 private:
     void calculateGTwriteData();
+    void calculateBCGwriteData();
 
     int             m_brightness;
     int             m_contrast;
     int             m_gamma;
     QVector<int>    m_gammaTable;
+    int             m_gammaTableMax;
 };
 
 }  // namespace KSane
