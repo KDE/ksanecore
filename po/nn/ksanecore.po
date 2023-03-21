@@ -1,0 +1,74 @@
+# Translation of ksanecore to Norwegian Nynorsk
+#
+# Karl Ove Hufthammer <karl@huftis.org>, 2023.
+msgid ""
+msgstr ""
+"Project-Id-Version: ksanecore\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2023-02-01 00:55+0000\n"
+"PO-Revision-Date: 2023-03-20 19:54+0100\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
+"Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
+"Language: nn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 22.12.3\n"
+"X-Environment: kde\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+
+#: interface.cpp:221
+#, kde-format
+msgid "Scanning stopped by user."
+msgstr "Skanning avbroten av brukaren."
+
+#: options/batchdelayoption.cpp:31
+#, kde-format
+msgid "Batch mode time delay"
+msgstr "Pausetid ved fleirskanning"
+
+#: options/batchdelayoption.cpp:36
+#, kde-format
+msgid "Specify the time delay between each scan when batch mode is enabled."
+msgstr "Vel lengda på pausen mellom kvar skanning i fleirskanningsmodus."
+
+#: options/batchmodeoption.cpp:31
+#, kde-format
+msgid "Batch mode with time delay"
+msgstr "Fleirskanningsmodus med pausar"
+
+#: options/batchmodeoption.cpp:36
+#, kde-format
+msgid ""
+"Enables batch mode scanning. Continues scanning after a delay until canceled."
+msgstr ""
+"Slår på fleirskanningsmodus. Skannar til han vert avbroten, med med ein "
+"pause mellom kvar innskanning."
+
+#: options/invertoption.cpp:58
+#, kde-format
+msgid "Invert colors"
+msgstr "Omvende fargar"
+
+#: options/invertoption.cpp:63
+#, kde-format
+msgid "Invert the colors of the scanned image."
+msgstr "Snu fargane på det innskanna biletet."
+
+#: options/pagesizeoption.cpp:98
+#, kde-format
+msgctxt "Page size landscape"
+msgid "Landscape %1"
+msgstr "Liggjande %1"
+
+#: options/pagesizeoption.cpp:177
+#, kde-format
+msgid "Scan area size"
+msgstr "Storleik på skanneområde"
+
+#: options/pagesizeoption.cpp:182
+#, kde-format
+msgid "Select a predefined page size for the scanning area."
+msgstr "Vel ein ferdig sidestorleik for skanneområdet."
