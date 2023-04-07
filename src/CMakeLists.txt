@@ -5,6 +5,12 @@
 add_library(KSaneCore)
 add_library(KSane::Core ALIAS KSaneCore)
 
+set_target_properties(KSaneCore PROPERTIES
+    VERSION     ${KSANECORE_VERSION}
+    SOVERSION   ${KSANECORE_SOVERSION}
+    EXPORT_NAME "Core"
+)
+
 target_compile_definitions(KSaneCore PRIVATE -DTRANSLATION_DOMAIN=\"ksanecore\")
 
 target_sources(KSaneCore PRIVATE
@@ -54,13 +60,6 @@ target_link_libraries(KSaneCore
         Sane::Sane
         KF${KF_MAJOR_VERSION}::I18n
 )
-
-set_target_properties(KSaneCore
-    PROPERTIES VERSION ${KSANECORE_VERSION}
-    SOVERSION ${KSANECORE_SOVERSION}
-    EXPORT_NAME "Core"
-)
-
 
 ecm_generate_headers(KSaneCore_HEADERS
     HEADER_NAMES
