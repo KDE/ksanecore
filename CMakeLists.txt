@@ -41,10 +41,11 @@ else()
     set(KF_MAJOR_VERSION "5")
 endif()
 
+set(ksanecore_version_header "${CMAKE_CURRENT_BINARY_DIR}/src/ksanecore_version.h")
 ecm_setup_version(
     ${RELEASE_SERVICE_VERSION}
     VARIABLE_PREFIX KSANECORE
-    VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/ksanecore_version.h"
+    VERSION_HEADER "${ksanecore_version_header}"
     PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KSaneCoreConfigVersion.cmake"
     SOVERSION 1
 )
@@ -87,7 +88,7 @@ install(FILES
 )
 
 install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/ksanecore_version.h"
+    "${ksanecore_version_header}"
     DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KSaneCore"
     COMPONENT Devel
 )
