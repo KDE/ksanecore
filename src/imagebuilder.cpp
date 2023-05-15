@@ -95,6 +95,9 @@ bool ImageBuilder::copyToImage(const SANE_Byte readData[], int read_bytes)
             return true;
         } else if (m_params.depth == 8) {
             for (int i = 0; i < read_bytes; i++) {
+                if (m_pixelY >= m_image->height()) {
+                    renewImage();
+                }
                 uchar *grayScale = m_image->scanLine(m_pixelY);
                 grayScale[m_pixelX] = readData[i];
                 incrementPixelData();
