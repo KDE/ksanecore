@@ -177,6 +177,7 @@ void ScanThread::readData()
         }
         if (m_params.last_frame == SANE_TRUE) {
             // this is where it all ends well :)
+            m_imageBuilder.cropImagetoSize();
             m_readStatus = ReadReady;
             return;
         } else {
