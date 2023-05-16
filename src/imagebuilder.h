@@ -29,6 +29,7 @@ public:
     void beginFrame(const SANE_Parameters &params);
     bool copyToImage(const SANE_Byte readData[], int read_bytes);
     void setDPI(int dpi);
+    void cropImagetoSize();
 
 private:
     void renewImage();

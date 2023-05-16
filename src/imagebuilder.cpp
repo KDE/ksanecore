@@ -159,32 +159,31 @@ bool ImageBuilder::copyToImage(const SANE_Byte readData[], int read_bytes)
                                                             0xFFFF);
                     incrementPixelData();
                 }
+                m_frameRead++;
             }
-            m_frameRead++;
             return true;
         }
         break;
 
     case SANE_FRAME_RED: {
-        uchar *imgBits = m_image->bits();
         int index = 0;
         if (m_params.depth == 8) {
             for (int i = 0; i < read_bytes; i++) {
                 index = m_frameRead * 4 + 2;
-                if (index > m_image->sizeInBytes()) {
+                if (index >= m_image->sizeInBytes()) {
                     renewImage();
                 }
-                imgBits[index] = readData[i];
+                m_image->bits()[index] = readData[i];
                 m_frameRead++;
             }
             return true;
         } else if (m_params.depth == 16) {
             for (int i = 0; i < read_bytes; i++) {
                 index = (m_frameRead - m_frameRead % 2) * 4 + m_frameRead % 2;
-                if (index > m_image->sizeInBytes()) {
+                if (index >= m_image->sizeInBytes()) {
                     renewImage();
                 }
-                imgBits[index] = readData[i];
+                m_image->bits()[index] = readData[i];
                 m_frameRead++;
             }
             return true;
@@ -192,25 +191,24 @@ bool ImageBuilder::copyToImage(const SANE_Byte readData[], int read_bytes)
         break;
     }
     case SANE_FRAME_GREEN: {
-        uchar *imgBits = m_image->bits();
         int index = 0;
         if (m_params.depth == 8) {
             for (int i = 0; i < read_bytes; i++) {
                 int index = m_frameRead * 4 + 1;
-                if (index > m_image->sizeInBytes()) {
+                if (index >= m_image->sizeInBytes()) {
                     renewImage();
                 }
-                imgBits[index] = readData[i];
+                m_image->bits()[index] = readData[i];
                 m_frameRead++;
             }
             return true;
         } else if (m_params.depth == 16) {
             for (int i = 0; i < read_bytes; i++) {
                 index = (m_frameRead - m_frameRead % 2) * 4 + 2 + m_frameRead % 2;
-                if (index > m_image->sizeInBytes()) {
+                if (index >= m_image->sizeInBytes()) {
                     renewImage();
                 }
-                imgBits[index] = readData[i];
+                m_image->bits()[index] = readData[i];
                 m_frameRead++;
             }
             return true;
@@ -218,25 +216,24 @@ bool ImageBuilder::copyToImage(const SANE_Byte readData[], int read_bytes)
         break;
     }
     case SANE_FRAME_BLUE: {
-        uchar *imgBits = m_image->bits();
         int index = 0;
         if (m_params.depth == 8) {
             for (int i = 0; i < read_bytes; i++) {
                 int index = m_frameRead * 4;
-                if (index > m_image->sizeInBytes()) {
+                if (index >= m_image->sizeInBytes()) {
                     renewImage();
                 }
-                imgBits[index] = readData[i];
+                m_image->bits()[index] = readData[i];
                 m_frameRead++;
             }
             return true;
         } else if (m_params.depth == 16) {
             for (int i = 0; i < read_bytes; i++) {
                 index = (m_frameRead - m_frameRead % 2) * 4 + 4 + m_frameRead % 2;
-                if (index > m_image->sizeInBytes()) {
+                if (index >= m_image->sizeInBytes()) {
                     renewImage();
                 }
-                imgBits[index] = readData[i];
+                m_image->bits()[index] = readData[i];
                 m_frameRead++;
             }
             return true;
@@ -251,8 +248,22 @@ bool ImageBuilder::copyToImage(const SANE_Byte readData[], int read_bytes)
 
 void ImageBuilder::renewImage()
 {
+    int start = m_image->sizeInBytes();
+
     // resize the image
     *m_image = m_image->copy(0, 0, m_image->width(), m_image->height() + m_image->width());
+
+    for (int i = start; i < m_image->sizeInBytes(); i++) { // New parts are filled with "transparent black"
+        m_image->bits()[i] = 0xFF; // Change to opaque white (0xFFFFFFFF), or white, whatever the format is
+    }
+}
+
+void ImageBuilder::cropImagetoSize()
+{
+    int height = m_pixelY ? m_pixelY : m_frameRead / m_params.bytes_per_line;
+    if (m_image->height() == height)
+        return;
+    *m_image = m_image->copy(0, 0, m_image->width(), height);
 }
 
 void ImageBuilder::incrementPixelData()
