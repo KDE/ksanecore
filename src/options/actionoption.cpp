@@ -26,3 +26,5 @@ bool ActionOption::setValue(const QVariant &)
 }
 
 } // namespace KSaneCore
+
+#include "moc_actionoption.cpp"

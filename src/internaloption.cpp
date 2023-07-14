@@ -23,3 +23,5 @@ InternalOption::InternalOption(BaseOption *option, QObject *parent)
 }
 
 } // namespace KSaneCore
+
+#include "moc_internaloption.cpp"

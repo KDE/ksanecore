@@ -65,3 +65,5 @@ QString BatchModeOption::valueAsString() const
 }
 
 } // NameSpace KSaneCore
+
+#include "moc_batchmodeoption.cpp"

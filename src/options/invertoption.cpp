@@ -64,3 +64,5 @@ QString InvertOption::description() const
 }
 
 } // namespace KSaneCore
+
+#include "moc_invertoption.cpp"

@@ -240,3 +240,5 @@ void ScanThread::copyToScanData(int readBytes)
 }
 
 } // namespace KSaneCore
+
+#include "moc_scanthread.cpp"

@@ -139,3 +139,5 @@ QString DoubleOption::valueAsString() const
 }
 
 } // namespace KSaneCore
+
+#include "moc_doubleoption.cpp"

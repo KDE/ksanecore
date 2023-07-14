@@ -327,3 +327,5 @@ Option::OptionState ListOption::state() const
 }
 
 } // namespace KSaneCore
+
+#include "moc_listoption.cpp"

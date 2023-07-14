@@ -113,3 +113,5 @@ bool IntegerOption::setValue(const QVariant &val)
 }
 
 } // namespace KSaneCore
+
+#include "moc_integeroption.cpp"

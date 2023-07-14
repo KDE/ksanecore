@@ -78,3 +78,5 @@ bool BatchDelayOption::setValue(const QVariant &val)
 }
 
 } // NameSpace KSaneCore
+
+#include "moc_batchdelayoption.cpp"

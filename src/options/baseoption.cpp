@@ -368,3 +368,5 @@ Option::OptionType BaseOption::optionType(const SANE_Option_Descriptor *optDesc)
 }
 
 } // namespace KSaneCore
+
+#include "moc_baseoption.cpp"

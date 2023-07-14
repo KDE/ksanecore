@@ -429,3 +429,5 @@ void InterfacePrivate::batchModeTimerUpdate()
 }
 
 } // NameSpace KSaneCore
+
+#include "moc_interface_p.cpp"

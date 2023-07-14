@@ -78,3 +78,5 @@ QString StringOption::valueAsString() const
 }
 
 } // namespace KSaneCore
+
+#include "moc_stringoption.cpp"

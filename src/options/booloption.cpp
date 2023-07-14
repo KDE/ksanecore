@@ -82,3 +82,5 @@ QString BoolOption::valueAsString() const
 }
 
 } // namespace KSaneCore
+
+#include "moc_booloption.cpp"

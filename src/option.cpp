@@ -166,3 +166,5 @@ bool Option::restoreSavedData()
 }
 
 } // namespace KSaneCore
+
+#include "moc_option.cpp"

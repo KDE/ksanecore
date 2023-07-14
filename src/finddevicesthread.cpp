@@ -116,3 +116,5 @@ void FindSaneDevicesThread::setDeviceType(const Interface::DeviceType type)
 }
 
 } // namespace KSaneCore
+
+#include "moc_finddevicesthread.cpp"

@@ -323,3 +323,5 @@ int Interface::setOptionsMap(const QMap<QString, QString> &options)
 }
 
 } // NameSpace KSaneCore
+
+#include "moc_interface.cpp"

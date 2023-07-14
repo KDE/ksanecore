@@ -270,3 +270,5 @@ void GammaOption::calculateBCGwriteData() {
 }
 
 } // namespace KSaneCore
+
+#include "moc_gammaoption.cpp"

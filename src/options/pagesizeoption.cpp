@@ -229,3 +229,5 @@ double PageSizeOption::ensureMilliMeter(BaseOption *option, double value)
 }
 
 } // namespace KSaneCore
+
+#include "moc_pagesizeoption.cpp"
