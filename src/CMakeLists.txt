@@ -78,12 +78,13 @@ target_link_libraries(KSaneCore
         KF${KF_MAJOR_VERSION}::I18n
 )
 
-ecm_generate_headers(KSaneCore_HEADERS
+ecm_generate_headers(KSaneCore_CamelCase_HEADERS
     HEADER_NAMES
         Interface
         Option
         DeviceInformation
     REQUIRED_HEADERS KSaneCore_HEADERS
+    PREFIX KSaneCore
     RELATIVE "../src/"
 )
 
@@ -96,7 +97,18 @@ install(TARGETS KSaneCore
 
 install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/ksanecore_export.h"
-    ${KSaneCore_HEADERS}
     DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KSaneCore"
+    COMPONENT Devel
+)
+
+install(FILES
+    ${KSaneCore_HEADERS}
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KSaneCore/ksanecore"
+    COMPONENT Devel
+)
+
+install(FILES
+    ${KSaneCore_CamelCase_HEADERS}
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KSaneCore/KSaneCore"
     COMPONENT Devel
 )
