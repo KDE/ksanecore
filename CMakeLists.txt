@@ -37,8 +37,10 @@ if (QT_MAJOR_VERSION STREQUAL "6")
     set(QT_REQUIRED_VERSION "6.4.0")
     set(KF_MIN_VERSION "5.240.0")
     set(KF_MAJOR_VERSION "6")
+    set(KSANECORE_SUFFFIX "6")
 else()
     set(KF_MAJOR_VERSION "5")
+    set(KSANECORE_SUFFFIX "")
 endif()
 
 set(ksanecore_version_header "${CMAKE_CURRENT_BINARY_DIR}/src/ksanecore_version.h")
@@ -46,7 +48,7 @@ ecm_setup_version(
     ${RELEASE_SERVICE_VERSION}
     VARIABLE_PREFIX KSANECORE
     VERSION_HEADER "${ksanecore_version_header}"
-    PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KSaneCoreConfigVersion.cmake"
+    PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KSaneCore${KSANECORE_SUFFFIX}ConfigVersion.cmake"
     SOVERSION 1
 )
 
@@ -72,31 +74,31 @@ if (BUILD_TESTING)
     add_subdirectory(autotests)
 endif()
 
-set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KSaneCore")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KSaneCore${KSANECORE_SUFFFIX}")
 
 configure_package_config_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/KSaneCoreConfig.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/KSaneCoreConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/KSaneCore${KSANECORE_SUFFFIX}Config.cmake"
     INSTALL_DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
 )
 
 install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/KSaneCoreConfig.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/KSaneCoreConfigVersion.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/KSaneCore${KSANECORE_SUFFFIX}Config.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/KSaneCore${KSANECORE_SUFFFIX}ConfigVersion.cmake"
     DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
     COMPONENT Devel
 )
 
 install(FILES
     "${ksanecore_version_header}"
-    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KSaneCore"
+    DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KSaneCore${KSANECORE_SUFFFIX}"
     COMPONENT Devel
 )
 
-install(EXPORT KSaneCoreTargets
+install(EXPORT KSaneCore${KSANECORE_SUFFFIX}Targets
     DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-    FILE KSaneCoreTargets.cmake
-    NAMESPACE KSane::
+    FILE KSaneCore${KSANECORE_SUFFFIX}Targets.cmake
+    NAMESPACE KSane${KSANECORE_SUFFFIX}::
 )
 
 ki18n_install(po)
