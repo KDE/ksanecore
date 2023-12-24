@@ -4,68 +4,70 @@
 # This file is distributed under the same license as the ksanecore package.
 # Automatically generated, 2022.
 #
+# SPDX-FileCopyrightText: 2023 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:28+0000\n"
-"PO-Revision-Date: 2022-04-12 00:42+0000\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-12-24 04:16+0900\n"
+"Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
+"Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #: interface.cpp:221
 #, kde-format
 msgid "Scanning stopped by user."
-msgstr ""
+msgstr "掃描已被使用者停止。"
 
 #: options/batchdelayoption.cpp:31
 #, kde-format
 msgid "Batch mode time delay"
-msgstr ""
+msgstr "批次模式時間延遲"
 
 #: options/batchdelayoption.cpp:36
 #, kde-format
 msgid "Specify the time delay between each scan when batch mode is enabled."
-msgstr ""
+msgstr "指定使用批次模式時在每次掃描之間的時間延遲。"
 
 #: options/batchmodeoption.cpp:31
 #, kde-format
 msgid "Batch mode with time delay"
-msgstr ""
+msgstr "使用時間延遲的批次模式"
 
 #: options/batchmodeoption.cpp:36
 #, kde-format
 msgid ""
 "Enables batch mode scanning. Continues scanning after a delay until canceled."
-msgstr ""
+msgstr "啟用批次模式掃描。過一段延遲時間之後會繼續掃描，找到被取消。"
 
 #: options/invertoption.cpp:58
 #, kde-format
 msgid "Invert colors"
-msgstr ""
+msgstr "反轉顏色"
 
 #: options/invertoption.cpp:63
 #, kde-format
 msgid "Invert the colors of the scanned image."
-msgstr ""
+msgstr "反轉掃描後影像的色彩。"
 
 #: options/pagesizeoption.cpp:98
 #, kde-format
 msgctxt "Page size landscape"
 msgid "Landscape %1"
-msgstr ""
+msgstr "橫向 %1"
 
 #: options/pagesizeoption.cpp:177
 #, kde-format
 msgid "Scan area size"
-msgstr ""
+msgstr "掃描區域大小"
 
 #: options/pagesizeoption.cpp:182
 #, kde-format
 msgid "Select a predefined page size for the scanning area."
-msgstr ""
+msgstr "在預先定義的頁面大小中選取一個作為掃描區域的大小。"
