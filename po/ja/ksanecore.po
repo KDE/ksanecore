@@ -1,10 +1,11 @@
+# SPDX-FileCopyrightText: 2024 Tarot Osuji <tarot@sdf.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:28+0000\n"
-"PO-Revision-Date: 2022-01-02 23:13-0800\n"
-"Last-Translator: Japanese KDE translation team <kde-jp@kde.org>\n"
+"PO-Revision-Date: 2024-01-14 08:08+0900\n"
+"Last-Translator: Tarot Osuji <tarot@sdf.org>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -13,55 +14,58 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #: interface.cpp:221
 #, kde-format
 msgid "Scanning stopped by user."
-msgstr ""
+msgstr "ユーザによりスキャンが停止しました。"
 
 #: options/batchdelayoption.cpp:31
 #, kde-format
 msgid "Batch mode time delay"
-msgstr ""
+msgstr "バッチモードの遅延時間"
 
 #: options/batchdelayoption.cpp:36
 #, kde-format
 msgid "Specify the time delay between each scan when batch mode is enabled."
-msgstr ""
+msgstr "バッチモード時の各スキャン間の遅延時間を指定します。"
 
 #: options/batchmodeoption.cpp:31
 #, kde-format
 msgid "Batch mode with time delay"
-msgstr ""
+msgstr "バッチモード"
 
 #: options/batchmodeoption.cpp:36
 #, kde-format
 msgid ""
 "Enables batch mode scanning. Continues scanning after a delay until canceled."
 msgstr ""
+"バッチモードでスキャンします。キャンセルされるまで遅延後にスキャンを続けま"
+"す。"
 
 #: options/invertoption.cpp:58
 #, kde-format
 msgid "Invert colors"
-msgstr ""
+msgstr "色を反転"
 
 #: options/invertoption.cpp:63
 #, kde-format
 msgid "Invert the colors of the scanned image."
-msgstr ""
+msgstr "スキャンした画像の色を反転します。"
 
 #: options/pagesizeoption.cpp:98
 #, kde-format
 msgctxt "Page size landscape"
 msgid "Landscape %1"
-msgstr ""
+msgstr "横長 %1"
 
 #: options/pagesizeoption.cpp:177
 #, kde-format
 msgid "Scan area size"
-msgstr ""
+msgstr "スキャン領域のサイズ"
 
 #: options/pagesizeoption.cpp:182
 #, kde-format
 msgid "Select a predefined page size for the scanning area."
-msgstr ""
+msgstr "スキャン領域の定義済みページサイズを選択します。"
