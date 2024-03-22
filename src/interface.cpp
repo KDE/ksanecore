@@ -10,8 +10,12 @@
  */
 
 // Qt includes
-
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QMetaEnum>
 #include <QMutex>
+#include <QUrl>
 
 // Sane includes
 extern "C" {
@@ -242,6 +246,45 @@ void Interface::unlockScanImage()
     if (d->m_saneHandle != nullptr) {
         d->m_scanThread->unlockScanImage();
     }
+}
+
+QJsonObject Interface::scannerDeviceToJson()
+{
+    if (d->m_saneHandle == nullptr) {
+        return QJsonObject();
+    }
+    QJsonObject scannerData;
+    scannerData[QLatin1String("deviceName")] = d->m_devName;
+    scannerData[QLatin1String("deviceModel")] = d->m_model;
+    scannerData[QLatin1String("deviceVendor")] = d->m_vendor;
+
+    return scannerData;
+}
+
+QJsonObject Interface::scannerOptionsToJson()
+{
+    if (d->m_saneHandle == nullptr) {
+        return QJsonObject();
+    }
+
+    QJsonObject optionData;
+    for (const auto &option : std::as_const(d->m_optionsList)) {
+        QJsonObject JsonOption;
+        JsonOption[QLatin1String("Title")] = option->title();
+        JsonOption[QLatin1String("Description")] = option->description();
+        JsonOption[QLatin1String("Type")] = QLatin1String(QMetaEnum::fromType<KSaneCore::Option::OptionType>().valueToKey(option->type()));
+        JsonOption[QLatin1String("State")] = QLatin1String(QMetaEnum::fromType<KSaneCore::Option::OptionState>().valueToKey(option->state()));
+        JsonOption[QLatin1String("Unit")] = QLatin1String(QMetaEnum::fromType<KSaneCore::Option::OptionUnit>().valueToKey(option->valueUnit()));
+        JsonOption[QLatin1String("Value size")] = option->valueSize();
+        JsonOption[QLatin1String("Step value")] = option->stepValue().toString();
+        JsonOption[QLatin1String("Current value")] = option->value().toString();
+        JsonOption[QLatin1String("Max value")] = option->maximumValue().toString();
+        JsonOption[QLatin1String("Min value")] = option->minimumValue().toString();
+        JsonOption[QLatin1String("Value list")] = QJsonArray::fromVariantList(option->valueList());
+        JsonOption[QLatin1String("Internal value list")] = QJsonArray::fromVariantList(option->internalValueList());
+        optionData[option->name()] = JsonOption;
+    }
+    return optionData;
 }
 
 QList<Option *> Interface::getOptionsList()

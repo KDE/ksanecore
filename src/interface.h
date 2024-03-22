@@ -15,6 +15,7 @@
 #include <memory>
 
 #include <QImage>
+#include <QJsonObject>
 #include <QList>
 #include <QObject>
 
@@ -224,6 +225,24 @@ public:
      * when lockScanImage() is called until unlockScanImage() is called.
      */
     void unlockScanImage();
+
+    /**
+     * Returns a JSON object containing the device name, model and vendor.
+     * A scanner device must have been opened before, returns an empty
+     * object otherwise. Mainly intended for debugging purposes and
+     * identifying issues with different scanner hardware.
+     * @return JSON object holding the data
+     */
+    QJsonObject scannerDeviceToJson();
+
+    /**
+     * Returns a JSON Object with all available data for all scanner options.
+     * A scanner device must have been opened before, returns an empty
+     * object otherwise. Mainly intended for debugging purposes and
+     * identifying issues with different scanner hardware.
+     * @return JSON object holding the data
+     */
+    QJsonObject scannerOptionsToJson();
 
 public Q_SLOTS:
     /**
