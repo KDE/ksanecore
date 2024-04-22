@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:28+0000\n"
+"POT-Creation-Date: 2024-04-06 01:42+0000\n"
 "PO-Revision-Date: 2021-11-07 11:43+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Generator: Lokalize 20.12.0\n"
 
-#: interface.cpp:221
+#: interface.cpp:225
 #, kde-format
 msgid "Scanning stopped by user."
 msgstr "L'usuari ha parat l'escaneig."
