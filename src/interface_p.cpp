@@ -95,6 +95,13 @@ Interface::OpenStatus InterfacePrivate::loadDeviceOptions()
         }
     }
 
+    // need to wait as calling sane_get_devices and sane_control_option (that happens later)
+    // from two different threads at the same time causes a crash, libsane looks to be not
+    // thread safe.
+    // It defeats the purpose of the thread and make startup slower, but it is better than crashing.
+    if (m_findDevThread->isRunning())
+        m_findDevThread->wait();
+
     // Read the options (start with option 0 the number of parameters)
     optDesc = sane_get_option_descriptor(m_saneHandle, 0);
     if (optDesc == nullptr) {
