@@ -83,24 +83,11 @@ Interface::OpenStatus InterfacePrivate::loadDeviceOptions()
     SANE_Status status;
     SANE_Word numSaneOptions;
     SANE_Int res;
-    // update the device list if needed to get the vendor and model info
-    if (m_findDevThread->devicesList().size() == 0) {
-        m_findDevThread->start();
-    } else {
+    // try to fill the device model and vendor field
+    if (m_findDevThread->devicesList().size() != 0) {
         // use the "old" existing list
         devicesListUpdated();
-        // if m_vendor is not updated it means that the list needs to be updated.
-        if (m_vendor.isEmpty()) {
-            m_findDevThread->start();
-        }
     }
-
-    // need to wait as calling sane_get_devices and sane_control_option (that happens later)
-    // from two different threads at the same time causes a crash, libsane looks to be not
-    // thread safe.
-    // It defeats the purpose of the thread and make startup slower, but it is better than crashing.
-    if (m_findDevThread->isRunning())
-        m_findDevThread->wait();
 
     // Read the options (start with option 0 the number of parameters)
     optDesc = sane_get_option_descriptor(m_saneHandle, 0);

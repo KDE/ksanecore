@@ -109,10 +109,10 @@ public:
 
     /**
      * Get the list of available scanning devices. Connect to availableDevices()
-     * which is fired once these devices are known. While the querying is done in a
-     * separate thread and thus not blocking the application, the application must
-     * ensure that no other action accessing the scanner device (settings options etc.)
-     * is performed during this period.
+     * which is fired once these devices are known.
+     * @note While the querying is done in a separate thread and thus not blocking
+     * the application, the application must ensure that no other action accessing
+     * the scanner device (settings options etc.) is performed during this period.
      * @return whether the devices list are being reloaded or not
      * @param type specify whether only specific device types shall be queried
      */
@@ -252,9 +252,13 @@ public Q_SLOTS:
 
     /**
      * This method is used to start a scan.
-     * @note CoreInterface may return one or more images as a result of one invocation of this slot.
+     * @note KSaneCore::Interface may return one or more images as a result of one invocation of this slot.
      * If no more images are wanted stopScan() should be called in the slot handling the
      * imageReady signal.
+     * @note While scanning is done in a separate thread and thus not blocking
+     * the application, the application must ensure that no other action accessing
+     * the scanner device (settings options etc.) is performed during this period besides accessing
+     * *scanImage() that must be guarded lockScanImage() and unlockScanImage() before and after the access.
      */
     void startScan();
 
