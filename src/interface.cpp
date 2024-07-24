@@ -303,7 +303,7 @@ Option *Interface::getOption(Interface::OptionName optionEnum)
 
 Option *Interface::getOption(const QString &optionName)
 {
-    for (const auto &option : qAsConst(d->m_externalOptionsList)) {
+    for (const auto &option : std::as_const(d->m_externalOptionsList)) {
         if (option->name() == optionName) {
             return option;
         }
@@ -316,7 +316,7 @@ QMap<QString, QString> Interface::getOptionsMap()
     QMap<QString, QString> options;
     QString tmp;
 
-    for (const auto option : qAsConst(d->m_optionsList)) {
+    for (const auto option : std::as_const(d->m_optionsList)) {
         tmp = option->valueAsString();
         if (!tmp.isEmpty()) {
             options[option->name()] = tmp;
