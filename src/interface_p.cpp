@@ -308,7 +308,7 @@ void InterfacePrivate::scheduleValuesReload()
 
 void InterfacePrivate::reloadOptions()
 {
-    for (const auto option : qAsConst(m_optionsList)) {
+    for (const auto option : std::as_const(m_optionsList)) {
         option->readOption();
         // Also read the values
         option->readValue();
@@ -317,7 +317,7 @@ void InterfacePrivate::reloadOptions()
 
 void InterfacePrivate::reloadValues()
 {
-    for (const auto option : qAsConst(m_optionsList)) {
+    for (const auto option : std::as_const(m_optionsList)) {
         option->readValue();
     }
 }
