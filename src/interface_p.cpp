@@ -112,6 +112,8 @@ Interface::OpenStatus InterfacePrivate::loadDeviceOptions()
     BaseOption *optionBottomRightX = nullptr;
     BaseOption *optionBottomRightY = nullptr;
     BaseOption *optionResolution = nullptr;
+    BaseOption *optionPageWidth = nullptr;
+    BaseOption *optionPageHeight = nullptr;
     m_optionsList.reserve(numSaneOptions);
     m_externalOptionsList.reserve(numSaneOptions);
     for (int i = 1; i < numSaneOptions; ++i) {
@@ -159,6 +161,12 @@ Interface::OpenStatus InterfacePrivate::loadDeviceOptions()
         if (option->name() == QStringLiteral(SANE_NAME_SCAN_RESOLUTION)) {
             optionResolution = option;
         }
+        if (option->name() == QStringLiteral(SANE_NAME_PAGE_WIDTH)) {
+            optionPageWidth = option;
+        }
+        if (option->name() == QStringLiteral(SANE_NAME_PAGE_HEIGHT)) {
+            optionPageHeight = option;
+        }
         if (option->name() == QStringLiteral(SANE_NAME_SCAN_SOURCE)) {
             // some scanners only have ADF and never update the source name
             determineMultiPageScanning(option->value());
@@ -188,7 +196,8 @@ Interface::OpenStatus InterfacePrivate::loadDeviceOptions()
     }
 
     // add extra option for selecting specific page sizes
-    BaseOption *pageSizeOption = new PageSizeOption(optionTopLeftX, optionTopLeftY, optionBottomRightX, optionBottomRightY, optionResolution);
+    BaseOption *pageSizeOption =
+        new PageSizeOption(optionTopLeftX, optionTopLeftY, optionBottomRightX, optionBottomRightY, optionResolution, optionPageWidth, optionPageHeight);
     m_optionsList.append(pageSizeOption);
     m_externalOptionsList.append(new InternalOption(pageSizeOption));
     m_optionsLocation.insert(Interface::PageSizeOption, m_optionsList.size() - 1);

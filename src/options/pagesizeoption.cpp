@@ -22,7 +22,9 @@ PageSizeOption::PageSizeOption(BaseOption *optionTopLeftX,
                                BaseOption *optionTopLeftY,
                                BaseOption *optionBottomRightX,
                                BaseOption *optionBottomRightY,
-                               BaseOption *optionResolution)
+                               BaseOption *optionResolution,
+                               BaseOption *optionPageWidth,
+                               BaseOption *optionPageHeight)
     : BaseOption()
 {
     if (optionTopLeftX == nullptr || optionTopLeftY == nullptr || optionBottomRightX == nullptr || optionBottomRightY == nullptr) {
@@ -40,6 +42,16 @@ PageSizeOption::PageSizeOption(BaseOption *optionTopLeftX,
     m_optionBottomRightX = optionBottomRightX;
     m_optionBottomRightY = optionBottomRightY;
     m_optionResolution = optionResolution;
+    m_optionPageWidth = optionPageWidth;
+    m_optionPageHeight = optionPageHeight;
+
+    /* some SANE backends set the maximum value of bottom right X and Y to the current page width and height values
+     * set current values of these option to maximum if available, such that we detect possible page sizes correctly
+     * see https://gitlab.com/sane-project/backends/-/issues/730 and https://bugs.kde.org/show_bug.cgi?id=476838 */
+    if (m_optionPageWidth != nullptr && m_optionPageHeight != nullptr) {
+        m_optionPageHeight->setValue(m_optionPageHeight->maximumValue());
+        m_optionPageWidth->setValue(m_optionPageWidth->maximumValue());
+    }
 
     const QList<QPageSize::PageSizeId> possibleSizesList = {
         QPageSize::A3,
@@ -126,6 +138,10 @@ bool PageSizeOption::setValue(const QVariant &value)
 
                 if (i != 0) {
                     const auto size = m_availableSizesList.at(i);
+                    if (m_optionPageWidth != nullptr && m_optionPageHeight != nullptr) {
+                        m_optionPageWidth->setValue(size.width());
+                        m_optionPageHeight->setValue(size.height());
+                    }
                     m_optionTopLeftX->setValue(0);
                     m_optionTopLeftY->setValue(0);
                     m_optionBottomRightX->setValue(size.width());

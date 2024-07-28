@@ -21,11 +21,13 @@ class PageSizeOption : public BaseOption
     Q_OBJECT
 
 public:
-    PageSizeOption(BaseOption *m_optionTopLeftX,
-                   BaseOption *m_optionTopLeftY,
-                   BaseOption *m_optionBottomRightX,
-                   BaseOption *m_optionBottomRightY,
-                   BaseOption *m_optionResolution);
+    PageSizeOption(BaseOption *optionTopLeftX,
+                   BaseOption *optionTopLeftY,
+                   BaseOption *optionBottomRightX,
+                   BaseOption *optionBottomRightY,
+                   BaseOption *optionResolution,
+                   BaseOption *optionPageWidth,
+                   BaseOption *optionPageHeight);
 
     QVariant value() const override;
     QString valueAsString() const override;
@@ -53,6 +55,8 @@ private:
     BaseOption *m_optionBottomRightX;
     BaseOption *m_optionBottomRightY;
     BaseOption *m_optionResolution;
+    BaseOption *m_optionPageWidth;
+    BaseOption *m_optionPageHeight;
     int m_currentIndex = -1;
     Option::OptionState m_state = Option::StateDisabled;
     QVariantList m_availableSizesListNames;
