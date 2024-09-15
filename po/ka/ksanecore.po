@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-06 01:42+0000\n"
+"POT-Creation-Date: 2024-09-15 00:39+0000\n"
 "PO-Revision-Date: 2022-05-16 14:13+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -56,18 +56,18 @@ msgstr "ფერების ინვერსია"
 msgid "Invert the colors of the scanned image."
 msgstr "სკანირებული გამოსახულების ფერების ინვერსია."
 
-#: options/pagesizeoption.cpp:98
+#: options/pagesizeoption.cpp:110
 #, kde-format
 msgctxt "Page size landscape"
 msgid "Landscape %1"
 msgstr "ლანდშაფტი %1"
 
-#: options/pagesizeoption.cpp:177
+#: options/pagesizeoption.cpp:193
 #, kde-format
 msgid "Scan area size"
 msgstr "სკანირების ფართობის ზომა"
 
-#: options/pagesizeoption.cpp:182
+#: options/pagesizeoption.cpp:198
 #, kde-format
 msgid "Select a predefined page size for the scanning area."
 msgstr "აირჩიეთ სკანირების ფართობის გვერდის ზომა."
