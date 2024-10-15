@@ -13,8 +13,12 @@ set(RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_
 project(KSaneCore VERSION ${RELEASE_SERVICE_VERSION})
 
 include(FeatureSummary)
-set(KF5_VERSION "5.90.0")
-find_package(ECM ${KF5_VERSION} REQUIRED NO_MODULE)
+
+set(REQUIRED_QT_VERSION "6.4.0")
+set(KF_MIN_VERSION "6.0.0")
+set(KSANECORE_SUFFFIX "6")
+
+find_package(ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
 set_package_properties(ECM PROPERTIES TYPE REQUIRED DESCRIPTION "Extra CMake Modules." URL "https://commits.kde.org/extra-cmake-modules")
 set(CMAKE_MODULE_PATH ${KSaneCore_SOURCE_DIR}/cmake-modules ${ECM_MODULE_PATH})
 
@@ -33,15 +37,6 @@ include(ECMQtDeclareLoggingCategory)
 include(KDEGitCommitHooks)
 include(KDEClangFormat)
 include(ECMDeprecationSettings)
-if (QT_MAJOR_VERSION STREQUAL "6")
-    set(QT_REQUIRED_VERSION "6.4.0")
-    set(KF_MIN_VERSION "5.240.0")
-    set(KF_MAJOR_VERSION "6")
-    set(KSANECORE_SUFFFIX "6")
-else()
-    set(KF_MAJOR_VERSION "5")
-    set(KSANECORE_SUFFFIX "")
-endif()
 
 set(ksanecore_version_header "${CMAKE_CURRENT_BINARY_DIR}/src/ksanecore_version.h")
 ecm_setup_version(
@@ -53,11 +48,10 @@ ecm_setup_version(
 )
 
 # Dependencies
-set(REQUIRED_QT_VERSION "5.15.2")
-# Required Qt5 components to build this framework
-find_package(Qt${QT_MAJOR_VERSION} ${REQUIRED_QT_VERSION} NO_MODULE REQUIRED Core Gui)
-# Required KF5 frameworks
-find_package(KF${KF_MAJOR_VERSION}I18n ${KF5_VERSION} REQUIRED)
+# Required Qt components to build this framework
+find_package(Qt6 ${REQUIRED_QT_VERSION} NO_MODULE REQUIRED Core Gui)
+# Required KDE Frameworks
+find_package(KF6I18n ${KF_MIN_VERSION} REQUIRED)
 
 # Check if sane API is available.
 find_package(Sane REQUIRED)

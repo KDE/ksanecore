@@ -38,7 +38,6 @@ public Q_SLOTS:
     bool setValue(const QVariant &value) override;
 
 private:
-    Option::OptionState m_state = Option::StateHidden;
     int m_delayValue = 10;
 };
 

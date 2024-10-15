@@ -43,17 +43,7 @@ ecm_qt_declare_logging_category(KSaneCore${KSANECORE_SUFFFIX}
   CATEGORY_NAME org.kde.ksane.core
 )
 
-if (QT_MAJOR_VERSION STREQUAL "5")
-    set(_generate_export_header_version_args)
-else()
-    # For Qt6/KF6 world transitively include the version header
-    if(ECM_VERSION VERSION_LESS "5.106")
-        set(include_version_header_code "#include <ksanecore_version.h>\n")
-        set(_generate_export_header_version_args CUSTOM_CONTENT_FROM_VARIABLE include_version_header_code)
-    else()
-        set(_generate_export_header_version_args USE_VERSION_HEADER)
-    endif()
-endif()
+set(_generate_export_header_version_args USE_VERSION_HEADER)
 
 ecm_generate_export_header(KSaneCore${KSANECORE_SUFFFIX}
     BASE_NAME KSaneCore
@@ -71,11 +61,11 @@ target_include_directories(KSaneCore${KSANECORE_SUFFFIX}
 
 target_link_libraries(KSaneCore${KSANECORE_SUFFFIX}
     PUBLIC
-        Qt${QT_MAJOR_VERSION}::Core
-        Qt${QT_MAJOR_VERSION}::Gui
+        Qt6::Core
+        Qt6::Gui
     PRIVATE
         Sane::Sane
-        KF${KF_MAJOR_VERSION}::I18n
+        KF6::I18n
 )
 
 ecm_generate_headers(KSaneCore_CamelCase_HEADERS

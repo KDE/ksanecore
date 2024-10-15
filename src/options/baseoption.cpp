@@ -7,6 +7,8 @@
 
 #include "baseoption.h"
 
+#include <endian.h>
+
 #include <ksanecore_debug.h>
 
 namespace KSaneCore
