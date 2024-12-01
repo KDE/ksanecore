@@ -88,6 +88,11 @@ QString Interface::deviceModel() const
     return d->m_model;
 }
 
+void Interface::setPreviewResolution(float dpi)
+{
+    d->m_previewDPI = dpi;
+}
+
 bool Interface::reloadDevicesList(const DeviceType type)
 {
     /* On some SANE backends, the handle becomes invalid when
@@ -205,8 +210,91 @@ void Interface::startScan()
         d->reloadValues();
     }
     d->m_optionPollTimer.stop();
-    Q_EMIT scanProgress(-1);
+    d->emitProgress(-1);
     d->m_scanThread->start();
+}
+
+void Interface::startPreviewScan()
+{
+    d->m_previewScan = true;
+    Option *topLeftXOption = getOption(Interface::TopLeftXOption);
+    Option *topLeftYOption = getOption(Interface::TopLeftYOption);
+    Option *bottomRightXOption = getOption(Interface::BottomRightXOption);
+    Option *bottomRightYOption = getOption(Interface::BottomRightYOption);
+    Option *previewOption = getOption(Interface::PreviewOption);
+    Option *resolutionOption = getOption(Interface::ResolutionOption);
+    Option *bitDepthOption = getOption(Interface::BitDepthOption);
+    Option *yResolutionOption = getOption(Interface::YResolutionOption);
+    Option *xResolutionOption = getOption(Interface::XResolutionOption);
+
+    int targetPreviewDPI;
+    if (topLeftXOption != nullptr) {
+        topLeftXOption->storeCurrentData();
+        topLeftXOption->setValue(topLeftXOption->minimumValue());
+    }
+    if (topLeftYOption != nullptr) {
+        topLeftYOption->storeCurrentData();
+        topLeftYOption->setValue(topLeftYOption->minimumValue());
+    }
+    if (bottomRightXOption != nullptr) {
+        bottomRightXOption->storeCurrentData();
+        bottomRightXOption->setValue(bottomRightXOption->maximumValue());
+    }
+    if (bottomRightYOption != nullptr) {
+        bottomRightYOption->storeCurrentData();
+        bottomRightYOption->setValue(bottomRightYOption->maximumValue());
+    }
+
+    if (resolutionOption != nullptr) {
+        resolutionOption->storeCurrentData();
+        if (d->m_previewDPI < resolutionOption->minimumValue().toFloat()) {
+            targetPreviewDPI = qMax(resolutionOption->minimumValue().toFloat(), 25.0f);
+            if ((bottomRightXOption != nullptr) && (bottomRightYOption != nullptr)) {
+                if (bottomRightXOption->valueUnit() == KSaneCore::Option::UnitMilliMeter) {
+                    targetPreviewDPI = 300 * 25.4 / (bottomRightXOption->value().toFloat());
+                    // always round to a multiple of 25
+                    int remainder = targetPreviewDPI % 25;
+                    targetPreviewDPI = targetPreviewDPI + 25 - remainder;
+                }
+            }
+        } else {
+            targetPreviewDPI = d->m_previewDPI;
+        }
+        if (resolutionOption->type() == KSaneCore::Option::TypeValueList) {
+            const auto &values = resolutionOption->valueList();
+            if (values.count() <= 0) {
+                qCWarning(KSANECORE_LOG) << "Resolution option is broken and has no entries";
+                return;
+            }
+            /* if there are discrete values, try to find the one which fits best. */
+            int minIndex = 0;
+            int minDistance = abs(values.at(0).toInt() - d->m_previewDPI);
+            for (int i = 1; i < values.count(); ++i) {
+                int distance = abs(values.at(i).toInt() - d->m_previewDPI);
+                if (distance < minDistance) {
+                    minIndex = i;
+                    minDistance = distance;
+                }
+            }
+            targetPreviewDPI = values.at(minIndex).toInt();
+        }
+
+        resolutionOption->setValue(targetPreviewDPI);
+        if ((yResolutionOption != nullptr) && (resolutionOption == xResolutionOption)) {
+            yResolutionOption->storeCurrentData();
+            yResolutionOption->setValue(targetPreviewDPI);
+        }
+    }
+    if (bitDepthOption != nullptr) {
+        bitDepthOption->storeCurrentData();
+        if (bitDepthOption->value() == 16) {
+            bitDepthOption->setValue(8);
+        }
+    }
+    if (previewOption != nullptr) {
+        previewOption->setValue(true);
+    }
+    startScan();
 }
 
 void Interface::stopScan()

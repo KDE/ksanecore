@@ -244,7 +244,7 @@ Interface::OpenStatus InterfacePrivate::loadDeviceOptions()
         connect(optionResolution, &BaseOption::valueChanged, m_scanThread, &ScanThread::setImageResolution);
     }
 
-    connect(m_scanThread, &ScanThread::scanProgressUpdated, q, &Interface::scanProgress);
+    connect(m_scanThread, &ScanThread::scanProgressUpdated, this, &InterfacePrivate::emitProgress);
     connect(m_scanThread, &ScanThread::finished, this, &InterfacePrivate::imageScanFinished);
 
     // try to set to default values
@@ -331,6 +331,15 @@ void InterfacePrivate::reloadValues()
     }
 }
 
+void InterfacePrivate::emitProgress(int progress)
+{
+    if (m_previewScan) {
+        Q_EMIT q->previewProgress(progress);
+    } else {
+        Q_EMIT q->scanProgress(progress);
+    }
+}
+
 void InterfacePrivate::pollPollOptions()
 {
     for (int i = 1; i < m_optionsPollList.size(); ++i) {
@@ -340,30 +349,33 @@ void InterfacePrivate::pollPollOptions()
 
 void InterfacePrivate::imageScanFinished()
 {
-    Q_EMIT q->scanProgress(100);
+    emitProgress(100);
     if (m_scanThread->frameStatus() == ScanThread::ReadReady) {
-        Q_EMIT q->scannedImageReady(*m_scanThread->scanImage());
-        // now check if we should have automatic ADF batch scanning
-        if (m_executeMultiPageScanning && !m_cancelMultiPageScan) {
-            // in batch mode only one area can be scanned per page
-            Q_EMIT q->scanProgress(-1);
-            m_scanThread->start();
-            return;
-        }
-        // check if we should have timed batch scanning
-        if (m_batchMode->value().toBool() && !m_cancelMultiPageScan) {
-            // in batch mode only one area can be scanned per page
-            m_batchModeCounter = 0;
-            batchModeTimerUpdate();
-            m_batchModeTimer.start();
-            return;
-        }
-        // Check if we have a "wait for button" batch scanning
-        if (m_waitForExternalButton) {
-            qCDebug(KSANECORE_LOG) << "waiting for external button press to start next scan";
-            Q_EMIT q->scanProgress(-1);
-            m_scanThread->start();
-            return;
+        if (m_previewScan) {
+            Q_EMIT q->previewImageReady(*m_scanThread->scanImage());
+        } else {
+            Q_EMIT q->scannedImageReady(*m_scanThread->scanImage());
+            // now check if we should have automatic ADF batch scanning
+            if (m_executeMultiPageScanning && !m_cancelMultiPageScan) {
+                emitProgress(-1);
+                m_scanThread->start();
+                return;
+            }
+            // check if we should have timed batch scanning
+            if (m_batchMode->value().toBool() && !m_cancelMultiPageScan) {
+                // in batch mode only one area can be scanned per page
+                m_batchModeCounter = 0;
+                batchModeTimerUpdate();
+                m_batchModeTimer.start();
+                return;
+            }
+            // Check if we have a "wait for button" batch scanning
+            if (m_waitForExternalButton) {
+                qCDebug(KSANECORE_LOG) << "waiting for external button press to start next scan";
+                emitProgress(-1);
+                m_scanThread->start();
+                return;
+            }
         }
         scanIsFinished(Interface::NoError, QString());
     } else {
@@ -398,8 +410,50 @@ void InterfacePrivate::scanIsFinished(Interface::ScanStatus status, const QStrin
     if (m_optionsPollList.size() > 0 && !m_optionPollingNaughtylisted) {
         m_optionPollTimer.start();
     }
+    if (m_previewScan) {
+        // reset to user values for final scan
+        Option *topLeftXOption = q->getOption(Interface::TopLeftXOption);
+        Option *topLeftYOption = q->getOption(Interface::TopLeftYOption);
+        Option *bottomRightXOption = q->getOption(Interface::BottomRightXOption);
+        Option *bottomRightYOption = q->getOption(Interface::BottomRightYOption);
+        Option *bitDepthOption = q->getOption(Interface::BitDepthOption);
+        Option *previewOption = q->getOption(Interface::PreviewOption);
+        Option *resolutionOption = q->getOption(Interface::ResolutionOption);
+        Option *yResolutionOption = q->getOption(Interface::YResolutionOption);
+        Option *xResolutionOption = q->getOption(Interface::YResolutionOption);
 
-    Q_EMIT q->scanFinished(status, message);
+        if (topLeftXOption != nullptr) {
+            topLeftXOption->restoreSavedData();
+        }
+        if (topLeftYOption != nullptr) {
+            topLeftYOption->restoreSavedData();
+        }
+        if (bottomRightXOption != nullptr) {
+            bottomRightXOption->restoreSavedData();
+        }
+        if (bottomRightYOption != nullptr) {
+            bottomRightYOption->restoreSavedData();
+        }
+        if (resolutionOption != nullptr) {
+            resolutionOption->restoreSavedData();
+        }
+        if (yResolutionOption != nullptr) {
+            yResolutionOption->restoreSavedData();
+        }
+        if (xResolutionOption != nullptr) {
+            xResolutionOption->restoreSavedData();
+        }
+        if (bitDepthOption != nullptr) {
+            bitDepthOption->restoreSavedData();
+        }
+        if (previewOption != nullptr) {
+            previewOption->setValue(false);
+        }
+        m_previewScan = false;
+        Q_EMIT q->previewScanFinished(status, message);
+    } else {
+        Q_EMIT q->scanFinished(status, message);
+    }
 }
 
 void InterfacePrivate::determineMultiPageScanning(const QVariant &value)

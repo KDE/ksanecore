@@ -36,7 +36,6 @@ public:
     Interface::OpenStatus loadDeviceOptions();
     void clearDeviceOptions();
     void setDefaultValues();
-
     void scanIsFinished(Interface::ScanStatus status, const QString &message);
 
 public Q_SLOTS:
@@ -46,6 +45,7 @@ public Q_SLOTS:
     void scheduleValuesReload();
     void reloadOptions();
     void reloadValues();
+    void emitProgress(int progress);
 
 private Q_SLOTS:
     void determineMultiPageScanning(const QVariant &value);
@@ -78,6 +78,9 @@ public:
     Interface *q;
 
     // state variables
+    // determines whether a preview scan is carried out
+    bool m_previewScan = false;
+    float m_previewDPI = 50;
     // determines whether scanner will send multiple images
     bool m_executeMultiPageScanning = false;
     // scanning has been cancelled externally
