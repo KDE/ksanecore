@@ -32,11 +32,7 @@ struct Authentication::Private {
 
 Authentication *Authentication::getInstance()
 {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QMutexLocker<QMutex> locker(s_mutex);
-#else
-    QMutexLocker locker(s_mutex);
-#endif
 
     if (s_instance == nullptr) {
         s_instance = new Authentication();
@@ -48,11 +44,7 @@ Authentication::Authentication() : d(new Private) {}
 
 Authentication::~Authentication()
 {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QMutexLocker<QMutex> locker(s_mutex);
-#else
-    QMutexLocker locker(s_mutex);
-#endif
     d->authList.clear();
     delete d;
 }
