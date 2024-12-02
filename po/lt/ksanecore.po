@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-15 00:39+0000\n"
+"POT-Creation-Date: 2024-12-02 00:40+0000\n"
 "PO-Revision-Date: 2024-09-13 23:04+0300\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -65,12 +65,12 @@ msgctxt "Page size landscape"
 msgid "Landscape %1"
 msgstr "Gulsčias %1"
 
-#: options/pagesizeoption.cpp:193
+#: options/pagesizeoption.cpp:189
 #, kde-format
 msgid "Scan area size"
 msgstr "Skenavimo srities dydis"
 
-#: options/pagesizeoption.cpp:198
+#: options/pagesizeoption.cpp:194
 #, kde-format
 msgid "Select a predefined page size for the scanning area."
 msgstr "Pasirinkite iš anksto apibrėžtą skenuojamos srities puslapio dydį."

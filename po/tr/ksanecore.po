@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-15 00:39+0000\n"
+"POT-Creation-Date: 2024-12-02 00:40+0000\n"
 "PO-Revision-Date: 2022-04-26 11:18+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -63,12 +63,12 @@ msgctxt "Page size landscape"
 msgid "Landscape %1"
 msgstr "Yatay %1"
 
-#: options/pagesizeoption.cpp:193
+#: options/pagesizeoption.cpp:189
 #, kde-format
 msgid "Scan area size"
 msgstr "Tarama alanı boyutu"
 
-#: options/pagesizeoption.cpp:198
+#: options/pagesizeoption.cpp:194
 #, kde-format
 msgid "Select a predefined page size for the scanning area."
 msgstr "Tarama alanı için önceden tanımlanmış bir sayfa boyutu seçin."
