@@ -14,27 +14,27 @@ set_target_properties(KSaneCore${KSANECORE_SUFFFIX} PROPERTIES
 target_compile_definitions(KSaneCore${KSANECORE_SUFFFIX} PRIVATE -DTRANSLATION_DOMAIN=\"ksanecore\")
 
 target_sources(KSaneCore${KSANECORE_SUFFFIX} PRIVATE
-    finddevicesthread.cpp
-    scanthread.cpp
+    finddevicesthread.cpp finddevicesthread.h
+    scanthread.cpp scanthread.h
     imagebuilder.cpp
-    interface.cpp
-    interface_p.cpp
-    authentication.cpp
+    interface.cpp interface.h
+    interface_p.cpp interface_p.h
+    authentication.cpp authentication.h
     option.cpp
-    internaloption.cpp
-    deviceinformation.cpp
-    options/baseoption.cpp
-    options/actionoption.cpp
-    options/booloption.cpp
-    options/stringoption.cpp
-    options/gammaoption.cpp
-    options/integeroption.cpp
-    options/doubleoption.cpp
-    options/listoption.cpp
-    options/invertoption.cpp
-    options/pagesizeoption.cpp
-    options/batchmodeoption.cpp
-    options/batchdelayoption.cpp
+    internaloption.cpp internaloption.h
+    deviceinformation.cpp deviceinformation.h
+    options/baseoption.cpp options/baseoption.h
+    options/actionoption.cpp options/actionoption.h
+    options/booloption.cpp options/booloption.h
+    options/stringoption.cpp options/stringoption.h
+    options/gammaoption.cpp options/gammaoption.h
+    options/integeroption.cpp options/integeroption.h
+    options/doubleoption.cpp options/doubleoption.h
+    options/listoption.cpp options/listoption.h
+    options/invertoption.cpp options/invertoption.h
+    options/pagesizeoption.cpp options/pagesizeoption.h
+    options/batchmodeoption.cpp options/batchmodeoption.h
+    options/batchdelayoption.cpp options/batchdelayoption.h
 )
 
 ecm_qt_declare_logging_category(KSaneCore${KSANECORE_SUFFFIX}
