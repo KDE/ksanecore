@@ -1,0 +1,71 @@
+# Sanskrit translations for ksanecore package.
+# Copyright (C) 2024 This file is copyright:
+# This file is distributed under the same license as the ksanecore package.
+# Kali <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ksanecore\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2024-12-09 00:40+0000\n"
+"PO-Revision-Date: 2024-12-13 19:09+0530\n"
+"Last-Translator: Kali <EMAIL@ADDRESS>\n"
+"Language-Team: Sanskrit\n"
+"Language: sa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: interface.cpp:313
+#, kde-format
+msgid "Scanning stopped by user."
+msgstr "उपयोक्त्रा स्कैनिङ्गं स्थगितम्।"
+
+#: options/batchdelayoption.cpp:31
+#, kde-format
+msgid "Batch mode time delay"
+msgstr "बैच मोड समय विलम्ब"
+
+#: options/batchdelayoption.cpp:36
+#, kde-format
+msgid "Specify the time delay between each scan when batch mode is enabled."
+msgstr "यदा बैच मोड सक्षमः भवति तदा प्रत्येकस्य स्कैन् मध्ये समयविलम्बं निर्दिशन्तु ।"
+
+#: options/batchmodeoption.cpp:31
+#, kde-format
+msgid "Batch mode with time delay"
+msgstr "समयविलम्बेन सह बैच मोड्"
+
+#: options/batchmodeoption.cpp:36
+#, kde-format
+msgid ""
+"Enables batch mode scanning. Continues scanning after a delay until canceled."
+msgstr ""
+"बैच मोड स्कैनिङ्ग् सक्षमं करोति । विलम्बस्य अनन्तरं यावत् रद्दं न भवति तावत् स्कैनिङ्गं निरन्तरं "
+"करोति।"
+
+#: options/invertoption.cpp:58
+#, kde-format
+msgid "Invert colors"
+msgstr "वर्णाः विपर्यययन्तु"
+
+#: options/invertoption.cpp:63
+#, kde-format
+msgid "Invert the colors of the scanned image."
+msgstr "स्कैन् कृतस्य चित्रस्य वर्णाः विपर्यययन्तु ।"
+
+#: options/pagesizeoption.cpp:110
+#, kde-format
+msgctxt "Page size landscape"
+msgid "Landscape %1"
+msgstr ""
+
+#: options/pagesizeoption.cpp:189
+#, kde-format
+msgid "Scan area size"
+msgstr "क्षेत्रस्य आकारं स्कैन कुर्वन्तु"
+
+#: options/pagesizeoption.cpp:194
+#, kde-format
+msgid "Select a predefined page size for the scanning area."
+msgstr "स्कैनिङ्गक्षेत्रस्य कृते पूर्वनिर्धारितं पृष्ठाकारं चिनोतु ।"
