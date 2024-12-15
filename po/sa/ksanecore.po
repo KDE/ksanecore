@@ -58,7 +58,7 @@ msgstr "स्कैन् कृतस्य चित्रस्य वर्
 #, kde-format
 msgctxt "Page size landscape"
 msgid "Landscape %1"
-msgstr ""
+msgstr "परिदृश्य %1"
 
 #: options/pagesizeoption.cpp:189
 #, kde-format
