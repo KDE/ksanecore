@@ -381,10 +381,10 @@ void InterfacePrivate::imageScanFinished()
     } else {
         switch (m_scanThread->saneStatus()) {
         case SANE_STATUS_GOOD:
-        case SANE_STATUS_CANCELLED:
-        case SANE_STATUS_EOF:
             scanIsFinished(Interface::NoError, sane_i18n(sane_strstatus(m_scanThread->saneStatus())));
             break;
+        case SANE_STATUS_CANCELLED:
+        case SANE_STATUS_EOF:
         case SANE_STATUS_NO_DOCS:
             Q_EMIT q->userMessage(Interface::Information, sane_i18n(sane_strstatus(m_scanThread->saneStatus())));
             scanIsFinished(Interface::Information, sane_i18n(sane_strstatus(m_scanThread->saneStatus())));
