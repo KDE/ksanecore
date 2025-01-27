@@ -45,79 +45,9 @@ PageSizeOption::PageSizeOption(BaseOption *optionTopLeftX,
     m_optionPageWidth = optionPageWidth;
     m_optionPageHeight = optionPageHeight;
 
-    /* some SANE backends set the maximum value of bottom right X and Y to the current page width and height values
-     * set current values of these option to maximum if available, such that we detect possible page sizes correctly
-     * see https://gitlab.com/sane-project/backends/-/issues/730 and https://bugs.kde.org/show_bug.cgi?id=476838 */
-    if (m_optionPageWidth != nullptr && m_optionPageHeight != nullptr) {
-        m_optionPageHeight->setValue(m_optionPageHeight->maximumValue());
-        m_optionPageWidth->setValue(m_optionPageWidth->maximumValue());
-    }
-
-    const QList<QPageSize::PageSizeId> possibleSizesList = {
-        QPageSize::A3,
-        QPageSize::A4,
-        QPageSize::A5,
-        QPageSize::A6,
-        QPageSize::Letter,
-        QPageSize::Legal,
-        QPageSize::Tabloid,
-        QPageSize::B3,
-        QPageSize::B4,
-        QPageSize::B5,
-        QPageSize::B6,
-        QPageSize::C5E,
-        QPageSize::Comm10E,
-        QPageSize::DLE,
-        QPageSize::Executive,
-        QPageSize::Folio,
-        QPageSize::Ledger,
-        QPageSize::JisB3,
-        QPageSize::JisB4,
-        QPageSize::JisB5,
-        QPageSize::JisB6,
-    };
-
-    m_availableSizesList << QPageSize::size(QPageSize::Custom, QPageSize::Millimeter);
-    m_availableSizesListNames << QPageSize::name(QPageSize::Custom);
-
-    double maxScannerWidth = ensureMilliMeter(m_optionBottomRightX, m_optionBottomRightX->maximumValue().toDouble());
-    double maxScannerHeight = ensureMilliMeter(m_optionBottomRightY, m_optionBottomRightY->maximumValue().toDouble());
-
-    // Add portrait page sizes
-    for (const auto sizeCode : possibleSizesList) {
-        QSizeF size = QPageSize::size(sizeCode, QPageSize::Millimeter);
-        if (size.width() - PageSizeWiggleRoom > maxScannerWidth) {
-            continue;
-        }
-        if (size.height() - PageSizeWiggleRoom > maxScannerHeight) {
-            continue;
-        }
-        m_availableSizesList << size;
-        m_availableSizesListNames << QPageSize::name(sizeCode);
-    }
-
-    // Add landscape page sizes
-    for (const auto sizeCode : possibleSizesList) {
-        QSizeF size = QPageSize::size(sizeCode, QPageSize::Millimeter);
-        size.transpose();
-        if (size.width() - PageSizeWiggleRoom > maxScannerWidth) {
-            continue;
-        }
-        if (size.height() - PageSizeWiggleRoom > maxScannerHeight) {
-            continue;
-        }
-        m_availableSizesList << size;
-        m_availableSizesListNames << i18nc("Page size landscape", "Landscape %1", QPageSize::name(sizeCode));
-    }
-
-    // Set custom as current
-    m_currentIndex = 0;
-    if (m_availableSizesList.count() > 1) {
-        m_state = Option::StateActive;
-    } else {
-        m_state = Option::StateHidden;
-    }
     m_optionType = Option::TypeValueList;
+
+    computePageSizes();
 }
 
 bool PageSizeOption::setValue(const QVariant &value)
@@ -238,6 +168,109 @@ double PageSizeOption::ensureMilliMeter(BaseOption *option, double value)
         }
     }
     return value;
+}
+
+void PageSizeOption::storeOptions()
+{
+    m_previousCoordinates[0] = m_optionTopLeftX->value().toDouble();
+    m_previousCoordinates[1] = m_optionTopLeftY->value().toDouble();
+    m_previousCoordinates[2] = m_optionBottomRightX->value().toDouble();
+    m_previousCoordinates[3] = m_optionBottomRightY->value().toDouble();
+}
+
+void PageSizeOption::restoreOptions()
+{
+    computePageSizes();
+    Q_EMIT optionReloaded();
+
+    m_optionTopLeftX->setValue(m_previousCoordinates[0]);
+    m_optionTopLeftY->setValue(m_previousCoordinates[1]);
+    m_optionBottomRightX->setValue(m_previousCoordinates[2]);
+    m_optionBottomRightY->setValue(m_previousCoordinates[3]);
+
+    int newIndex = 0;
+    if (m_optionTopLeftX->value().toDouble() == 0 && m_optionTopLeftY->value().toDouble() == 0) {
+        QSizeF currentSize = QSizeF(ensureMilliMeter(m_optionBottomRightX, m_optionBottomRightX->value().toDouble()),
+                                    ensureMilliMeter(m_optionBottomRightY, m_optionBottomRightY->value().toDouble()));
+
+        for (int i = 0; i < m_availableSizesList.count(); i++) {
+            if (qFuzzyCompare(currentSize, m_availableSizesList.at(i))) {
+                newIndex = i;
+            }
+        }
+    }
+    if (newIndex != m_currentIndex) {
+        m_currentIndex = newIndex;
+        Q_EMIT valueChanged(m_availableSizesListNames.at(m_currentIndex));
+    }
+}
+
+void PageSizeOption::computePageSizes()
+{
+    /* some SANE backends set the maximum value of bottom right X and Y to the current page width and height values
+     * set current values of these option to maximum if available, such that we detect possible page sizes correctly
+     * see https://gitlab.com/sane-project/backends/-/issues/730 and https://bugs.kde.org/show_bug.cgi?id=476838 */
+    if (m_optionPageWidth != nullptr && m_optionPageHeight != nullptr) {
+        m_optionPageHeight->storeCurrentData();
+        m_optionPageWidth->storeCurrentData();
+        m_optionPageHeight->setValue(m_optionPageHeight->maximumValue());
+        m_optionPageWidth->setValue(m_optionPageWidth->maximumValue());
+    }
+
+    const QList<QPageSize::PageSizeId> possibleSizesList = {
+        QPageSize::A3,        QPageSize::A4,    QPageSize::A5,     QPageSize::A6,    QPageSize::Letter, QPageSize::Legal,   QPageSize::Tabloid,
+        QPageSize::B3,        QPageSize::B4,    QPageSize::B5,     QPageSize::B6,    QPageSize::C5E,    QPageSize::Comm10E, QPageSize::DLE,
+        QPageSize::Executive, QPageSize::Folio, QPageSize::Ledger, QPageSize::JisB3, QPageSize::JisB4,  QPageSize::JisB5,   QPageSize::JisB6,
+    };
+
+    m_availableSizesList.clear();
+    m_availableSizesListNames.clear();
+
+    m_availableSizesList << QPageSize::size(QPageSize::Custom, QPageSize::Millimeter);
+    m_availableSizesListNames << QPageSize::name(QPageSize::Custom);
+
+    double maxScannerWidth = ensureMilliMeter(m_optionBottomRightX, m_optionBottomRightX->maximumValue().toDouble());
+    double maxScannerHeight = ensureMilliMeter(m_optionBottomRightY, m_optionBottomRightY->maximumValue().toDouble());
+
+    // Add portrait page sizes
+    for (const auto sizeCode : possibleSizesList) {
+        QSizeF size = QPageSize::size(sizeCode, QPageSize::Millimeter);
+        if (size.width() - PageSizeWiggleRoom > maxScannerWidth) {
+            continue;
+        }
+        if (size.height() - PageSizeWiggleRoom > maxScannerHeight) {
+            continue;
+        }
+        m_availableSizesList << size;
+        m_availableSizesListNames << QPageSize::name(sizeCode);
+    }
+
+    // Add landscape page sizes
+    for (const auto sizeCode : possibleSizesList) {
+        QSizeF size = QPageSize::size(sizeCode, QPageSize::Millimeter);
+        size.transpose();
+        if (size.width() - PageSizeWiggleRoom > maxScannerWidth) {
+            continue;
+        }
+        if (size.height() - PageSizeWiggleRoom > maxScannerHeight) {
+            continue;
+        }
+        m_availableSizesList << size;
+        m_availableSizesListNames << i18nc("Page size landscape", "Landscape %1", QPageSize::name(sizeCode));
+    }
+
+    // Set custom as current
+    m_currentIndex = 0;
+    if (m_availableSizesList.count() > 1) {
+        m_state = Option::StateActive;
+    } else {
+        m_state = Option::StateHidden;
+    }
+
+    if (m_optionPageWidth != nullptr && m_optionPageHeight != nullptr) {
+        m_optionPageHeight->restoreSavedData();
+        m_optionPageWidth->restoreSavedData();
+    }
 }
 
 } // namespace KSaneCore

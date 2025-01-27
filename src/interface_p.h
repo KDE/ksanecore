@@ -47,6 +47,10 @@ public Q_SLOTS:
     void reloadValues();
     void emitProgress(int progress);
 
+Q_SIGNALS:
+    void optionsAboutToBeReloaded();
+    void optionsReloaded();
+
 private Q_SLOTS:
     void determineMultiPageScanning(const QVariant &value);
     void setWaitForExternalButton(const QVariant &value);

@@ -40,6 +40,9 @@ public:
 
 public Q_SLOTS:
     bool setValue(const QVariant &value) override;
+    void storeOptions();
+    void restoreOptions();
+    void computePageSizes();
 
 private Q_SLOTS:
     void optionTopLeftXUpdated();
@@ -61,6 +64,7 @@ private:
     Option::OptionState m_state = Option::StateDisabled;
     QVariantList m_availableSizesListNames;
     QList<QSizeF> m_availableSizesList;
+    double m_previousCoordinates[4];
 };
 
 } // namespace KSaneCore

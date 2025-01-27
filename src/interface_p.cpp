@@ -196,8 +196,10 @@ Interface::OpenStatus InterfacePrivate::loadDeviceOptions()
     }
 
     // add extra option for selecting specific page sizes
-    BaseOption *pageSizeOption =
+    PageSizeOption *pageSizeOption =
         new PageSizeOption(optionTopLeftX, optionTopLeftY, optionBottomRightX, optionBottomRightY, optionResolution, optionPageWidth, optionPageHeight);
+    connect(this, &InterfacePrivate::optionsAboutToBeReloaded, pageSizeOption, &PageSizeOption::storeOptions);
+    connect(this, &InterfacePrivate::optionsReloaded, pageSizeOption, &PageSizeOption::restoreOptions);
     m_optionsList.append(pageSizeOption);
     m_externalOptionsList.append(new InternalOption(pageSizeOption));
     m_optionsLocation.insert(Interface::PageSizeOption, m_optionsList.size() - 1);
@@ -317,11 +319,13 @@ void InterfacePrivate::scheduleValuesReload()
 
 void InterfacePrivate::reloadOptions()
 {
+    Q_EMIT optionsAboutToBeReloaded();
     for (const auto option : std::as_const(m_optionsList)) {
         option->readOption();
         // Also read the values
         option->readValue();
     }
+    Q_EMIT optionsReloaded();
 }
 
 void InterfacePrivate::reloadValues()
