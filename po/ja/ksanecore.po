@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-09 00:40+0000\n"
+"POT-Creation-Date: 2025-02-05 00:40+0000\n"
 "PO-Revision-Date: 2024-01-14 08:08+0900\n"
 "Last-Translator: Tarot Osuji <tarot@sdf.org>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -54,18 +54,18 @@ msgstr "色を反転"
 msgid "Invert the colors of the scanned image."
 msgstr "スキャンした画像の色を反転します。"
 
-#: options/pagesizeoption.cpp:110
-#, kde-format
-msgctxt "Page size landscape"
-msgid "Landscape %1"
-msgstr "横長 %1"
-
-#: options/pagesizeoption.cpp:189
+#: options/pagesizeoption.cpp:119
 #, kde-format
 msgid "Scan area size"
 msgstr "スキャン領域のサイズ"
 
-#: options/pagesizeoption.cpp:194
+#: options/pagesizeoption.cpp:124
 #, kde-format
 msgid "Select a predefined page size for the scanning area."
 msgstr "スキャン領域の定義済みページサイズを選択します。"
+
+#: options/pagesizeoption.cpp:259
+#, kde-format
+msgctxt "Page size landscape"
+msgid "Landscape %1"
+msgstr "横長 %1"

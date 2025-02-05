@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-09 00:40+0000\n"
+"POT-Creation-Date: 2025-02-05 00:40+0000\n"
 "PO-Revision-Date: 2021-11-07 11:43+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -61,21 +61,21 @@ msgstr "Inverteix els colors"
 msgid "Invert the colors of the scanned image."
 msgstr "Inverteix els colors de la imatge escanejada."
 
-#: options/pagesizeoption.cpp:110
-#, kde-format
-msgctxt "Page size landscape"
-msgid "Landscape %1"
-msgstr "Apaïsada %1"
-
-#: options/pagesizeoption.cpp:189
+#: options/pagesizeoption.cpp:119
 #, kde-format
 msgid "Scan area size"
 msgstr "Mida de l'àrea d'escaneig"
 
-#: options/pagesizeoption.cpp:194
+#: options/pagesizeoption.cpp:124
 #, kde-format
 msgid "Select a predefined page size for the scanning area."
 msgstr "Selecciona una mida de pàgina predefinida per a l'àrea d'escaneig."
+
+#: options/pagesizeoption.cpp:259
+#, kde-format
+msgctxt "Page size landscape"
+msgid "Landscape %1"
+msgstr "Apaïsada %1"
 
 #~ msgid "Open scan dialog"
 #~ msgstr "Obre el diàleg d'escaneig"
