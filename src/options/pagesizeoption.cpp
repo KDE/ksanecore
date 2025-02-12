@@ -194,7 +194,8 @@ void PageSizeOption::restoreOptions()
                                     ensureMilliMeter(m_optionBottomRightY, m_optionBottomRightY->value().toDouble()));
 
         for (int i = 0; i < m_availableSizesList.count(); i++) {
-            if (qFuzzyCompare(currentSize, m_availableSizesList.at(i))) {
+            if (qFuzzyCompare(currentSize.height(), m_availableSizesList.at(i).height())
+                && qFuzzyCompare(currentSize.width(), m_availableSizesList.at(i).width())) {
                 newIndex = i;
             }
         }
