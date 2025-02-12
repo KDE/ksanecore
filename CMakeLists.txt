@@ -14,7 +14,7 @@ project(KSaneCore VERSION ${RELEASE_SERVICE_VERSION})
 
 include(FeatureSummary)
 
-set(REQUIRED_QT_VERSION "6.4.0")
+set(REQUIRED_QT_VERSION "6.8.0")
 set(KF_MIN_VERSION "6.0.0")
 set(KSANECORE_SUFFFIX "6")
 
