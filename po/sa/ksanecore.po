@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-05 00:40+0000\n"
+"POT-Creation-Date: 2025-02-13 00:43+0000\n"
 "PO-Revision-Date: 2024-12-13 19:09+0530\n"
 "Last-Translator: Kali <EMAIL@ADDRESS>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -65,7 +65,7 @@ msgstr "क्षेत्रस्य आकारं स्कैन कुर
 msgid "Select a predefined page size for the scanning area."
 msgstr "स्कैनिङ्गक्षेत्रस्य कृते पूर्वनिर्धारितं पृष्ठाकारं चिनोतु ।"
 
-#: options/pagesizeoption.cpp:259
+#: options/pagesizeoption.cpp:260
 #, kde-format
 msgctxt "Page size landscape"
 msgid "Landscape %1"

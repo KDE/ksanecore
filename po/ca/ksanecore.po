@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-05 00:40+0000\n"
+"POT-Creation-Date: 2025-02-13 00:43+0000\n"
 "PO-Revision-Date: 2021-11-07 11:43+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -71,7 +71,7 @@ msgstr "Mida de l'àrea d'escaneig"
 msgid "Select a predefined page size for the scanning area."
 msgstr "Selecciona una mida de pàgina predefinida per a l'àrea d'escaneig."
 
-#: options/pagesizeoption.cpp:259
+#: options/pagesizeoption.cpp:260
 #, kde-format
 msgctxt "Page size landscape"
 msgid "Landscape %1"
