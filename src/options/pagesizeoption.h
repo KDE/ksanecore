@@ -37,6 +37,7 @@ public:
     QString title() const override;
     QString description() const override;
     QVariantList valueList() const override;
+    QVariantList internalValueList() const override;
 
 public Q_SLOTS:
     bool setValue(const QVariant &value) override;

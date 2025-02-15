@@ -104,6 +104,11 @@ QVariantList PageSizeOption::valueList() const
     return m_availableSizesListNames;
 }
 
+QVariantList PageSizeOption::internalValueList() const
+{
+    return m_availableSizesListNames;
+}
+
 Option::OptionState PageSizeOption::state() const
 {
     return m_state;
