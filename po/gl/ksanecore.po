@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-13 00:43+0000\n"
+"POT-Creation-Date: 2025-02-16 00:40+0000\n"
 "PO-Revision-Date: 2023-04-30 09:37+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -57,18 +57,18 @@ msgstr "Inverter as cores"
 msgid "Invert the colors of the scanned image."
 msgstr "Inverter as cores da imaxe dixitalizada."
 
-#: options/pagesizeoption.cpp:119
+#: options/pagesizeoption.cpp:124
 #, kde-format
 msgid "Scan area size"
 msgstr "Tamaño da zona de dixitalización"
 
-#: options/pagesizeoption.cpp:124
+#: options/pagesizeoption.cpp:129
 #, kde-format
 msgid "Select a predefined page size for the scanning area."
 msgstr ""
 "Seleccione un tamaño de páxina predefinido para a zona de dixitalización."
 
-#: options/pagesizeoption.cpp:260
+#: options/pagesizeoption.cpp:265
 #, kde-format
 msgctxt "Page size landscape"
 msgid "Landscape %1"

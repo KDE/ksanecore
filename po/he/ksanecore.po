@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-13 00:43+0000\n"
+"POT-Creation-Date: 2025-02-16 00:40+0000\n"
 "PO-Revision-Date: 2024-09-12 08:48+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -54,17 +54,17 @@ msgstr "היפוך צבעים (נגטיב)"
 msgid "Invert the colors of the scanned image."
 msgstr "היפוך צבעי התמונה שנסרקה."
 
-#: options/pagesizeoption.cpp:119
+#: options/pagesizeoption.cpp:124
 #, kde-format
 msgid "Scan area size"
 msgstr "גודל אזור הסריקה"
 
-#: options/pagesizeoption.cpp:124
+#: options/pagesizeoption.cpp:129
 #, kde-format
 msgid "Select a predefined page size for the scanning area."
 msgstr "נא לבחור גודל עמוד מותאם אישית לאזור הסריקה."
 
-#: options/pagesizeoption.cpp:260
+#: options/pagesizeoption.cpp:265
 #, kde-format
 msgctxt "Page size landscape"
 msgid "Landscape %1"
