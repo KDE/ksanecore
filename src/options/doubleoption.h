@@ -33,8 +33,8 @@ public Q_SLOTS:
     bool setValue(const QVariant &value) override;
 
 private:
-    double  m_value = 0;
-    double  m_minChange = 0.0001;
+    double m_value = 0;
+    double m_minChange = 0.0001;
 };
 
 } // namespace KSaneCore

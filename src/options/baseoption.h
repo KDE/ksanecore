@@ -49,7 +49,6 @@ public:
     virtual void readOption();
     virtual void readValue();
 
-
     virtual QString name() const;
     virtual QString title() const;
     virtual QString description() const;
@@ -75,21 +74,19 @@ Q_SIGNALS:
     void valueChanged(const QVariant &value);
 
 public Q_SLOTS:
-
     virtual bool setValue(const QVariant &value);
 
 protected:
-
     static SANE_Word toSANE_Word(unsigned char *data);
     static void fromSANE_Word(unsigned char *data, SANE_Word from);
     bool writeData(void *data);
     void beginOptionReload();
     void endOptionReload();
 
-    SANE_Handle                   m_handle = nullptr;
-    int                           m_index = -1;
+    SANE_Handle m_handle = nullptr;
+    int m_index = -1;
     const SANE_Option_Descriptor *m_optDesc = nullptr; ///< This pointer is provided by sane
-    unsigned char                *m_data= nullptr;
+    unsigned char *m_data = nullptr;
     Option::OptionType m_optionType = Option::TypeDetectFail;
 };
 
