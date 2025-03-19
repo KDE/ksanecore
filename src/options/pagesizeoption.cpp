@@ -131,7 +131,7 @@ QString PageSizeOption::description() const
 
 void PageSizeOption::optionTopLeftXUpdated()
 {
-    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size() && m_optionTopLeftY->value().toDouble() != 0) {
+    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size() && m_optionTopLeftX->value().toDouble() != 0) {
         m_currentIndex = 0;
         Q_EMIT valueChanged(QPageSize::name(QPageSize::Custom));
     }
