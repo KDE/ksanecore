@@ -466,7 +466,8 @@ void InterfacePrivate::determineMultiPageScanning(const QVariant &value)
 
     m_executeMultiPageScanning = sourceString.contains(QStringLiteral("Automatic Document Feeder"))
         || sourceString.contains(sane_i18n("Automatic Document Feeder")) || sourceString.contains(QStringLiteral("ADF"))
-        || sourceString.contains(QStringLiteral("Duplex"));
+        || sourceString.contains(QStringLiteral("Duplex")) || sourceString.contains(sane_i18n("ADF Duplex")) || sourceString.contains(sane_i18n("ADF Front"))
+        || sourceString.contains(sane_i18n("ADF Back"));
 }
 
 void InterfacePrivate::setWaitForExternalButton(const QVariant &value)
