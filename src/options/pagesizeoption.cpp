@@ -9,7 +9,6 @@
 #include "pagesizeoption.h"
 
 #include <QPageSize>
-#include <QSizeF>
 
 #include <ksanecore_debug.h>
 
@@ -54,16 +53,16 @@ bool PageSizeOption::setValue(const QVariant &value)
 {
     if (value.userType() == QMetaType::QString) {
         QString newValue = value.toString();
-        if (newValue == m_availableSizesListNames.at(m_currentIndex)) {
+        if (newValue == m_availableSizes.at(m_currentIndex).name) {
             return true;
         }
-        for (int i = 0; i < m_availableSizesListNames.size(); i++) {
-            QString sizeEntry = m_availableSizesListNames.at(i).toString();
+        for (int i = 0; i < m_availableSizes.size(); i++) {
+            QString sizeEntry = m_availableSizes.at(i).name;
             if (sizeEntry == newValue) {
                 m_currentIndex = i;
 
                 if (i != 0) {
-                    const auto size = m_availableSizesList.at(i);
+                    const auto size = m_availableSizes.at(i).pageSize;
                     if (m_optionPageWidth != nullptr && m_optionPageHeight != nullptr) {
                         m_optionPageWidth->setValue(size.width());
                         m_optionPageHeight->setValue(size.height());
@@ -83,8 +82,8 @@ bool PageSizeOption::setValue(const QVariant &value)
 
 QVariant PageSizeOption::value() const
 {
-    if (m_currentIndex >= 0 && m_currentIndex < m_availableSizesListNames.size()) {
-        return m_availableSizesListNames.at(m_currentIndex);
+    if (m_currentIndex >= 0 && m_currentIndex < m_availableSizes.size()) {
+        return m_availableSizes.at(m_currentIndex).name;
     } else {
         return QVariant();
     }
@@ -92,8 +91,8 @@ QVariant PageSizeOption::value() const
 
 QString PageSizeOption::valueAsString() const
 {
-    if (m_currentIndex >= 0 && m_currentIndex < m_availableSizesListNames.size()) {
-        return m_availableSizesListNames.at(m_currentIndex).toString();
+    if (m_currentIndex >= 0 && m_currentIndex < m_availableSizes.size()) {
+        return m_availableSizes.at(m_currentIndex).name;
     } else {
         return QString();
     }
@@ -101,12 +100,22 @@ QString PageSizeOption::valueAsString() const
 
 QVariantList PageSizeOption::valueList() const
 {
-    return m_availableSizesListNames;
+    QVariantList list;
+    list.reserve(m_availableSizes.size());
+    for (int i = 0; i < m_availableSizes.size(); i++) {
+        list << m_availableSizes.at(i).name;
+    }
+    return list;
 }
 
 QVariantList PageSizeOption::internalValueList() const
 {
-    return m_availableSizesListNames;
+    QVariantList list;
+    list.reserve(m_availableSizes.size());
+    for (int i = 0; i < m_availableSizes.size(); i++) {
+        list << m_availableSizes.at(i).name;
+    }
+    return list;
 }
 
 Option::OptionState PageSizeOption::state() const
@@ -131,7 +140,7 @@ QString PageSizeOption::description() const
 
 void PageSizeOption::optionTopLeftXUpdated()
 {
-    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size() && m_optionTopLeftX->value().toDouble() != 0) {
+    if (m_currentIndex > 0 && m_currentIndex < m_availableSizes.size() && m_optionTopLeftX->value().toDouble() != 0) {
         m_currentIndex = 0;
         Q_EMIT valueChanged(QPageSize::name(QPageSize::Custom));
     }
@@ -139,7 +148,7 @@ void PageSizeOption::optionTopLeftXUpdated()
 
 void PageSizeOption::optionTopLeftYUpdated()
 {
-    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size() && m_optionTopLeftY->value().toDouble() != 0) {
+    if (m_currentIndex > 0 && m_currentIndex < m_availableSizes.size() && m_optionTopLeftY->value().toDouble() != 0) {
         m_currentIndex = 0;
         Q_EMIT valueChanged(QPageSize::name(QPageSize::Custom));
     }
@@ -147,8 +156,9 @@ void PageSizeOption::optionTopLeftYUpdated()
 
 void PageSizeOption::optionBottomRightXUpdated()
 {
-    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size()
-        && ensureMilliMeter(m_optionBottomRightX, m_optionBottomRightX->value().toDouble()) != m_availableSizesList.at(m_currentIndex).width()) {
+    if (m_currentIndex > 0 && m_currentIndex < m_availableSizes.size()
+        && !qFuzzyCompare(ensureMilliMeter(m_optionBottomRightX, m_optionBottomRightX->value().toDouble()),
+                          (m_availableSizes.at(m_currentIndex).pageSize.width() + m_availableSizes.at(m_currentIndex).wiggleRoom.width()))) {
         m_currentIndex = 0;
         Q_EMIT valueChanged(QPageSize::name(QPageSize::Custom));
     }
@@ -156,8 +166,9 @@ void PageSizeOption::optionBottomRightXUpdated()
 
 void PageSizeOption::optionBottomRightYUpdated()
 {
-    if (m_currentIndex > 0 && m_currentIndex < m_availableSizesList.size()
-        && ensureMilliMeter(m_optionBottomRightY, m_optionBottomRightY->value().toDouble()) != m_availableSizesList.at(m_currentIndex).height()) {
+    if (m_currentIndex > 0 && m_currentIndex < m_availableSizes.size()
+        && !qFuzzyCompare(ensureMilliMeter(m_optionBottomRightY, m_optionBottomRightY->value().toDouble()),
+                          (m_availableSizes.at(m_currentIndex).pageSize.height() + m_availableSizes.at(m_currentIndex).wiggleRoom.width()))) {
         m_currentIndex = 0;
         Q_EMIT valueChanged(QPageSize::name(QPageSize::Custom));
     }
@@ -198,16 +209,17 @@ void PageSizeOption::restoreOptions()
         QSizeF currentSize = QSizeF(ensureMilliMeter(m_optionBottomRightX, m_optionBottomRightX->value().toDouble()),
                                     ensureMilliMeter(m_optionBottomRightY, m_optionBottomRightY->value().toDouble()));
 
-        for (int i = 0; i < m_availableSizesList.count(); i++) {
-            if (qFuzzyCompare(currentSize.height(), m_availableSizesList.at(i).height())
-                && qFuzzyCompare(currentSize.width(), m_availableSizesList.at(i).width())) {
+        for (int i = 0; i < m_availableSizes.count(); i++) {
+            if (qFuzzyCompare(currentSize.height(), m_availableSizes.at(i).pageSize.height())
+                && qFuzzyCompare(currentSize.width(), m_availableSizes.at(i).pageSize.width())) {
                 newIndex = i;
+                break;
             }
         }
     }
     if (newIndex != m_currentIndex) {
         m_currentIndex = newIndex;
-        Q_EMIT valueChanged(m_availableSizesListNames.at(m_currentIndex));
+        Q_EMIT valueChanged(m_availableSizes.at(m_currentIndex).name);
     }
 }
 
@@ -223,17 +235,13 @@ void PageSizeOption::computePageSizes()
         m_optionPageWidth->setValue(m_optionPageWidth->maximumValue());
     }
 
-    const QList<QPageSize::PageSizeId> possibleSizesList = {
+    static const QList<QPageSize::PageSizeId> possibleSizesList = {
         QPageSize::A3,        QPageSize::A4,    QPageSize::A5,     QPageSize::A6,    QPageSize::Letter, QPageSize::Legal,   QPageSize::Tabloid,
         QPageSize::B3,        QPageSize::B4,    QPageSize::B5,     QPageSize::B6,    QPageSize::C5E,    QPageSize::Comm10E, QPageSize::DLE,
         QPageSize::Executive, QPageSize::Folio, QPageSize::Ledger, QPageSize::JisB3, QPageSize::JisB4,  QPageSize::JisB5,   QPageSize::JisB6,
     };
-
-    m_availableSizesList.clear();
-    m_availableSizesListNames.clear();
-
-    m_availableSizesList << QPageSize::size(QPageSize::Custom, QPageSize::Millimeter);
-    m_availableSizesListNames << QPageSize::name(QPageSize::Custom);
+    m_availableSizes.clear();
+    m_availableSizes.append({QPageSize::name(QPageSize::Custom), QPageSize::size(QPageSize::Custom, QPageSize::Millimeter), QSizeF(0, 0)});
 
     double maxScannerWidth = ensureMilliMeter(m_optionBottomRightX, m_optionBottomRightX->maximumValue().toDouble());
     double maxScannerHeight = ensureMilliMeter(m_optionBottomRightY, m_optionBottomRightY->maximumValue().toDouble());
@@ -247,8 +255,8 @@ void PageSizeOption::computePageSizes()
         if (size.height() - PageSizeWiggleRoom > maxScannerHeight) {
             continue;
         }
-        m_availableSizesList << size;
-        m_availableSizesListNames << QPageSize::name(sizeCode);
+        m_availableSizes.append(
+            {QPageSize::name(sizeCode), size, QSizeF(qMin(maxScannerWidth - size.width(), 0.0), qMin(maxScannerHeight - size.height(), 0.0))});
     }
 
     // Add landscape page sizes
@@ -261,13 +269,14 @@ void PageSizeOption::computePageSizes()
         if (size.height() - PageSizeWiggleRoom > maxScannerHeight) {
             continue;
         }
-        m_availableSizesList << size;
-        m_availableSizesListNames << i18nc("Page size landscape", "Landscape %1", QPageSize::name(sizeCode));
+        m_availableSizes.append({i18nc("Page size landscape", "Landscape %1", QPageSize::name(sizeCode)),
+                                 size,
+                                 QSizeF(qMin(maxScannerWidth - size.width(), 0.0), qMin(maxScannerHeight - size.height(), 0.0))});
     }
 
     // Set custom as current
     m_currentIndex = 0;
-    if (m_availableSizesList.count() > 1) {
+    if (m_availableSizes.count() > 1) {
         m_state = Option::StateActive;
     } else {
         m_state = Option::StateHidden;

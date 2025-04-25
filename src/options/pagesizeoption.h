@@ -8,6 +8,7 @@
 #define KSANE_PAGESIZE_OPTION_H
 
 #include <QList>
+#include <QSizeF>
 
 #include "baseoption.h"
 
@@ -52,6 +53,12 @@ private Q_SLOTS:
     void optionBottomRightYUpdated();
 
 private:
+    struct PageSizeProperties {
+        QString name;
+        QSizeF pageSize;
+        QSizeF wiggleRoom;
+    };
+
     double ensureMilliMeter(BaseOption *option, double value);
 
     BaseOption *m_optionTopLeftX;
@@ -63,8 +70,7 @@ private:
     BaseOption *m_optionPageHeight;
     int m_currentIndex = -1;
     Option::OptionState m_state = Option::StateDisabled;
-    QVariantList m_availableSizesListNames;
-    QList<QSizeF> m_availableSizesList;
+    QList<PageSizeProperties> m_availableSizes;
     double m_previousCoordinates[4];
 };
 
