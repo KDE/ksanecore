@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-16 00:40+0000\n"
+"POT-Creation-Date: 2025-04-26 00:41+0000\n"
 "PO-Revision-Date: 2024-12-13 19:09+0530\n"
 "Last-Translator: Kali <EMAIL@ADDRESS>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -55,17 +55,17 @@ msgstr "वर्णाः विपर्यययन्तु"
 msgid "Invert the colors of the scanned image."
 msgstr "स्कैन् कृतस्य चित्रस्य वर्णाः विपर्यययन्तु ।"
 
-#: options/pagesizeoption.cpp:124
+#: options/pagesizeoption.cpp:133
 #, kde-format
 msgid "Scan area size"
 msgstr "क्षेत्रस्य आकारं स्कैन कुर्वन्तु"
 
-#: options/pagesizeoption.cpp:129
+#: options/pagesizeoption.cpp:138
 #, kde-format
 msgid "Select a predefined page size for the scanning area."
 msgstr "स्कैनिङ्गक्षेत्रस्य कृते पूर्वनिर्धारितं पृष्ठाकारं चिनोतु ।"
 
-#: options/pagesizeoption.cpp:265
+#: options/pagesizeoption.cpp:272
 #, kde-format
 msgctxt "Page size landscape"
 msgid "Landscape %1"

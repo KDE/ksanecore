@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-16 00:40+0000\n"
+"POT-Creation-Date: 2025-04-26 00:41+0000\n"
 "PO-Revision-Date: 2024-04-22 16:06\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -53,17 +53,17 @@ msgstr "颜色反相"
 msgid "Invert the colors of the scanned image."
 msgstr "反相处理扫描图像的颜色。"
 
-#: options/pagesizeoption.cpp:124
+#: options/pagesizeoption.cpp:133
 #, kde-format
 msgid "Scan area size"
 msgstr "扫描区域大小"
 
-#: options/pagesizeoption.cpp:129
+#: options/pagesizeoption.cpp:138
 #, kde-format
 msgid "Select a predefined page size for the scanning area."
 msgstr "选择扫描区域的预设页面大小。"
 
-#: options/pagesizeoption.cpp:265
+#: options/pagesizeoption.cpp:272
 #, kde-format
 msgctxt "Page size landscape"
 msgid "Landscape %1"
