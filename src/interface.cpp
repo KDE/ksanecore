@@ -428,19 +428,21 @@ int Interface::setOptionsMap(const QMap<QString, QString> &options)
     Option *modeOption = getOption(ScanModeOption);
 
     // Priorize source option
-    if (sourceOption != nullptr && optionMapCopy.contains(sourceOption->name())) {
-        if (sourceOption->setValue(optionMapCopy[sourceOption->name()])) {
+    auto it = optionMapCopy.find(sourceOption->name());
+    if (sourceOption != nullptr && it != optionMapCopy.end()) {
+        if (sourceOption->setValue(it.value())) {
             ret++;
         }
-        optionMapCopy.remove(sourceOption->name());
+        optionMapCopy.erase(it);
     }
 
     // Priorize mode option
-    if (modeOption != nullptr && optionMapCopy.contains(modeOption->name())) {
-        if (modeOption->setValue(optionMapCopy[modeOption->name()])) {
+    it = optionMapCopy.find(modeOption->name());
+    if (modeOption != nullptr && it != optionMapCopy.end()) {
+        if (modeOption->setValue(it.value())) {
             ret++;
         }
-        optionMapCopy.remove(modeOption->name());
+        optionMapCopy.erase(it);
     }
 
     // Update remaining options
