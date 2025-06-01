@@ -72,6 +72,7 @@ void ScanThread::unlockScanImage()
 void ScanThread::cancelScan()
 {
     m_readStatus = ReadCancel;
+    sane_cancel(m_saneHandle);
 }
 
 void ScanThread::run()
