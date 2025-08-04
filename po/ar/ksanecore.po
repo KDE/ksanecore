@@ -56,7 +56,7 @@ msgstr "اعكس ألوان الصورة الممسوحة."
 #: options/pagesizeoption.cpp:133
 #, kde-format
 msgid "Scan area size"
-msgstr "امسح حجم المنطقة"
+msgstr "امحُ حجم المنطقة"
 
 #: options/pagesizeoption.cpp:138
 #, kde-format
