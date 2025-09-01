@@ -69,7 +69,7 @@ msgstr "Mida de l'àrea d'escaneig"
 #: options/pagesizeoption.cpp:138
 #, kde-format
 msgid "Select a predefined page size for the scanning area."
-msgstr "Selecciona una mida de pàgina predefinida per a l'àrea d'escaneig."
+msgstr "Tria una mida de pàgina predefinida per a l'àrea d'escaneig."
 
 #: options/pagesizeoption.cpp:272
 #, kde-format
