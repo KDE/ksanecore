@@ -429,29 +429,31 @@ int Interface::setOptionsMap(const QMap<QString, QString> &options)
     Option *resolutionOption = getOption(ResolutionOption);
 
     // Priorize source option
-    auto it = optionMapCopy.find(sourceOption->name());
-    if (sourceOption != nullptr && it != optionMapCopy.end()) {
-        if (sourceOption->setValue(it.value())) {
+    if (sourceOption != nullptr) {
+        auto it = optionMapCopy.find(sourceOption->name());
+        if (it != optionMapCopy.end() && sourceOption->setValue(it.value())) {
             ret++;
+            optionMapCopy.erase(it);
         }
-        optionMapCopy.erase(it);
     }
 
     // Priorize mode option
-    it = optionMapCopy.find(modeOption->name());
-    if (modeOption != nullptr && it != optionMapCopy.end()) {
-        if (modeOption->setValue(it.value())) {
+    if (modeOption != nullptr) {
+        auto it = optionMapCopy.find(modeOption->name());
+        if (it != optionMapCopy.end() && modeOption->setValue(it.value())) {
             ret++;
+            optionMapCopy.erase(it);
         }
-        optionMapCopy.erase(it);
     }
 
     // Get iterator to resolution option, but do not apply value
-    it = optionMapCopy.find(resolutionOption->name());
     QString value;
-    if (resolutionOption != nullptr && it != optionMapCopy.end()) {
-        value = it.value();
-        optionMapCopy.erase(it);
+    if (resolutionOption != nullptr) {
+        auto it = optionMapCopy.find(resolutionOption->name());
+        if (it != optionMapCopy.end()) {
+            value = it.value();
+            optionMapCopy.erase(it);
+        }
     }
 
     // Update remaining options
