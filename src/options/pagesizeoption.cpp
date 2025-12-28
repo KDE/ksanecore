@@ -168,7 +168,7 @@ void PageSizeOption::optionBottomRightYUpdated()
 {
     if (m_currentIndex > 0 && m_currentIndex < m_availableSizes.size()
         && !qFuzzyCompare(ensureMilliMeter(m_optionBottomRightY, m_optionBottomRightY->value().toDouble()),
-                          (m_availableSizes.at(m_currentIndex).pageSize.height() + m_availableSizes.at(m_currentIndex).wiggleRoom.width()))) {
+                          (m_availableSizes.at(m_currentIndex).pageSize.height() + m_availableSizes.at(m_currentIndex).wiggleRoom.height()))) {
         m_currentIndex = 0;
         Q_EMIT valueChanged(QPageSize::name(QPageSize::Custom));
     }
