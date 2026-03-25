@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2007-2008 Gilles Caulier <caulier dot gilles at gmail dot com>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
+ * SPDX-FileCopyrightText: 2026 Tobias Leupold <tl@stonemx.de>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
@@ -405,7 +406,7 @@ QMap<QString, QString> Interface::getOptionsMap()
     QString tmp;
 
     for (const auto option : std::as_const(d->m_optionsList)) {
-        tmp = option->valueAsString();
+        tmp = option->internalValueAsString();
         if (!tmp.isEmpty()) {
             options[option->name()] = tmp;
         }

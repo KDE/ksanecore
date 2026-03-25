@@ -1,6 +1,7 @@
 /*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
+ * SPDX-FileCopyrightText: 2026 Tobias Leupold <tl@stonemx.de>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
@@ -179,6 +180,11 @@ QVariant BaseOption::value() const
     return QVariant();
 }
 
+QVariant BaseOption::internalValue() const
+{
+    return value();
+}
+
 QVariant BaseOption::minimumValue() const
 {
     return QVariant();
@@ -239,6 +245,11 @@ int BaseOption::valueSize() const
 QString BaseOption::valueAsString() const
 {
     return QString();
+}
+
+QString BaseOption::internalValueAsString() const
+{
+    return valueAsString();
 }
 
 bool BaseOption::setValue(const QVariant &)

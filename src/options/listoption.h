@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
+ * SPDX-FileCopyrightText: 2026 Tobias Leupold <tl@stonemx.de>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
@@ -24,7 +25,9 @@ public:
 
     QVariant minimumValue() const override;
     QVariant value() const override;
+    QVariant internalValue() const override;
     QString valueAsString() const override;
+    QString internalValueAsString() const override;
     QVariantList valueList() const override;
     QVariantList internalValueList() const override;
     Option::OptionState state() const override;
@@ -38,6 +41,7 @@ private:
     void countEntries();
 
     QVariant m_currentValue;
+    QVariant m_currentInternalValue;
     int m_entriesCount = 0;
 };
 

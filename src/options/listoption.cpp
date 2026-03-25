@@ -1,6 +1,7 @@
 /*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
+ * SPDX-FileCopyrightText: 2026 Tobias Leupold <tl@stonemx.de>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
@@ -36,21 +37,26 @@ void ListOption::readValue()
     }
 
     QVariant newValue;
+    QVariant newInternalValue;
     switch (m_optDesc->type) {
     case SANE_TYPE_INT:
-        newValue = static_cast<int>(toSANE_Word(data.data()));
+        newInternalValue = static_cast<int>(toSANE_Word(data.data()));
+        newValue = newInternalValue;
         break;
     case SANE_TYPE_FIXED:
-        newValue = SANE_UNFIX(toSANE_Word(data.data()));
+        newInternalValue = SANE_UNFIX(toSANE_Word(data.data()));
+        newValue = newInternalValue;
         break;
     case SANE_TYPE_STRING:
+        newInternalValue = QString::fromUtf8(reinterpret_cast<char *>(data.data()));
         newValue = sane_i18n(reinterpret_cast<char *>(data.data()));
         break;
     default:
         break;
     }
 
-    if (newValue != m_currentValue) {
+    if (newInternalValue != m_currentInternalValue) {
+        m_currentInternalValue = newInternalValue;
         m_currentValue = newValue;
         Q_EMIT valueChanged(m_currentValue);
     }
@@ -175,6 +181,14 @@ QVariant ListOption::value() const
     return m_currentValue;
 }
 
+QVariant ListOption::internalValue() const
+{
+    if (BaseOption::state() == Option::StateHidden) {
+        return QVariant();
+    }
+    return m_currentInternalValue;
+}
+
 bool ListOption::setValue(double value)
 {
     unsigned char data[4];
@@ -225,6 +239,14 @@ QString ListOption::valueAsString() const
         return QString();
     }
     return m_currentValue.toString();
+}
+
+QString ListOption::internalValueAsString() const
+{
+    if (BaseOption::state() == Option::StateHidden) {
+        return QString();
+    }
+    return m_currentInternalValue.toString();
 }
 
 bool ListOption::setValue(const QString &value)

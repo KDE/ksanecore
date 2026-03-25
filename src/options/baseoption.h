@@ -1,6 +1,7 @@
 /*
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
+ * SPDX-FileCopyrightText: 2026 Tobias Leupold <tl@stonemx.de>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
@@ -58,11 +59,13 @@ public:
     virtual QVariant maximumValue() const;
     virtual QVariant stepValue() const;
     virtual QVariant value() const;
+    virtual QVariant internalValue() const;
     virtual QVariantList valueList() const;
     virtual QVariantList internalValueList() const;
     virtual Option::OptionUnit valueUnit() const;
     virtual int valueSize() const;
     virtual QString valueAsString() const;
+    virtual QString internalValueAsString() const;
 
     bool storeCurrentData();
     bool restoreSavedData();
