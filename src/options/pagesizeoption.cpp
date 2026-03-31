@@ -2,17 +2,50 @@
  * SPDX-FileCopyrightText: 2009 Kare Sars <kare dot sars at iki dot fi>
  * SPDX-FileCopyrightText: 2014 Gregor Mitsch : port to KDE5 frameworks
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
+ * SPDX-FileCopyrightText: 2026 Tobias Leupold <tl@stonemx.de>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
 
 #include "pagesizeoption.h"
 
+#include <QDebug>
 #include <QPageSize>
 
 #include <ksanecore_debug.h>
 
-static constexpr int PageSizeWiggleRoom = 2; // in mm
+#include <algorithm>
+
+static constexpr int s_pageSizeWiggleRoom = 2; // in mm
+
+// This holds all page sizes we list, along with a (C locale) unique identifier string
+// Let's keep this clearer as clang-format thinks it could be :-P
+// clang-format off
+static const QMap<QPageSize::PageSizeId, QString> s_pageSizeIdMap = {
+    { QPageSize::Custom,    QStringLiteral("Custom") },
+    { QPageSize::A3,        QStringLiteral("A3") },
+    { QPageSize::A4,        QStringLiteral("A4") },
+    { QPageSize::A5,        QStringLiteral("A5") },
+    { QPageSize::A6,        QStringLiteral("A6") },
+    { QPageSize::Letter,    QStringLiteral("Letter") },
+    { QPageSize::Legal,     QStringLiteral("Legal") },
+    { QPageSize::Tabloid,   QStringLiteral("Tabloid") },
+    { QPageSize::B3,        QStringLiteral("B3") },
+    { QPageSize::B4,        QStringLiteral("B4") },
+    { QPageSize::B5,        QStringLiteral("B5") },
+    { QPageSize::B6,        QStringLiteral("B6") },
+    { QPageSize::C5E,       QStringLiteral("C5E") },
+    { QPageSize::Comm10E,   QStringLiteral("Comm10E") },
+    { QPageSize::DLE,       QStringLiteral("DLE") },
+    { QPageSize::Executive, QStringLiteral("Executive") },
+    { QPageSize::Folio,     QStringLiteral("Folio") },
+    { QPageSize::Ledger,    QStringLiteral("Ledger") },
+    { QPageSize::JisB3,     QStringLiteral("JisB3") },
+    { QPageSize::JisB4,     QStringLiteral("JisB4") },
+    { QPageSize::JisB5,     QStringLiteral("JisB5") },
+    { QPageSize::JisB6,     QStringLiteral("JisB6") }
+};
+// clang-format on
 
 namespace KSaneCore
 {
@@ -51,32 +84,40 @@ PageSizeOption::PageSizeOption(BaseOption *optionTopLeftX,
 
 bool PageSizeOption::setValue(const QVariant &value)
 {
-    if (value.userType() == QMetaType::QString) {
-        QString newValue = value.toString();
-        if (newValue == m_availableSizes.at(m_currentIndex).name) {
+    if (value.userType() != QMetaType::QString) {
+        return false;
+    }
+
+    const auto newValue = value.toString();
+
+    if (newValue == m_availableSizes.at(m_currentIndex).name || newValue == m_availableSizes.at(m_currentIndex).internalName) {
+        return true;
+    }
+
+    for (int i = 0; i < m_availableSizes.size(); i++) {
+        const auto &entry = m_availableSizes.at(i);
+
+        if (newValue == entry.name || newValue == entry.internalName) {
+            if (i != 0) {
+                if (m_optionPageWidth != nullptr && m_optionPageHeight != nullptr) {
+                    m_optionPageWidth->setValue(entry.pageSize.width());
+                    m_optionPageHeight->setValue(entry.pageSize.height());
+                }
+                m_optionTopLeftX->setValue(0);
+                m_optionTopLeftY->setValue(0);
+                m_optionBottomRightX->setValue(entry.pageSize.width());
+                m_optionBottomRightY->setValue(entry.pageSize.height());
+            }
+
+            // Set m_currentIndex after the m_option{Top,Bottom}{Left,Right}{X,Y}->setValue()
+            // calls, as those will reset m_currentIndex to 0
+            m_currentIndex = i;
+            Q_EMIT valueChanged(entry.name);
+
             return true;
         }
-        for (int i = 0; i < m_availableSizes.size(); i++) {
-            QString sizeEntry = m_availableSizes.at(i).name;
-            if (sizeEntry == newValue) {
-                m_currentIndex = i;
-
-                if (i != 0) {
-                    const auto size = m_availableSizes.at(i).pageSize;
-                    if (m_optionPageWidth != nullptr && m_optionPageHeight != nullptr) {
-                        m_optionPageWidth->setValue(size.width());
-                        m_optionPageHeight->setValue(size.height());
-                    }
-                    m_optionTopLeftX->setValue(0);
-                    m_optionTopLeftY->setValue(0);
-                    m_optionBottomRightX->setValue(size.width());
-                    m_optionBottomRightY->setValue(size.height());
-                }
-                Q_EMIT valueChanged(sizeEntry);
-                return true;
-            }
-        }
     }
+
     return false;
 }
 
@@ -91,19 +132,29 @@ QVariant PageSizeOption::value() const
 
 QString PageSizeOption::valueAsString() const
 {
+    return value().toString();
+}
+
+QVariant PageSizeOption::internalValue() const
+{
     if (m_currentIndex >= 0 && m_currentIndex < m_availableSizes.size()) {
-        return m_availableSizes.at(m_currentIndex).name;
+        return m_availableSizes.at(m_currentIndex).internalName;
     } else {
-        return QString();
+        return QVariant();
     }
+}
+
+QString PageSizeOption::internalValueAsString() const
+{
+    return internalValue().toString();
 }
 
 QVariantList PageSizeOption::valueList() const
 {
     QVariantList list;
     list.reserve(m_availableSizes.size());
-    for (int i = 0; i < m_availableSizes.size(); i++) {
-        list << m_availableSizes.at(i).name;
+    for (const auto &entry : m_availableSizes) {
+        list.append(entry.name);
     }
     return list;
 }
@@ -112,8 +163,8 @@ QVariantList PageSizeOption::internalValueList() const
 {
     QVariantList list;
     list.reserve(m_availableSizes.size());
-    for (int i = 0; i < m_availableSizes.size(); i++) {
-        list << m_availableSizes.at(i).name;
+    for (const auto &entry : m_availableSizes) {
+        list.append(entry.internalName);
     }
     return list;
 }
@@ -217,6 +268,7 @@ void PageSizeOption::restoreOptions()
             }
         }
     }
+
     if (newIndex != m_currentIndex) {
         m_currentIndex = newIndex;
         Q_EMIT valueChanged(m_availableSizes.at(m_currentIndex).name);
@@ -235,13 +287,16 @@ void PageSizeOption::computePageSizes()
         m_optionPageWidth->setValue(m_optionPageWidth->maximumValue());
     }
 
-    static const QList<QPageSize::PageSizeId> possibleSizesList = {
-        QPageSize::A3,        QPageSize::A4,    QPageSize::A5,     QPageSize::A6,    QPageSize::Letter, QPageSize::Legal,   QPageSize::Tabloid,
-        QPageSize::B3,        QPageSize::B4,    QPageSize::B5,     QPageSize::B6,    QPageSize::C5E,    QPageSize::Comm10E, QPageSize::DLE,
-        QPageSize::Executive, QPageSize::Folio, QPageSize::Ledger, QPageSize::JisB3, QPageSize::JisB4,  QPageSize::JisB5,   QPageSize::JisB6,
-    };
+    // Create a sizes list from all sizes we handle
+    auto possibleSizesList = s_pageSizeIdMap.keys();
+    // Remove the "Custom" entry (we handle it separately)
+    possibleSizesList.removeAll(QPageSize::Custom);
+
     m_availableSizes.clear();
-    m_availableSizes.append({QPageSize::name(QPageSize::Custom), QPageSize::size(QPageSize::Custom, QPageSize::Millimeter), QSizeF(0, 0)});
+    m_availableSizes.append({QPageSize::name(QPageSize::Custom),
+                             s_pageSizeIdMap.value(QPageSize::Custom),
+                             QPageSize::size(QPageSize::Custom, QPageSize::Millimeter),
+                             QSizeF(0, 0)});
 
     double maxScannerWidth = ensureMilliMeter(m_optionBottomRightX, m_optionBottomRightX->maximumValue().toDouble());
     double maxScannerHeight = ensureMilliMeter(m_optionBottomRightY, m_optionBottomRightY->maximumValue().toDouble());
@@ -249,29 +304,32 @@ void PageSizeOption::computePageSizes()
     // Add portrait page sizes
     for (const auto sizeCode : possibleSizesList) {
         QSizeF size = QPageSize::size(sizeCode, QPageSize::Millimeter);
-        if (size.width() - PageSizeWiggleRoom > maxScannerWidth) {
+        if (size.width() - s_pageSizeWiggleRoom > maxScannerWidth) {
             continue;
         }
-        if (size.height() - PageSizeWiggleRoom > maxScannerHeight) {
+        if (size.height() - s_pageSizeWiggleRoom > maxScannerHeight) {
             continue;
         }
-        m_availableSizes.append(
-            {QPageSize::name(sizeCode), size, QSizeF(qMin(maxScannerWidth - size.width(), 0.0), qMin(maxScannerHeight - size.height(), 0.0))});
+        m_availableSizes.append({QPageSize::name(sizeCode),
+                                 s_pageSizeIdMap.value(sizeCode),
+                                 size,
+                                 QSizeF(std::min(maxScannerWidth - size.width(), 0.0), std::min(maxScannerHeight - size.height(), 0.0))});
     }
 
     // Add landscape page sizes
     for (const auto sizeCode : possibleSizesList) {
         QSizeF size = QPageSize::size(sizeCode, QPageSize::Millimeter);
         size.transpose();
-        if (size.width() - PageSizeWiggleRoom > maxScannerWidth) {
+        if (size.width() - s_pageSizeWiggleRoom > maxScannerWidth) {
             continue;
         }
-        if (size.height() - PageSizeWiggleRoom > maxScannerHeight) {
+        if (size.height() - s_pageSizeWiggleRoom > maxScannerHeight) {
             continue;
         }
         m_availableSizes.append({i18nc("Page size landscape", "Landscape %1", QPageSize::name(sizeCode)),
+                                 QStringLiteral("Landscape %1").arg(s_pageSizeIdMap.value(sizeCode)),
                                  size,
-                                 QSizeF(qMin(maxScannerWidth - size.width(), 0.0), qMin(maxScannerHeight - size.height(), 0.0))});
+                                 QSizeF(std::min(maxScannerWidth - size.width(), 0.0), std::min(maxScannerHeight - size.height(), 0.0))});
     }
 
     // Set custom as current

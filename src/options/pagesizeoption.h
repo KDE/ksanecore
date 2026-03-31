@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2021 Alexander Stippich <a.stippich@gmx.net>
+ * SPDX-FileCopyrightText: 2026 Tobias Leupold <tl@stonemx.de>
  *
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
  */
@@ -32,6 +33,8 @@ public:
 
     QVariant value() const override;
     QString valueAsString() const override;
+    QVariant internalValue() const override;
+    QString internalValueAsString() const override;
 
     Option::OptionState state() const override;
     QString name() const override;
@@ -55,6 +58,7 @@ private Q_SLOTS:
 private:
     struct PageSizeProperties {
         QString name;
+        QString internalName;
         QSizeF pageSize;
         QSizeF wiggleRoom;
     };
