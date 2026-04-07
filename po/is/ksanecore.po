@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-01 00:43+0000\n"
+"POT-Creation-Date: 2026-04-07 00:42+0000\n"
 "PO-Revision-Date: 2025-11-28 13:00+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -55,17 +55,17 @@ msgstr "Umsnúa litum"
 msgid "Invert the colors of the scanned image."
 msgstr "Snúa við litum skönnuðu myndarinnar."
 
-#: options/pagesizeoption.cpp:133
+#: options/pagesizeoption.cpp:184
 #, kde-format
 msgid "Scan area size"
 msgstr "Stærð skannaðs svæðis"
 
-#: options/pagesizeoption.cpp:138
+#: options/pagesizeoption.cpp:189
 #, kde-format
 msgid "Select a predefined page size for the scanning area."
 msgstr "Veldu forákvarðaða síðustærð fyrir skannaða svæðið."
 
-#: options/pagesizeoption.cpp:272
+#: options/pagesizeoption.cpp:329
 #, kde-format
 msgctxt "Page size landscape"
 msgid "Landscape %1"
