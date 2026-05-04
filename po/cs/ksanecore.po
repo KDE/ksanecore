@@ -1,21 +1,22 @@
-# Copyright (C) YEAR This file is copyright:
+# Copyright (C) 2026 This file is copyright:
 # This file is distributed under the same license as the ksanecore package.
 # Vit Pelcak <vit@pelcak.org>, 2022.
+# SPDX-FileCopyrightText: 2026 Libor Filípek <libor.filipek@gmail.com>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:51+0000\n"
-"PO-Revision-Date: 2022-01-11 19:19+0100\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"PO-Revision-Date: 2026-05-03 23:01+0200\n"
+"Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 21.12.0\n"
+"X-Generator: Lokalize 26.04.0\n"
 
 #: interface.cpp:313
 #, kde-format
@@ -25,23 +26,27 @@ msgstr "Skenování zastaveno uživatelem"
 #: options/batchdelayoption.cpp:31
 #, kde-format
 msgid "Batch mode time delay"
-msgstr ""
+msgstr "Časová prodleva v dávkovém režimu"
 
 #: options/batchdelayoption.cpp:36
 #, kde-format
 msgid "Specify the time delay between each scan when batch mode is enabled."
 msgstr ""
+"Zadejte časovou prodlevu mezi jednotlivými skenováními, pokud je zapnutý "
+"dávkový režim."
 
 #: options/batchmodeoption.cpp:31
 #, kde-format
 msgid "Batch mode with time delay"
-msgstr ""
+msgstr "Dávkový režim s časovou prodlevou"
 
 #: options/batchmodeoption.cpp:36
 #, kde-format
 msgid ""
 "Enables batch mode scanning. Continues scanning after a delay until canceled."
 msgstr ""
+"Zapne skenování v dávkovém režimu. Skenování pokračuje po uplynutí určitého "
+"času, dokud není zrušeno."
 
 #: options/invertoption.cpp:58
 #, kde-format
