@@ -430,7 +430,7 @@ int Interface::setOptionsMap(const QMap<QString, QString> &options)
     Option *resolutionOption = getOption(ResolutionOption);
 
     // Priorize source option
-    if (sourceOption != nullptr) {
+    if (sourceOption) {
         auto it = optionMapCopy.find(sourceOption->name());
         if (it != optionMapCopy.end() && sourceOption->setValue(it.value())) {
             ret++;
@@ -439,7 +439,7 @@ int Interface::setOptionsMap(const QMap<QString, QString> &options)
     }
 
     // Priorize mode option
-    if (modeOption != nullptr) {
+    if (modeOption) {
         auto it = optionMapCopy.find(modeOption->name());
         if (it != optionMapCopy.end() && modeOption->setValue(it.value())) {
             ret++;
@@ -449,7 +449,7 @@ int Interface::setOptionsMap(const QMap<QString, QString> &options)
 
     // Get iterator to resolution option, but do not apply value
     QString value;
-    if (resolutionOption != nullptr) {
+    if (resolutionOption) {
         auto it = optionMapCopy.find(resolutionOption->name());
         if (it != optionMapCopy.end()) {
             value = it.value();
@@ -467,7 +467,7 @@ int Interface::setOptionsMap(const QMap<QString, QString> &options)
 
     // Apply resolution value at the latest, as this option is likely
     // reset to a default value by SANE when setting other options
-    if (resolutionOption->setValue(value)) {
+    if (resolutionOption && resolutionOption->setValue(value)) {
         ret++;
     }
 
