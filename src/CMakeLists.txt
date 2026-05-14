@@ -43,13 +43,11 @@ ecm_qt_declare_logging_category(KSaneCore${KSANECORE_SUFFFIX}
   CATEGORY_NAME org.kde.ksane.core
 )
 
-set(_generate_export_header_version_args USE_VERSION_HEADER)
-
 ecm_generate_export_header(KSaneCore${KSANECORE_SUFFFIX}
     BASE_NAME KSaneCore
     VERSION ${KSANECORE_VERSION}
     DEPRECATED_BASE_VERSION 0
-    ${_generate_export_header_version_args}
+    USE_VERSION_HEADER
 )
 
 target_include_directories(KSaneCore${KSANECORE_SUFFFIX}
