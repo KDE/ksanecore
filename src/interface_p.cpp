@@ -220,13 +220,14 @@ Interface::OpenStatus InterfacePrivate::loadDeviceOptions()
     m_externalOptionsList.append(new InternalOption(invertOption));
     m_optionsLocation.insert(Interface::InvertColorOption, m_optionsList.size() - 1);
 
-    // NOTICE The Pixma network backend behaves badly. polling a value will result in 1 second
-    // sleeps for every poll. The problem has been reported, but no easy/quick fix was available and
-    // the bug has been there for multiple years. Since this destroys the usability of the backend totally,
-    // we simply put the backend on the naughty list and disable the option polling.
-    static QRegularExpression pixmaNetworkBackend(QStringLiteral("pixma.*\\d+\\.\\d+\\.\\d+\\.\\d+"));
+    // NOTICE The Pixma backend (USB and network) behaves badly. polling a value will
+    // result in 1 second sleeps for every poll. The problem has been reported, but no
+    // easy/quick fix was available and the bug has been there for multiple years. Since
+    // this destroys the usability of the backend totally, we simply put the backend on
+    // the naughty list and disable the option polling.
+    static QRegularExpression pixmaBackend(QStringLiteral("^pixma"));
     m_optionPollingNaughtylisted = false;
-    if (pixmaNetworkBackend.match(m_devName).hasMatch()) {
+    if (pixmaBackend.match(m_devName).hasMatch()) {
         m_optionPollingNaughtylisted = true;
     }
 
