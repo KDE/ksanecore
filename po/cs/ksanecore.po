@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-07 00:42+0000\n"
-"PO-Revision-Date: 2026-05-03 23:01+0200\n"
+"PO-Revision-Date: 2026-08-02 00:38+0200\n"
 "Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 26.04.0\n"
+"X-Generator: Poedit 3.9\n"
 
 #: interface.cpp:314
 #, kde-format
 msgid "Scanning stopped by user."
-msgstr "Skenování zastaveno uživatelem"
+msgstr "Skenování zastaveno uživatelem."
 
 #: options/batchdelayoption.cpp:31
 #, kde-format
