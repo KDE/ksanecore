@@ -100,3 +100,21 @@ install(FILES
     DESTINATION "${KDE_INSTALL_INCLUDEDIR}/KSaneCore${KSANECORE_SUFFFIX}/KSaneCore"
     COMPONENT Devel
 )
+
+if(${ECM_VERSION} VERSION_GREATER_EQUAL 6.30)
+include(ECMInstalledLibraryCheck)
+
+ecm_add_installed_library_check(KSaneCore${KSANECORE_SUFFFIX}
+    PACKAGE_NAME "KSaneCore${KSANECORE_SUFFFIX}"
+    PACKAGE_TARGET_NAMESPACE "KSane${KSANECORE_SUFFFIX}::"
+)
+
+ecm_installed_library_check_include_strings(KSaneCore${KSANECORE_SUFFFIX}
+    HEADERS ${KSaneCore_CamelCase_HEADERS}
+    PREFIX KSaneCore
+)
+
+ecm_installed_library_check_version_preprocessor_macros(KSaneCore${KSANECORE_SUFFFIX}
+    PREFIX KSANECORE
+)
+endif()
