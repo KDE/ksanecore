@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: ksanecore\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-07 00:42+0000\n"
-"PO-Revision-Date: 2026-02-24 23:05+0400\n"
+"PO-Revision-Date: 2026-10-03 15:29+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #: interface.cpp:314
 #, kde-format
@@ -57,7 +57,7 @@ msgstr "اعكس ألوان الصورة الممسوحة."
 #: options/pagesizeoption.cpp:184
 #, kde-format
 msgid "Scan area size"
-msgstr "امحُ حجم المنطقة"
+msgstr "امسح حجم المنطقة"
 
 #: options/pagesizeoption.cpp:189
 #, kde-format
